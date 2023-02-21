@@ -11,7 +11,23 @@ struct Home: View {
     var body: some View {
         
         //Will write code for Home Tab View here
-        Text("Home")
+        //Added scroll view for user's images
+        ScrollView{
+                    VStack{
+                        HStack{
+                            HomeImage()
+                            HomeImage()
+                            HomeImage()
+                        }
+                        HStack{
+                            HomeImage()
+                            HomeImage()
+                            HomeImage()
+                        }
+                        
+                    }
+                }
+
     }
 }
 
