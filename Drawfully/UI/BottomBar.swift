@@ -33,8 +33,9 @@ struct BottomBar: View {
         self.Search=Search
         self.Settings=Settings
         
-        
-        
+        //Added Colors to Bottom Bar
+        UITabBar.appearance().backgroundColor = UIColor(Color(red: 0.0, green: 0.6078431372549019, blue: 0.5098039215686274))
+        UITabBar.appearance().unselectedItemTintColor = UIColor(.white)
     }
     
     var body: some View {
@@ -74,7 +75,7 @@ struct BottomBar: View {
                 Text("Settings")
                     .lineLimit(0) }.tag(4)
             
-        }
+        }.accentColor(Color(hue: 0.473, saturation: 0.983, brightness: 0.24))
         
     }
 }
@@ -83,7 +84,6 @@ struct BottomBar_Previews: PreviewProvider {
     static var previews: some View {
         
         //Defining Bottom Bar with required parameters
-        //using and referring to in-class instructions
         BottomBar(AnyView(Home()),
                   AnyView(Community()),
                   AnyView(Add()),
