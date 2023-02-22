@@ -17,13 +17,13 @@ struct PostImage: View {
         VStack{
             Image("sample_drawing")
                 .resizable()
-                .frame(width: 380,height: 380)
+                .frame(width: 360,height: 262)
                 .aspectRatio(contentMode: .fill)
-                .padding(3)
+                .padding()
                 .overlay(
                     Rectangle()
                         .stroke(primaryColor, lineWidth: 3)
-                ).padding(10)
+                )
             
             HStack{
                 Image(systemName: "heart").resizable().frame(width: 38,height: 38)
@@ -37,9 +37,11 @@ struct PostImage: View {
                 
                 Image(systemName: "bookmark")
                     .resizable().frame(width: 38,height: 38,alignment: .trailing)
-            }.padding(15)
+            }
+                
                 .foregroundColor(primaryColor)
-        }
+        }.frame(width: 399,height: 329)
+            .padding(10)
     }
 
 }

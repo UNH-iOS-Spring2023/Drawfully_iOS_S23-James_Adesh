@@ -12,7 +12,19 @@ struct Home: View {
         
         //Will write code for Home Tab View here
         //Added scroll view for user's images
-        ZStack{
+        VStack{
+            
+            HStack{
+                Image("streak").resizable().frame(width:30, height: 30)
+                Text("14")
+                    .font(.title2)
+                    .fontWeight(.bold)
+                Spacer()
+                Text("Home").font(.title).fontWeight(.bold).padding(.trailing, 42.0).multilineTextAlignment(.center)
+                Spacer()
+                Image(systemName: "magnifyingglass")
+            }.padding()
+            
             ScrollView{
                 VStack{
                     HStack{

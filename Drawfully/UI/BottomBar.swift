@@ -37,13 +37,13 @@ struct BottomBar: View {
         
         //Added Colors to Bottom Bar
         
-        UITabBar.appearance().barTintColor = UIColor(app.primaryColor)
+        UITabBar.appearance().barTintColor = UIColor(bottomBarColor)
         UITabBar.appearance().backgroundColor = UIColor(bottomBarColor)
         UITabBar.appearance().unselectedItemTintColor = UIColor(.white)
     }
     
     var body: some View {
-        
+                
         //Bottom Tab Bar defined here
         TabView(selection: $app.selectedTab) {
             
@@ -84,6 +84,7 @@ struct BottomBar: View {
                     .lineLimit(0) }.tag(4)
             
         }.accentColor(bottomBarSelectedColor)
+            
             
         
     }

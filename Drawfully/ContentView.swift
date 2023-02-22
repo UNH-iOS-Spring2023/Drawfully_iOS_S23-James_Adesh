@@ -24,7 +24,7 @@ struct ContentView: View {
         
         //Implementing Bottom Bar View with required parameters (Tabs)
         
-        ZStack{
+        
             
             BottomBar(AnyView(Home()),
                       AnyView(Community()),
@@ -33,7 +33,7 @@ struct ContentView: View {
                       AnyView(Settings())
             )
             .environmentObject(AppVariables())
-        }
+        
         
         
     }
