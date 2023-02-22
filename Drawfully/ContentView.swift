@@ -22,16 +22,20 @@ struct ContentView: View {
         
         //Implementing Bottom Bar View with required parameters (Tabs)
         
-        BottomBar(AnyView(Home()),
-                  AnyView(Community()),
-                  AnyView(Add()),
-                  AnyView(Search()),
-                  AnyView(Settings())
-        )
+        ZStack{
+            
+            BottomBar(AnyView(Home()),
+                      AnyView(Community()),
+                      AnyView(Add()),
+                      AnyView(Search()),
+                      AnyView(Settings())
+            )
             .environmentObject(AppVariables())
+        }
         
         
     }
+    
 }
 
 struct ContentView_Previews: PreviewProvider {

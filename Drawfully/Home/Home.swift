@@ -12,22 +12,23 @@ struct Home: View {
         
         //Will write code for Home Tab View here
         //Added scroll view for user's images
-        ScrollView{
-                    VStack{
-                        HStack{
-                            HomeImage()
-                            HomeImage()
-                            HomeImage()
-                        }
-                        HStack{
-                            HomeImage()
-                            HomeImage()
-                            HomeImage()
-                        }
-                        
+        ZStack{
+            ScrollView{
+                VStack{
+                    HStack{
+                        HomeImage()
+                        HomeImage()
+                        HomeImage()
                     }
+                    HStack{
+                        HomeImage()
+                        HomeImage()
+                        HomeImage()
+                    }
+                    
                 }
-
+            }
+        }
     }
 }
 

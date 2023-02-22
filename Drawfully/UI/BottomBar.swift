@@ -19,6 +19,8 @@ struct BottomBar: View {
     let Add:AnyView
     let Search:AnyView
     let Settings:AnyView
+    var bottomBarColor:Color=Color(red: 0.0, green: 0.6078431372549019, blue: 0.5098039215686274)
+    var bottomBarSelectedColor=Color(hue: 0.473, saturation: 0.983, brightness: 0.24)
     
     init(
     _ Home:AnyView,
@@ -34,7 +36,8 @@ struct BottomBar: View {
         self.Settings=Settings
         
         //Added Colors to Bottom Bar
-        UITabBar.appearance().backgroundColor = UIColor(Color(red: 0.0, green: 0.6078431372549019, blue: 0.5098039215686274))
+        
+        UITabBar.appearance().backgroundColor = UIColor(bottomBarColor)
         UITabBar.appearance().unselectedItemTintColor = UIColor(.white)
     }
     
@@ -75,7 +78,8 @@ struct BottomBar: View {
                 Text("Settings")
                     .lineLimit(0) }.tag(4)
             
-        }.accentColor(Color(hue: 0.473, saturation: 0.983, brightness: 0.24))
+        }.accentColor(bottomBarSelectedColor)
+            
         
     }
 }
