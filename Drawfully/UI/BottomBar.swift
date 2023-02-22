@@ -37,6 +37,7 @@ struct BottomBar: View {
         
         //Added Colors to Bottom Bar
         
+        UITabBar.appearance().barTintColor = UIColor(app.primaryColor)
         UITabBar.appearance().backgroundColor = UIColor(bottomBarColor)
         UITabBar.appearance().unselectedItemTintColor = UIColor(.white)
     }
@@ -45,18 +46,22 @@ struct BottomBar: View {
         
         //Bottom Tab Bar defined here
         TabView(selection: $app.selectedTab) {
+            
             Home.tabItem
             {
                 //Using SF Symbol icons
                 Image(systemName: "house.fill")
-
+                
                 Text("Home") }.tag(0)
             
             Community.tabItem
             {
                 //Using SF Symbol icons
                 Image(systemName: "person.3")
-                Text("Community") }.tag(1)
+                Text("Community")
+                
+            }.tag(1)
+            
             
             Add.tabItem
             {

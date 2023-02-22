@@ -12,6 +12,8 @@ import SwiftUI
 class AppVariables: ObservableObject{
     
     @Published var selectedTab:Int=0
+    @Published var primaryColor:Color=Color(red: 0.0, green: 0.6078431372549019, blue: 0.5098039215686274)
+
     
 }
 

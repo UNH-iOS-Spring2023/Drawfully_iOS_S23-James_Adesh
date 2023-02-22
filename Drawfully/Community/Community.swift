@@ -11,7 +11,13 @@ struct Community: View {
     var body: some View {
         
         //Will write code for Community Tab View here
-        Text("Community")
+        ScrollView{
+                    VStack{
+                        PostImage()
+                        PostImage()
+                        PostImage()
+                    }
+                }
     }
 }
 
