@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import AVFoundation
 
 
 //Global variables initializer
@@ -21,6 +22,8 @@ struct ContentView: View {
     @StateObject var app = AppVariables()
 
     var body: some View {
+        
+        
         
         //Implementing Bottom Bar View with required parameters (Tabs)
         
@@ -46,3 +49,4 @@ struct ContentView_Previews: PreviewProvider {
         
     }
 }
+

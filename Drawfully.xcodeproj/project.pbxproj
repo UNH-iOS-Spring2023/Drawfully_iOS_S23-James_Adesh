@@ -54,6 +54,7 @@
 		DE5A0FBD299F6D13006182C4 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		DE5A0FBF299F6ED7006182C4 /* HomeImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeImage.swift; sourceTree = "<group>"; };
 		DE5A0FC1299F6EE9006182C4 /* PostImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostImage.swift; sourceTree = "<group>"; };
+		DECB177729B0514100544F32 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,6 +99,7 @@
 		DE207683299C58F20059825D /* Drawfully */ = {
 			isa = PBXGroup;
 			children = (
+				DECB177729B0514100544F32 /* Info.plist */,
 				DE5A0FB2299F6C92006182C4 /* Settings */,
 				DE5A0FB1299F6C8C006182C4 /* Search */,
 				DE5A0FB0299F6C87006182C4 /* Add */,
@@ -410,6 +412,9 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Drawfully/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -448,6 +453,9 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Drawfully/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
