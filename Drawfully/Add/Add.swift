@@ -10,8 +10,21 @@ import SwiftUI
 struct Add: View {
     var body: some View {
         
-        //Will write code for Add Tab View here
-        Text("Add Drawing")
+        
+    //Add title bar to Add Image Tab
+        VStack{
+            
+            HStack{
+                
+                Spacer()
+                Text("Add Image").font(.title).fontWeight(.bold).padding(.trailing, 0.0).multilineTextAlignment(.center)
+                Spacer()
+                Image(systemName: "magnifyingglass")
+            }.padding()
+            
+            Spacer()
+            
+        }
         }
 }
 
