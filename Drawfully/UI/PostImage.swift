@@ -17,8 +17,8 @@ struct PostImage: View {
         VStack{
             Image("sample_drawing")
                 .resizable()
+                .aspectRatio(contentMode: .fit)
                 .frame(width: 360,height: 262)
-                .aspectRatio(contentMode: .fill)
                 .padding()
                 .overlay(
                     Rectangle()

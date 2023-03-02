@@ -12,7 +12,7 @@ struct Add: View {
         
         //Will write code for Add Tab View here
         Text("Add Drawing")
-    }
+        }
 }
 
 struct Add_Previews: PreviewProvider {

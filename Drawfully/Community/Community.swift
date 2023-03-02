@@ -11,13 +11,22 @@ struct Community: View {
     var body: some View {
         
         //Will write code for Community Tab View here
-        ScrollView{
-                    VStack{
-                        PostImage()
-                        PostImage()
-                        PostImage()
-                    }
-                }
+        VStack {
+            
+            HStack{
+                Text("Community").font(.title).fontWeight(.bold).padding(.trailing, 42.0).multilineTextAlignment(.center)
+                Spacer()
+                Image(systemName: "magnifyingglass")
+            }.padding()
+            
+            ScrollView{
+                        VStack{
+                            PostImage()
+                            PostImage()
+                            PostImage()
+                        }
+            }
+        }
     }
 }
 
