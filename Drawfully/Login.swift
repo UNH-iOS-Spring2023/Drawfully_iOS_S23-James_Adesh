@@ -136,7 +136,7 @@ struct Login: View {
         }
         else{
             
-            Auth.auth().signIn(withEmail: email, password: password){result, error in
+            FirebaseManager.shared.auth.signIn(withEmail: email, password: password){result, error in
                 if error != nil{
                     print(error!.localizedDescription)
                     statusMessage="Login failed!"
