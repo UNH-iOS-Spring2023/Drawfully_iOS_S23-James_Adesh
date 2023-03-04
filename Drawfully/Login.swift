@@ -136,6 +136,8 @@ struct Login: View {
         }
         else{
             
+            // Citation : https://www.youtube.com/watch?v=yHngqpFpVZU&list=PL0dzCUj1L5JEN2aWYFCpqfTBeVHcGZjGw&index=7
+            
             FirebaseManager.shared.auth.signIn(withEmail: email, password: password){result, error in
                 if error != nil{
                     print(error!.localizedDescription)

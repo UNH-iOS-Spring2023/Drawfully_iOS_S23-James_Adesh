@@ -161,21 +161,24 @@ struct SignUp: View {
         }
         else{
             
+            // Citation : https://www.youtube.com/watch?v=yHngqpFpVZU&list=PL0dzCUj1L5JEN2aWYFCpqfTBeVHcGZjGw&index=7
+
+            
             FirebaseManager.shared.auth.createUser(withEmail: email, password: password){result, error in
                 if error != nil{
                     print(error!.localizedDescription)
                     statusMessage="Sign up failed!"
                 }
+                
+                
                 else{
+                    
+                    // Citation : https://www.youtube.com/watch?v=yHngqpFpVZU&list=PL0dzCUj1L5JEN2aWYFCpqfTBeVHcGZjGw&index=7
+
                     guard let uid=Auth.auth().currentUser?.uid else {return}
-                    let data=["FirstName": firstName,
-                              "LastName": lastName,
-                              "username": username,
-                              "email":email,
-                              "streak":1,
-                    ]
-                    as [String: Any]
                     let ref: DocumentReference? = nil
+                    
+                    //ChatGPT
                     db.collection("users").document(uid).setData(["FirstName": firstName,
                                                                   "LastName": lastName,
                                                                   "username": username,

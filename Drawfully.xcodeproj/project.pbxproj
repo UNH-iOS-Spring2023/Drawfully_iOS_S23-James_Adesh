@@ -37,6 +37,7 @@
 		DE5A0FC0299F6ED7006182C4 /* HomeImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE5A0FBF299F6ED7006182C4 /* HomeImage.swift */; };
 		DE5A0FC2299F6EE9006182C4 /* PostImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE5A0FC1299F6EE9006182C4 /* PostImage.swift */; };
 		DEE9BEF629B339E000F37FF4 /* SimpleToast in Frameworks */ = {isa = PBXBuildFile; productRef = DEE9BEF529B339E000F37FF4 /* SimpleToast */; };
+		DEE9BEF929B34FD800F37FF4 /* FirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEE9BEF829B34FD800F37FF4 /* FirebaseManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -60,6 +61,7 @@
 		DE5A0FBF299F6ED7006182C4 /* HomeImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeImage.swift; sourceTree = "<group>"; };
 		DE5A0FC1299F6EE9006182C4 /* PostImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostImage.swift; sourceTree = "<group>"; };
 		DECB177729B0514100544F32 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		DEE9BEF829B34FD800F37FF4 /* FirebaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,6 +107,7 @@
 		DE207683299C58F20059825D /* Drawfully */ = {
 			isa = PBXGroup;
 			children = (
+				DEE9BEF729B34FAF00F37FF4 /* Utils */,
 				DECB177729B0514100544F32 /* Info.plist */,
 				DE5A0FB2299F6C92006182C4 /* Settings */,
 				DE5A0FB1299F6C8C006182C4 /* Search */,
@@ -190,6 +193,14 @@
 				DE5A0FBD299F6D13006182C4 /* Settings.swift */,
 			);
 			path = Settings;
+			sourceTree = "<group>";
+		};
+		DEE9BEF729B34FAF00F37FF4 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				DEE9BEF829B34FD800F37FF4 /* FirebaseManager.swift */,
+			);
+			path = Utils;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -285,6 +296,7 @@
 			files = (
 				DE5A0FC2299F6EE9006182C4 /* PostImage.swift in Sources */,
 				DE39278129B31CF90083D866 /* SignUp.swift in Sources */,
+				DEE9BEF929B34FD800F37FF4 /* FirebaseManager.swift in Sources */,
 				DE39278229B31CF90083D866 /* Login.swift in Sources */,
 				DE5A0FC0299F6ED7006182C4 /* HomeImage.swift in Sources */,
 				DE5A0FAD299F66A6006182C4 /* DrawingList.swift in Sources */,
