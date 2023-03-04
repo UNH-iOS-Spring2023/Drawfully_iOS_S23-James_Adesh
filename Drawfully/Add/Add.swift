@@ -11,7 +11,8 @@ import AVFoundation
 struct Add: View {
     var body: some View {
         
-        CameraView()
+        Text("Camera View here. Currently commented for testing in simulator")
+        //CameraView()
         }
 }
 
