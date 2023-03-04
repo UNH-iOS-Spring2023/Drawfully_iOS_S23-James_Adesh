@@ -10,6 +10,10 @@ import SwiftUI
 //importing firbase auth and core module
 import FirebaseAuth
 import FirebaseCore
+import Firebase
+
+//import package : https://github.com/sanzaru/SimpleToast
+import SimpleToast
 
 struct SignUp: View {
     
@@ -17,6 +21,23 @@ struct SignUp: View {
     @State var firstName: String = ""
     @State var lastName: String = ""
     @State var password: String=""
+    
+    //Boolean to trigger toast
+    @State var error:Bool=false
+    
+    
+    // Citation : https://www.youtube.com/watch?v=pC6qGSSh9bI
+    private let toastOptions=SimpleToastOptions(
+        alignment: .top,
+        hideAfter: 3,
+        backdrop: Color.black.opacity(0.2),
+        animation: .default,
+        modifierType: .slide
+    )
+    
+    //initialising Firebase firestore
+    let db = Firestore.firestore()
+
     
     var body: some View {
         
@@ -82,21 +103,51 @@ struct SignUp: View {
                 .padding(.bottom)
             }
         }
+        // Citation : https://www.youtube.com/watch?v=pC6qGSSh9bI
+        .simpleToast(isPresented: $error, options: toastOptions, content: {
+            Text("All fields not completed!")
+        })
     }
     
     
     // Citation : https://www.youtube.com/watch?v=6b2WAePdiqA
     // Citation : https://firebase.google.com/docs/auth/ios/start
     func register(){
-        
-        Auth.auth().createUser(withEmail: username, password: password){result, error in
-            if error != nil{
-                print(error!.localizedDescription)
+        if (username.isEmpty || password.isEmpty || firstName.isEmpty){
+            //Triggering toast display
+            error.toggle()
+            
+        }
+        else{
+            
+            Auth.auth().createUser(withEmail: username, password: password){result, error in
+                if error != nil{
+                    print(error!.localizedDescription)
+                }
+                else{
+                    let user=Auth.auth().currentUser?.uid
+                    let data=["FirstName": firstName,
+                              "LastName": lastName,
+                              "username": username,
+                              "streak":1,
+                    ]
+                    as [String: Any]
+                    let ref: DocumentReference? = nil
+                    db.collection("users").addDocument(data:data) { err in
+                        if let err = err{
+                            print ("Error adding document: \(err)")
+                        }
+                        else{
+                            print("Document added with ID: \(String(describing: ref?.documentID))")
+                        }
+                        
+                    }
+                }
+                
+                
+                
             }
         }
-        
-        
-        
     }
 }
 

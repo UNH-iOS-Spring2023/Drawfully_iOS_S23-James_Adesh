@@ -10,6 +10,9 @@
 
 import SwiftUI
 
+//import package : https://github.com/sanzaru/SimpleToast
+import SimpleToast
+
 
 //importing firbase auth and core module
 import FirebaseAuth
@@ -21,6 +24,17 @@ struct Login: View {
     @State var username: String = ""
     @State var password: String = ""
     @State var userIsLoggedIn: Bool=false
+    
+    //Boolean to trigger toast
+    @State var error:Bool=false
+    
+    private let toastOptions=SimpleToastOptions(
+        alignment: .top,
+        hideAfter: 3,
+        backdrop: Color.black.opacity(0.2),
+        animation: .default,
+        modifierType: .slide
+    )
 
     
     // Citation : https://developer.apple.com/forums/thread/667742
@@ -97,19 +111,31 @@ struct Login: View {
             }
             .padding(.bottom)
         }
+        // Citation : https://www.youtube.com/watch?v=pC6qGSSh9bI
+        .simpleToast(isPresented: $error, options: toastOptions, content: {
+            Text("All fields not completed!")
+        })
     }
     
     
     // Citation : https://www.youtube.com/watch?v=6b2WAePdiqA
     // Citation : https://firebase.google.com/docs/auth/ios/start
     func login(){
-        Auth.auth().signIn(withEmail: username, password: password){result, error in
-            if error != nil{
-                print(error!.localizedDescription)
-            }
-            else
-            {
-                userIsLoggedIn.toggle()
+        if(username.isEmpty || password.isEmpty ){
+            //Triggering toast display
+            error.toggle()
+            
+        }
+        else{
+            
+            Auth.auth().signIn(withEmail: username, password: password){result, error in
+                if error != nil{
+                    print(error!.localizedDescription)
+                }
+                else
+                {
+                    userIsLoggedIn.toggle()
+                }
             }
         }
     }
