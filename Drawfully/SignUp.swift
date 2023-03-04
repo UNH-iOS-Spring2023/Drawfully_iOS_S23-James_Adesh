@@ -21,6 +21,10 @@ struct SignUp: View {
     @State var firstName: String = ""
     @State var lastName: String = ""
     @State var password: String=""
+    @State var email: String=""
+    @State var userIsLoggedIn: Bool=false
+    
+    
     
     //Boolean to trigger toast
     @State var error:Bool=false
@@ -39,7 +43,28 @@ struct SignUp: View {
     let db = Firestore.firestore()
 
     
-    var body: some View {
+    // Citation : https://developer.apple.com/forums/thread/667742
+    // Citation : https://www.youtube.com/watch?v=6b2WAePdiqA
+    // Switching views as per log in status
+    var body: some View{
+        //if user is not logged in, display login page
+        if userIsLoggedIn==false{
+            content
+        }
+        //if user is logged in, take into the app
+        else
+        {
+                        BottomBar(AnyView(Home()),
+                                  AnyView(Community()),
+                                  AnyView(Add()),
+                                  AnyView(Search()),
+                                  AnyView(Settings())
+                        )
+                        .environmentObject(AppVariables())
+        }
+    }
+    
+    var content: some View {
         
         NavigationView {
             ZStack{
@@ -68,6 +93,8 @@ struct SignUp: View {
                             .padding(5)
                         TextField("Last Name", text: $lastName)
                             .padding(5)
+                        
+                        TextField("Email", text: $email).textInputAutocapitalization(.never).padding(5)
                         
                         TextField("Username", text: $username).textInputAutocapitalization(.never).padding(5)
                         
@@ -107,28 +134,32 @@ struct SignUp: View {
         .simpleToast(isPresented: $error, options: toastOptions, content: {
             Text("All fields not completed!")
         })
+//        .simpleToast(isPresented: $userIsLoggedIn, options: toastOptions, content: {
+//            Text("User Account Created Successfully!")
+//        })
     }
     
     
     // Citation : https://www.youtube.com/watch?v=6b2WAePdiqA
     // Citation : https://firebase.google.com/docs/auth/ios/start
     func register(){
-        if (username.isEmpty || password.isEmpty || firstName.isEmpty){
+        if (username.isEmpty || password.isEmpty || firstName.isEmpty || email.isEmpty){
             //Triggering toast display
             error.toggle()
             
         }
         else{
             
-            Auth.auth().createUser(withEmail: username, password: password){result, error in
+            Auth.auth().createUser(withEmail: email, password: password){result, error in
                 if error != nil{
                     print(error!.localizedDescription)
                 }
                 else{
-                    let user=Auth.auth().currentUser?.uid
+                    _=Auth.auth().currentUser?.uid
                     let data=["FirstName": firstName,
                               "LastName": lastName,
                               "username": username,
+                              "email":email,
                               "streak":1,
                     ]
                     as [String: Any]
@@ -142,6 +173,10 @@ struct SignUp: View {
                         }
                         
                     }
+                    
+                    //Take to Home
+                    userIsLoggedIn.toggle()
+                    
                 }
                 
                 

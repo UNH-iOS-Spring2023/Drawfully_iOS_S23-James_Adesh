@@ -6,8 +6,6 @@
 //
 // Citation : https://www.youtube.com/watch?v=6b2WAePdiqA
 
-
-
 import SwiftUI
 
 //import package : https://github.com/sanzaru/SimpleToast
@@ -21,7 +19,7 @@ import FirebaseCore
 
 struct Login: View {
     
-    @State var username: String = ""
+    @State var email: String = ""
     @State var password: String = ""
     @State var userIsLoggedIn: Bool=false
     
@@ -80,7 +78,7 @@ struct Login: View {
                         .shadow(color: .gray, radius: 1)
                         .padding()
                     
-                    TextField("Username", text: $username).textInputAutocapitalization(.never)
+                    TextField("Email", text: $email).textInputAutocapitalization(.never)
                         .padding(5)
                     //Added password field
                     SecureField("Password",text:$password).padding(5)
@@ -115,20 +113,23 @@ struct Login: View {
         .simpleToast(isPresented: $error, options: toastOptions, content: {
             Text("All fields not completed!")
         })
+//        .simpleToast(isPresented: $userIsLoggedIn, options: toastOptions, content: {
+//            Text("Login Successful!")
+//        })
     }
     
     
     // Citation : https://www.youtube.com/watch?v=6b2WAePdiqA
     // Citation : https://firebase.google.com/docs/auth/ios/start
     func login(){
-        if(username.isEmpty || password.isEmpty ){
+        if(email.isEmpty || password.isEmpty ){
             //Triggering toast display
             error.toggle()
             
         }
         else{
             
-            Auth.auth().signIn(withEmail: username, password: password){result, error in
+            Auth.auth().signIn(withEmail: email, password: password){result, error in
                 if error != nil{
                     print(error!.localizedDescription)
                 }
