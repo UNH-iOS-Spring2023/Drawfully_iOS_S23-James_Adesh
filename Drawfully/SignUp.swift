@@ -26,6 +26,11 @@ struct SignUp: View {
     @State var statusMessage: String=""
     
     
+    //var ref: DatabaseReference!
+
+    //var ref = Database.database().reference()
+    
+    
     
     //Boolean to trigger toast
     @State var error:Bool=false
@@ -156,13 +161,13 @@ struct SignUp: View {
         }
         else{
             
-            Auth.auth().createUser(withEmail: email, password: password){result, error in
+            FirebaseManager.shared.auth.createUser(withEmail: email, password: password){result, error in
                 if error != nil{
                     print(error!.localizedDescription)
                     statusMessage="Sign up failed!"
                 }
                 else{
-                    _=Auth.auth().currentUser?.uid
+                    guard let uid=Auth.auth().currentUser?.uid else {return}
                     let data=["FirstName": firstName,
                               "LastName": lastName,
                               "username": username,
@@ -171,15 +176,20 @@ struct SignUp: View {
                     ]
                     as [String: Any]
                     let ref: DocumentReference? = nil
-                    db.collection("users").addDocument(data:data) { err in
+                    db.collection("users").document(uid).setData(["FirstName": firstName,
+                                                                  "LastName": lastName,
+                                                                  "username": username,
+                                                                  "email":email,
+                                                                  "streak":"1"]){ err in
                         if let err = err{
                             print ("Error adding document: \(err)")
                         }
                         else{
                             print("Document added with ID: \(String(describing: ref?.documentID))")
                         }
-                        
+
                     }
+                    
                     
                     //Take to Home
                     userIsLoggedIn.toggle()

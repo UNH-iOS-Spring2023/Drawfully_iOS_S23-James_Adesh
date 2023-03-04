@@ -6,11 +6,11 @@
 //
 
 import SwiftUI
-
-//importing required firebase libraries
 import FirebaseCore
 import FirebaseFirestore
 import FirebaseAuth
+import FirebaseStorage
+
 
 @main
 struct DrawfullyApp: App {
@@ -20,6 +20,7 @@ struct DrawfullyApp: App {
     init(){
         FirebaseApp.configure()
     }
+    
 
     
     var body: some Scene {
