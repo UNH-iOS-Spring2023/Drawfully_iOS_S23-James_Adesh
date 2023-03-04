@@ -22,6 +22,7 @@ struct Login: View {
     @State var email: String = ""
     @State var password: String = ""
     @State var userIsLoggedIn: Bool=false
+    @State var statusMessage: String=""
     
     //Boolean to trigger toast
     @State var error:Bool=false
@@ -97,6 +98,8 @@ struct Login: View {
                         
                         .padding()
                     
+                
+                    
                 }
                 .overlay(
                     RoundedRectangle(cornerRadius: 5)
@@ -106,8 +109,12 @@ struct Login: View {
                     .multilineTextAlignment(.center)
                     .disableAutocorrection(true)
                 
+                Text(statusMessage).padding()
+                
             }
             .padding(.bottom)
+            
+            
         }
         // Citation : https://www.youtube.com/watch?v=pC6qGSSh9bI
         .simpleToast(isPresented: $error, options: toastOptions, content: {
@@ -132,10 +139,13 @@ struct Login: View {
             Auth.auth().signIn(withEmail: email, password: password){result, error in
                 if error != nil{
                     print(error!.localizedDescription)
+                    statusMessage="Login failed!"
                 }
                 else
                 {
+                    statusMessage="Login Successful!"
                     userIsLoggedIn.toggle()
+                    
                 }
             }
         }

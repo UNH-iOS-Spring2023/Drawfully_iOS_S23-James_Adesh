@@ -23,6 +23,7 @@ struct SignUp: View {
     @State var password: String=""
     @State var email: String=""
     @State var userIsLoggedIn: Bool=false
+    @State var statusMessage: String=""
     
     
     
@@ -118,6 +119,7 @@ struct SignUp: View {
                             .padding()
                         
                         
+                        
                                        }
                     .overlay(
                         RoundedRectangle(cornerRadius: 5)
@@ -126,6 +128,10 @@ struct SignUp: View {
                     .padding(40)
                     .multilineTextAlignment(.center)
                     .disableAutocorrection(true)
+                    
+                    
+                    Text(statusMessage).padding()
+
                 }
                 .padding(.bottom)
             }
@@ -153,6 +159,7 @@ struct SignUp: View {
             Auth.auth().createUser(withEmail: email, password: password){result, error in
                 if error != nil{
                     print(error!.localizedDescription)
+                    statusMessage="Sign up failed!"
                 }
                 else{
                     _=Auth.auth().currentUser?.uid
