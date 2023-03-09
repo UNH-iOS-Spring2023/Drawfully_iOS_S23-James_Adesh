@@ -11,8 +11,8 @@ import AVFoundation
 struct Add: View {
     var body: some View {
         
-        Text("Camera View here. Currently commented for testing in simulator")
-        //CameraView()
+        //Text("Camera View here. Currently commented for testing in simulator")
+        CameraView()
         }
 }
 
@@ -117,6 +117,8 @@ class CameraModel: NSObject ,ObservableObject, AVCapturePhotoCaptureDelegate{
     @Published var isSaved = false
     
     @Published var picData = Data(count: 0)
+    
+    
     
     
     func Check(){
@@ -229,8 +231,54 @@ class CameraModel: NSObject ,ObservableObject, AVCapturePhotoCaptureDelegate{
         
         UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
         
+        WriteToFirestore()
+        
+        
         self.isSaved=true
 
+    }
+    
+    func WriteToFirestore()
+    {
+        //Generate random universally unique value
+        // Citation : https://developer.apple.com/documentation/foundation/nsuuid
+        // Citation : https://stackoverflow.com/questions/24428250/generate-a-uuid-on-ios-from-swift
+        let uuid = UUID().uuidString
+        
+        // Fetching current user uid
+        guard let uid = FirebaseManager.shared.auth.currentUser?.uid else{
+            return}
+        
+        //Creating storage reference
+        // Citation : https://firebase.google.com/docs/storage/ios/upload-files
+        // Citation : https://www.youtube.com/watch?v=5inXE5d2MUM&t=939s
+        
+        let ref=FirebaseManager.shared.storage.reference(withPath: "drawings/\(uid)/\(uuid)")
+        
+        
+        guard let imageData=UIImage(data: self.picData)!.jpegData(compressionQuality: 1.0) else
+        {
+            print("Could not convert file")
+            return }
+        
+        ref.putData(imageData, metadata: nil){
+            metadata, err in
+            if let err=err{
+                print("Data store failed \(err)")
+                return
+            }
+            
+            ref.downloadURL{
+                url, err in
+                if let err=err{
+                    print("Failed to retrieve download url \(err)")
+                    return
+                }
+                print("Retrieved download url \(String(describing: url))")
+                
+                
+            }
+        }
     }
     
 }
