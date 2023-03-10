@@ -8,12 +8,21 @@
 import SwiftUI
 import AVFoundation
 
+//importing firbase auth and core module
+import FirebaseAuth
+import FirebaseCore
+import Firebase
+
+//import package : https://github.com/sanzaru/SimpleToast
+import SimpleToast
+
+
 struct Add: View {
     var body: some View {
         
         //Text("Camera View here. Currently commented for testing in simulator")
         CameraView()
-        }
+    }
 }
 
 struct Add_Previews: PreviewProvider {
@@ -28,73 +37,200 @@ struct CameraView: View {
     
     @StateObject var camera=CameraModel()
     
+    
+    //Drawing properties to be written to firebase
+    @State var caption : String=""
+    @State var title : String=""
+    @State var postVisibility: Bool = false
+    
+    //Tracking posting status
+    @State var drawingPosted: Bool = false
+    
+    // Citation : https://www.youtube.com/watch?v=pC6qGSSh9bI
+    private let toastOptions=SimpleToastOptions(
+        alignment: .top,
+        hideAfter: 3,
+        backdrop: Color.black.opacity(0.2),
+        animation: .default,
+        modifierType: .slide
+    )
+    
+    
+    
     var body: some View{
-        ZStack{
-            //Camera view
-            //Color(.black).ignoresSafeArea(.all,edges: .all)
-            CameraPreview(camera: camera).ignoresSafeArea(.all,edges: .all)
-            
-            VStack{
-            
                 
-                if camera.isTaken{
-                    HStack{
-                        
-                        Spacer()
-                        
-                        Button(action: camera.reTake, label:{
-                            //Click to retake button
-                            Image(systemName: "arrow.triangle.2.circlepath.camera")
-                                .foregroundColor(.black)
-                                .padding()
-                                .background(Color.white)
-                                .clipShape(Circle())
-                                
-                        })
-                        .padding(.trailing,10)
-                    }
-                }
+     
+        //If save button is not clicked yet
+        if(!camera.isSaved)
+        {
+            
+            ZStack{
+                //Camera view
+                //Color(.black).ignoresSafeArea(.all,edges: .all)
+                CameraPreview(camera: camera).ignoresSafeArea(.all,edges: .all)
                 
-                Spacer()
-                HStack{
+                VStack{
+                    
                     
                     if camera.isTaken{
-                        //Save photo Button
-                        Button(action:{if !camera.isSaved{camera.savePic()}}, label: {
-                            Text(camera.isSaved ? "Saved" : "Save")
-                                .foregroundColor(.black)
-                                .fontWeight(.semibold)
-                                .padding(.vertical,10)
-                                .padding(.horizontal,20)
-                                .background(Color.white)
-                                .clipShape(Capsule())
-                        })
-                        .padding(.leading)
+                        HStack{
+                            
+                            Spacer()
+                            
+                            Button(action: camera.reTake, label:{
+                                //Click to retake button
+                                Image(systemName: "arrow.triangle.2.circlepath.camera")
+                                    .foregroundColor(.black)
+                                    .padding()
+                                    .background(Color.white)
+                                    .clipShape(Circle())
+                                
+                            })
+                            .padding(.trailing,10)
+                        }
+                    }
+                    
+                    Spacer()
+                    HStack{
+                        
+                        if camera.isTaken{
+                            //Save photo Button
+                            Button(action:{if !camera.isSaved{camera.savePic()}}, label: {
+                                Text(camera.isSaved ? "Saved" : "Save")
+                                    .foregroundColor(.black)
+                                    .fontWeight(.semibold)
+                                    .padding(.vertical,10)
+                                    .padding(.horizontal,20)
+                                    .background(Color.white)
+                                    .clipShape(Capsule())
+                            })
+                            .padding(.leading)
+                            
+                            
+                            Spacer()
+                        }
+                        
+                        else{
+                            //Camera click button
+                            Button(action: camera.takePic, label: {
+                                ZStack{
+                                    Circle()
+                                        .fill(Color.white).frame(width: 70,height: 70)
+                                    
+                                    Circle()
+                                        .stroke(Color.white, lineWidth: 2)
+                                        .frame(width: 75,height: 75)
+                                    
+                                }
+                            }).padding()
+                        }
+                    }.frame(height: 120)
+                }
+            }.onAppear(perform: {
+                
+                camera.Check()
+                
+            })
+            
+            
+        }
+        
+        //If save button on image has been clicked
+        else{
+
+                ZStack{
+                    VStack{
+                        
+                        HStack{
+                            Spacer()
+
+                            //Button to write file with all properties to firebase
+                                Button(action: WriteToFirebase, label: {
+                                  Text("Add to Drawings")
+                              }).padding(10)
+                                  .foregroundColor(.black)
+                                  .font(.headline)
+                                  .padding(10)
+                                  .background(Color.green)
+                                  .clipShape(Capsule())
+                          }.padding(10)
+                        
+                        Spacer()
+                        // Text((String(describing: camera.imageLink)))
+                        
+                        //Async call to image that has just been uploaded to cloud storage
+                        // Citation : https://developer.apple.com/documentation/swiftui/asyncimage
+                        // Citation : https://serialcoder.dev/text-tutorials/swiftui/asyncimage-in-swiftui/
+                        AsyncImage(url : camera.imageLink)
+                        { image in
+                            image
+                                .resizable()
+                                .frame(width: 360, height: 360)
+                                .aspectRatio(contentMode: .fit)
+                                .clipShape(RoundedRectangle(cornerRadius: 15))
+                                .padding(10)
+                        } placeholder: {
+                            Image("sample_drawing")
+                                .resizable()
+                                .frame(width: 360, height: 360)
+                            .padding(10)                    }
+                        
+                        
+                        TextField("Add Title Here!",text: $title)
+                            .foregroundColor(.black)
+                            .multilineTextAlignment(.center)
+                            .font(.headline)
+                            .padding(10)
+                        
+                        TextField("Add Caption Here!",text: $caption)
+                            .foregroundColor(.black)
+                            .multilineTextAlignment(.center)
+                            .font(.subheadline)
+                            .padding(10)
+                        
+                        Toggle(isOn: $postVisibility, label: {Text("Make Post Visible")}).padding(10)
                         
                         Spacer()
                     }
                     
-                    else{
-                        //Camera click button
-                        Button(action: camera.takePic, label: {
-                            ZStack{
-                                Circle()
-                                    .fill(Color.white).frame(width: 70,height: 70)
-                                
-                                Circle()
-                                    .stroke(Color.white, lineWidth: 2)
-                                    .frame(width: 75,height: 75)
-                                
-                            }
-                        }).padding()
-                    }
-                }.frame(height: 120)
+                }
+                // Citation : https://www.youtube.com/watch?v=pC6qGSSh9bI
+            //Giving toast after upload is successful
+                .simpleToast(isPresented: $drawingPosted, options: toastOptions, content: {
+                    Text("Drawing successfully uploaded!")
+                })
+            
+
             }
-        }.onAppear(perform: {
+        }
+        
+    //function to write post to database
+    func WriteToFirebase()
+    {
+        //initialising Firebase firestore
+        let db = Firestore.firestore()
+        // Citation : https://www.youtube.com/watch?v=yHngqpFpVZU&list=PL0dzCUj1L5JEN2aWYFCpqfTBeVHcGZjGw&index=7
+        
+        guard let uid=Auth.auth().currentUser?.uid else {return}
+        let ref: DocumentReference? = nil
+        
+        //ChatGPT
+        db.collection("drawings").document(camera.imageName).setData(["Caption": caption,
+                                                                      "Likes": 0,
+                                                                      "Owner": uid,
+                                                                      "Time Created":FieldValue.serverTimestamp(),
+                                                                      "Title":title,
+                                                                      "isPublic": postVisibility]){ err in
+            if let err = err{
+                print ("Error adding document: \(err)")
+            }
+            else{
+                print("Document added with ID: \(String(describing: ref?.documentID))")
+                drawingPosted=true
+            }
             
-            camera.Check()
-            
-        })
+        }
+        
     }
     
 }
@@ -118,8 +254,10 @@ class CameraModel: NSObject ,ObservableObject, AVCapturePhotoCaptureDelegate{
     
     @Published var picData = Data(count: 0)
     
+    // Citation : https://matteomanferdini.com/swift-url-components/
+    @Published var imageLink = URL(string: "")
     
-    
+    @Published var imageName = ""
     
     func Check(){
         // first checking camera has got permission or not
@@ -128,7 +266,7 @@ class CameraModel: NSObject ,ObservableObject, AVCapturePhotoCaptureDelegate{
             //Setting Up Session
             setUp()
             return
-
+            
         case .notDetermined:
             AVCaptureDevice.requestAccess(for: .video){
                 (status) in
@@ -189,7 +327,7 @@ class CameraModel: NSObject ,ObservableObject, AVCapturePhotoCaptureDelegate{
         
         DispatchQueue.global(qos: .background).async{
             self.output.capturePhoto(with: AVCapturePhotoSettings(), delegate:self)
-        DispatchQueue.main.async { Timer.scheduledTimer(withTimeInterval: 0.1, repeats: false) { (timer) in self.session.stopRunning() } }
+            DispatchQueue.main.async { Timer.scheduledTimer(withTimeInterval: 0.1, repeats: false) { (timer) in self.session.stopRunning() } }
             DispatchQueue.main.async {
                 withAnimation {
                     self.isTaken.toggle()
@@ -233,9 +371,8 @@ class CameraModel: NSObject ,ObservableObject, AVCapturePhotoCaptureDelegate{
         
         WriteToFirestore()
         
+        self.isSaved.toggle()
         
-        self.isSaved=true
-
     }
     
     func WriteToFirestore()
@@ -274,9 +411,11 @@ class CameraModel: NSObject ,ObservableObject, AVCapturePhotoCaptureDelegate{
                     print("Failed to retrieve download url \(err)")
                     return
                 }
+                
+                //Storing image url and name to write to firebase
+                self.imageLink=url
+                self.imageName=uuid
                 print("Retrieved download url \(String(describing: url))")
-                
-                
             }
         }
     }
