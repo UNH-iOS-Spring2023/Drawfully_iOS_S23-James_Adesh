@@ -18,10 +18,15 @@ import SimpleToast
 
 
 struct Add: View {
+    
+    //Environment Object created to access global variables
+    @EnvironmentObject private var app: AppVariables
     var body: some View {
-        
-        //Text("Camera View here. Currently commented for testing in simulator")
-        CameraView()
+
+            //Text("Camera View here. Currently commented for testing in simulator")
+
+                CameraView()
+            
     }
 }
 
@@ -34,6 +39,9 @@ struct Add_Previews: PreviewProvider {
 
 // Referred to https://www.youtube.com/watch?v=8hvaniprctk
 struct CameraView: View {
+    
+    //Environment Object created to access global variables
+    @EnvironmentObject private var app: AppVariables
     
     @StateObject var camera=CameraModel()
     
@@ -145,18 +153,21 @@ struct CameraView: View {
                             Spacer()
 
                             //Button to write file with all properties to firebase
+                            
+                            NavigationLink(destination: Home()){
                                 Button(action: WriteToFirebase, label: {
-                                  Text("Add to Drawings")
-                              }).padding(10)
-                                  .foregroundColor(.black)
-                                  .font(.headline)
-                                  .padding(10)
-                                  .background(Color.green)
-                                  .clipShape(Capsule())
+                                    Text("Add to Drawings")
+                                }).padding(10)
+                                    .foregroundColor(.black)
+                                    .font(.headline)
+                                    .padding(10)
+                                    .background(Color.green)
+                                    .clipShape(Capsule())
+                            }
                           }.padding(10)
                         
                         Spacer()
-                        // Text((String(describing: camera.imageLink)))
+                        
                         
                         //Async call to image that has just been uploaded to cloud storage
                         // Citation : https://developer.apple.com/documentation/swiftui/asyncimage
@@ -175,19 +186,24 @@ struct CameraView: View {
                                 .frame(width: 360, height: 360)
                             .padding(10)                    }
                         
-                        
+                        // Text Field to take Title input
                         TextField("Add Title Here!",text: $title)
                             .foregroundColor(.black)
                             .multilineTextAlignment(.center)
                             .font(.headline)
                             .padding(10)
                         
+                        
+                        // Text Field to take Caption input
                         TextField("Add Caption Here!",text: $caption)
                             .foregroundColor(.black)
                             .multilineTextAlignment(.center)
                             .font(.subheadline)
                             .padding(10)
                         
+                        
+                        
+                        // Toggle to take Visibility input
                         Toggle(isOn: $postVisibility, label: {Text("Make Post Visible")}).padding(10)
                         
                         Spacer()
@@ -195,7 +211,7 @@ struct CameraView: View {
                     
                 }
                 // Citation : https://www.youtube.com/watch?v=pC6qGSSh9bI
-            //Giving toast after upload is successful
+                //Giving toast after upload is successful
                 .simpleToast(isPresented: $drawingPosted, options: toastOptions, content: {
                     Text("Drawing successfully uploaded!")
                 })
@@ -207,15 +223,15 @@ struct CameraView: View {
     //function to write post to database
     func WriteToFirebase()
     {
-        //initialising Firebase firestore
-        let db = Firestore.firestore()
+
         // Citation : https://www.youtube.com/watch?v=yHngqpFpVZU&list=PL0dzCUj1L5JEN2aWYFCpqfTBeVHcGZjGw&index=7
         
         guard let uid=Auth.auth().currentUser?.uid else {return}
         let ref: DocumentReference? = nil
         
-        //ChatGPT
-        db.collection("drawings").document(camera.imageName).setData(["Caption": caption,
+        //Citation : ChatGPT
+        //Setting properties of drawing and writing to Firebase - Likes, Owner, Time, etc
+        FirebaseManager.shared.firestore.collection("drawings").document(camera.imageName).setData(["Caption": caption,
                                                                       "Likes": 0,
                                                                       "Owner": uid,
                                                                       "Time Created":FieldValue.serverTimestamp(),
@@ -227,6 +243,21 @@ struct CameraView: View {
             else{
                 print("Document added with ID: \(String(describing: ref?.documentID))")
                 drawingPosted=true
+        
+                let newDocRef = FirebaseManager.shared.firestore.collection("drawings").document(camera.imageName)
+                
+                //Adding to array of drawings for each user
+                // Citation : ChatGPT
+                FirebaseManager.shared.firestore.collection("users").document(uid).updateData(["drawings": FieldValue.arrayUnion([newDocRef])]){ err in
+                    if let err = err{
+                        print ("Error adding document reference: \(err)")
+                    }
+                    else{
+                        //Switching to home tab again
+                        app.selectedTab=0
+                    }
+                    
+                }
             }
             
         }
@@ -255,9 +286,12 @@ class CameraModel: NSObject ,ObservableObject, AVCapturePhotoCaptureDelegate{
     @Published var picData = Data(count: 0)
     
     // Citation : https://matteomanferdini.com/swift-url-components/
+    // To store image url
     @Published var imageLink = URL(string: "")
     
+    // To store image name
     @Published var imageName = ""
+    
     
     func Check(){
         // first checking camera has got permission or not
