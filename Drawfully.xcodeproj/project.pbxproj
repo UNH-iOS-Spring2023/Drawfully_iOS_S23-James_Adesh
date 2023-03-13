@@ -38,6 +38,7 @@
 		DE5A0FC2299F6EE9006182C4 /* PostImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE5A0FC1299F6EE9006182C4 /* PostImage.swift */; };
 		DEE9BEF629B339E000F37FF4 /* SimpleToast in Frameworks */ = {isa = PBXBuildFile; productRef = DEE9BEF529B339E000F37FF4 /* SimpleToast */; };
 		DEE9BEF929B34FD800F37FF4 /* FirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEE9BEF829B34FD800F37FF4 /* FirebaseManager.swift */; };
+		EEDC097A29BF04C1000D5B71 /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEDC097929BF04C1000D5B71 /* Notifications.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -62,6 +63,7 @@
 		DE5A0FC1299F6EE9006182C4 /* PostImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostImage.swift; sourceTree = "<group>"; };
 		DECB177729B0514100544F32 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		DEE9BEF829B34FD800F37FF4 /* FirebaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseManager.swift; sourceTree = "<group>"; };
+		EEDC097929BF04C1000D5B71 /* Notifications.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -123,6 +125,7 @@
 				DE207688299C58F30059825D /* Assets.xcassets */,
 				DE39278029B31CF90083D866 /* Login.swift */,
 				DE39277F29B31CF90083D866 /* SignUp.swift */,
+				EEDC097929BF04C1000D5B71 /* Notifications.swift */,
 				DE20768A299C58F30059825D /* Drawfully.entitlements */,
 				DE20768B299C58F30059825D /* Preview Content */,
 			);
@@ -294,6 +297,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EEDC097A29BF04C1000D5B71 /* Notifications.swift in Sources */,
 				DE5A0FC2299F6EE9006182C4 /* PostImage.swift in Sources */,
 				DE39278129B31CF90083D866 /* SignUp.swift in Sources */,
 				DEE9BEF929B34FD800F37FF4 /* FirebaseManager.swift in Sources */,
