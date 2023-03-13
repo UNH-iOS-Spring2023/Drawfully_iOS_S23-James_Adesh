@@ -196,6 +196,7 @@ struct SignUp: View {
                     
                     //Take to Home
                     userIsLoggedIn.toggle()
+                    print("new user created")
                     
                 }
                 

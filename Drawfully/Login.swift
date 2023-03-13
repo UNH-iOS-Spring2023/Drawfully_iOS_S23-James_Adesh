@@ -147,6 +147,7 @@ struct Login: View {
                 {
                     statusMessage="Login Successful!"
                     userIsLoggedIn.toggle()
+                    print("user logged in")
                     
                 }
             }
