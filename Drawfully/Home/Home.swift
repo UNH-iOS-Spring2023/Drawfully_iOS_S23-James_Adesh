@@ -25,10 +25,10 @@ class HomeViewModel: ObservableObject{
     @Published var streakCount:String="T"
     @Published var CurrentUser:AppUser=AppUser(uid: "", streak: "", email: "", firstName: "", lastName: "", username: "")
     
-    
     init()
     {
         fetchCurrentUser()
+        requestNotification()
     }
     
     private func fetchCurrentUser(){
