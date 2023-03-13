@@ -19,6 +19,8 @@ func requestNotification(){
 }
 
 func doNotification(){
+    
+    UserDefaults.standard.set(true, forKey: "notification")
         let content = UNMutableNotificationContent() // notification creation
         content.title = "Your daily drawing reminder"
         content.body = "Use Drawfully to practice your drawing"
@@ -33,4 +35,11 @@ func doNotification(){
     // if bugged, try UserDefaults()
 
         UNUserNotificationCenter.current().add(request) // add notification to NotificationCenter
+    print("added notification")
+}
+
+func removeNotification(){
+    UserDefaults.standard.set(false, forKey: "notification")
+    UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: ["notification"])
+    print("removed notification")
 }
