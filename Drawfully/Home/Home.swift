@@ -152,6 +152,15 @@ struct Home: View {
     
 }
 
+// Citation :  ChatGPT
+extension Array {
+    func chunks(of chunkSize: Int) -> [[Element]] {
+        return stride(from: 0, to: self.count, by: chunkSize).map {
+            Array(self[$0..<Swift.min($0 + chunkSize, self.count)])
+        }
+    }
+}
+
 struct Home_Previews: PreviewProvider {
     static var previews: some View {
         Home()
