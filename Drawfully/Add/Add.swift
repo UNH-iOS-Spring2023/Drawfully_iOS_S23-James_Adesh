@@ -258,6 +258,21 @@ struct CameraView: View {
                     }
                     
                 }
+                
+                
+                // TODO check if this updates streak using phone
+                
+                let storedDate = UserDefaults.standard.object(forKey: "lastDate") as? Date ?? Date.now
+                
+                if Calendar.current.isDateInToday(storedDate){
+                    FirebaseManager.shared.firestore.collection("users").document(uid).updateData(["streak" : FieldValue.increment(1.0)])
+                    let date = Date.now
+                    UserDefaults.standard.set(date, forKey: "lastDate")
+                    
+                    print("updated streak")
+                }
+                
+                
             }
             
         }
