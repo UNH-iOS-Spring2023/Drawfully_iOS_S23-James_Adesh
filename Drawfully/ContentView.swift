@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import AVFoundation
 
 
 //Global variables initializer
@@ -22,17 +23,20 @@ struct ContentView: View {
 
     var body: some View {
         
+        
+        
         //Implementing Bottom Bar View with required parameters (Tabs)
         
-        
+        //Loading app into signup page
+            SignUp()
             
-            BottomBar(AnyView(Home()),
-                      AnyView(Community()),
-                      AnyView(Add()),
-                      AnyView(Search()),
-                      AnyView(Settings())
-            )
-            .environmentObject(AppVariables())
+//            BottomBar(AnyView(Home()),
+//                      AnyView(Community()),
+//                      AnyView(Add()),
+//                      AnyView(Search()),
+//                      AnyView(Settings())
+//            )
+//            .environmentObject(AppVariables())
         
         
         
@@ -46,3 +50,4 @@ struct ContentView_Previews: PreviewProvider {
         
     }
 }
+

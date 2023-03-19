@@ -25,6 +25,8 @@
 		DE2076AB299C5A480059825D /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = DE2076AA299C5A480059825D /* FirebaseStorage */; };
 		DE2076AD299C5A480059825D /* FirebaseStorageCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = DE2076AC299C5A480059825D /* FirebaseStorageCombine-Community */; };
 		DE2076AF299C5B0A0059825D /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DE2076AE299C5B0A0059825D /* Launch Screen.storyboard */; };
+		DE39278129B31CF90083D866 /* SignUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE39277F29B31CF90083D866 /* SignUp.swift */; };
+		DE39278229B31CF90083D866 /* Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE39278029B31CF90083D866 /* Login.swift */; };
 		DE5A0FA9299F6420006182C4 /* BottomBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE5A0FA8299F6420006182C4 /* BottomBar.swift */; };
 		DE5A0FAD299F66A6006182C4 /* DrawingList.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE5A0FAC299F66A6006182C4 /* DrawingList.swift */; };
 		DE5A0FB6299F6CC7006182C4 /* Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE5A0FB5299F6CC7006182C4 /* Home.swift */; };
@@ -34,6 +36,8 @@
 		DE5A0FBE299F6D13006182C4 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE5A0FBD299F6D13006182C4 /* Settings.swift */; };
 		DE5A0FC0299F6ED7006182C4 /* HomeImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE5A0FBF299F6ED7006182C4 /* HomeImage.swift */; };
 		DE5A0FC2299F6EE9006182C4 /* PostImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE5A0FC1299F6EE9006182C4 /* PostImage.swift */; };
+		DEE9BEF629B339E000F37FF4 /* SimpleToast in Frameworks */ = {isa = PBXBuildFile; productRef = DEE9BEF529B339E000F37FF4 /* SimpleToast */; };
+		DEE9BEF929B34FD800F37FF4 /* FirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEE9BEF829B34FD800F37FF4 /* FirebaseManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -45,6 +49,8 @@
 		DE20768C299C58F30059825D /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		DE207693299C592A0059825D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		DE2076AE299C5B0A0059825D /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
+		DE39277F29B31CF90083D866 /* SignUp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUp.swift; sourceTree = "<group>"; };
+		DE39278029B31CF90083D866 /* Login.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Login.swift; sourceTree = "<group>"; };
 		DE5A0FA8299F6420006182C4 /* BottomBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomBar.swift; sourceTree = "<group>"; };
 		DE5A0FAC299F66A6006182C4 /* DrawingList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingList.swift; sourceTree = "<group>"; };
 		DE5A0FB5299F6CC7006182C4 /* Home.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Home.swift; sourceTree = "<group>"; };
@@ -54,6 +60,8 @@
 		DE5A0FBD299F6D13006182C4 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		DE5A0FBF299F6ED7006182C4 /* HomeImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeImage.swift; sourceTree = "<group>"; };
 		DE5A0FC1299F6EE9006182C4 /* PostImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostImage.swift; sourceTree = "<group>"; };
+		DECB177729B0514100544F32 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		DEE9BEF829B34FD800F37FF4 /* FirebaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,6 +73,7 @@
 				DE207697299C5A470059825D /* FirebaseAnalytics in Frameworks */,
 				DE2076A9299C5A480059825D /* FirebaseMessaging in Frameworks */,
 				DE2076A7299C5A470059825D /* FirebaseFunctionsCombine-Community in Frameworks */,
+				DEE9BEF629B339E000F37FF4 /* SimpleToast in Frameworks */,
 				DE20769B299C5A470059825D /* FirebaseAuthCombine-Community in Frameworks */,
 				DE20769D299C5A470059825D /* FirebaseDatabase in Frameworks */,
 				DE207699299C5A470059825D /* FirebaseAuth in Frameworks */,
@@ -98,6 +107,8 @@
 		DE207683299C58F20059825D /* Drawfully */ = {
 			isa = PBXGroup;
 			children = (
+				DEE9BEF729B34FAF00F37FF4 /* Utils */,
+				DECB177729B0514100544F32 /* Info.plist */,
 				DE5A0FB2299F6C92006182C4 /* Settings */,
 				DE5A0FB1299F6C8C006182C4 /* Search */,
 				DE5A0FB0299F6C87006182C4 /* Add */,
@@ -110,6 +121,8 @@
 				DE207686299C58F20059825D /* ContentView.swift */,
 				DE207693299C592A0059825D /* GoogleService-Info.plist */,
 				DE207688299C58F30059825D /* Assets.xcassets */,
+				DE39278029B31CF90083D866 /* Login.swift */,
+				DE39277F29B31CF90083D866 /* SignUp.swift */,
 				DE20768A299C58F30059825D /* Drawfully.entitlements */,
 				DE20768B299C58F30059825D /* Preview Content */,
 			);
@@ -182,6 +195,14 @@
 			path = Settings;
 			sourceTree = "<group>";
 		};
+		DEE9BEF729B34FAF00F37FF4 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				DEE9BEF829B34FD800F37FF4 /* FirebaseManager.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -211,6 +232,7 @@
 				DE2076A8299C5A480059825D /* FirebaseMessaging */,
 				DE2076AA299C5A480059825D /* FirebaseStorage */,
 				DE2076AC299C5A480059825D /* FirebaseStorageCombine-Community */,
+				DEE9BEF529B339E000F37FF4 /* SimpleToast */,
 			);
 			productName = Drawfully;
 			productReference = DE207681299C58F20059825D /* Drawfully.app */;
@@ -242,6 +264,7 @@
 			mainGroup = DE207678299C58F20059825D;
 			packageReferences = (
 				DE207695299C5A470059825D /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				DEE9BEF429B339E000F37FF4 /* XCRemoteSwiftPackageReference "SimpleToast" */,
 			);
 			productRefGroup = DE207682299C58F20059825D /* Products */;
 			projectDirPath = "";
@@ -272,6 +295,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				DE5A0FC2299F6EE9006182C4 /* PostImage.swift in Sources */,
+				DE39278129B31CF90083D866 /* SignUp.swift in Sources */,
+				DEE9BEF929B34FD800F37FF4 /* FirebaseManager.swift in Sources */,
+				DE39278229B31CF90083D866 /* Login.swift in Sources */,
 				DE5A0FC0299F6ED7006182C4 /* HomeImage.swift in Sources */,
 				DE5A0FAD299F66A6006182C4 /* DrawingList.swift in Sources */,
 				DE5A0FA9299F6420006182C4 /* BottomBar.swift in Sources */,
@@ -410,6 +436,9 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Drawfully/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -420,6 +449,7 @@
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
@@ -448,6 +478,9 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Drawfully/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -458,6 +491,7 @@
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
@@ -503,6 +537,14 @@
 			requirement = {
 				branch = master;
 				kind = branch;
+			};
+		};
+		DEE9BEF429B339E000F37FF4 /* XCRemoteSwiftPackageReference "SimpleToast" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sanzaru/SimpleToast";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.6.2;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
@@ -567,6 +609,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = DE207695299C5A470059825D /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = "FirebaseStorageCombine-Community";
+		};
+		DEE9BEF529B339E000F37FF4 /* SimpleToast */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DEE9BEF429B339E000F37FF4 /* XCRemoteSwiftPackageReference "SimpleToast" */;
+			productName = SimpleToast;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
