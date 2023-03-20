@@ -269,13 +269,29 @@ struct CameraView: View {
                 // TODO check if this updates streak using phone
                 
                 let storedDate = UserDefaults.standard.object(forKey: "lastDate") as? Date ?? Date.now
+                //print("Stored data : \(storedDate)")
 
-                if !Calendar.current.isDateInToday(storedDate){
+                
+                //If user has posted the previous day
+                //if Calendar.current.isDateInToday(stored.addingTimeInterval(86400))
+                
+                //If user has posted on the same day
+                if Calendar.current.isDateInToday(storedDate){
                     FirebaseManager.shared.firestore.collection("users").document(uid).updateData(["streak" : FieldValue.increment(1.0)])
                     let date = Date.now
                     UserDefaults.standard.set(date, forKey: "lastDate")
 
                     print("updated streak")
+                }
+                
+                //If user has not posted on the day or the previous day
+                else if ((!Calendar.current.isDateInToday(storedDate))&&(!Calendar.current.isDateInToday(stored.addingTimeInterval(86400)))){
+                    FirebaseManager.shared.firestore.collection("users").document(uid).updateData(["streak" : 1])
+                    let date = Date.now
+                    UserDefaults.standard.set(date, forKey: "lastDate")
+
+                    print("updated streak")
+                    
                 }
                 
                 
