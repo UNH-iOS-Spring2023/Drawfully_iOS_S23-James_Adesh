@@ -41,11 +41,14 @@ struct SetNotifications: View {
             }.padding()
             HStack{
                 // scrollable picker to change the time a notification is sent
-                DatePicker("Notification Time", selection: $date, displayedComponents: [.hourAndMinute]).onChange(of: date) { date in
-                    let components = Calendar.current.dateComponents([.hour, .minute], from: date)
-                    UserDefaults.standard.set(date, forKey: "setTime")
-                    doNotification(date: components) // when the time is changed, reset the notification. doNotification() has the ability to handle time changes
-                }.padding()
+                if notifs{
+                    DatePicker("Notification Time", selection: $date, displayedComponents: [.hourAndMinute]).onChange(of: date) { date in
+                        let components = Calendar.current.dateComponents([.hour, .minute], from: date)
+                        UserDefaults.standard.set(date, forKey: "setTime")
+                        doNotification(date: components) // when the time is changed, reset the notification. doNotification() has the ability to handle time changes
+                        
+                    }.padding()
+                }
             }.font(.system(size: 20))
             
 
