@@ -258,17 +258,23 @@ struct CameraView: View {
                     }
                     
                 }
-                
+                camera.isTaken=false
+                camera.isSaved=false
+                camera.imageLink=URL(string: "")
+                camera.imageName=""
+                camera.picData=Data(count: 0)
+                title=""
+                caption=""
                 
                 // TODO check if this updates streak using phone
                 
                 let storedDate = UserDefaults.standard.object(forKey: "lastDate") as? Date ?? Date.now
-                
-                if Calendar.current.isDateInToday(storedDate){
+
+                if !Calendar.current.isDateInToday(storedDate){
                     FirebaseManager.shared.firestore.collection("users").document(uid).updateData(["streak" : FieldValue.increment(1.0)])
                     let date = Date.now
                     UserDefaults.standard.set(date, forKey: "lastDate")
-                    
+
                     print("updated streak")
                 }
                 
@@ -421,6 +427,7 @@ class CameraModel: NSObject ,ObservableObject, AVCapturePhotoCaptureDelegate{
         WriteToFirestore()
         
         self.isSaved.toggle()
+        
         
     }
     

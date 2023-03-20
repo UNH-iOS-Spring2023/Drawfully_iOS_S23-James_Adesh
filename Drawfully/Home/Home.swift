@@ -39,11 +39,13 @@ class HomeViewModel: ObservableObject{
     
     init()
     {
-        fetchCurrentUser()
+        //fetchCurrentUser()
         //getDrawingImage(x:"")
     }
     
-    private func fetchCurrentUser(){
+    func fetchCurrentUser(){
+        self.posts=[]
+        self.drawingImages=[]
         guard let uid = FirebaseManager.shared.auth.currentUser?.uid else{
             return}
         FirebaseManager.shared.firestore.collection("users").document(uid).getDocument{snapshot, error in
@@ -146,7 +148,7 @@ struct Home: View {
                                 }
                 
             }
-        }
+        }.onAppear(perform: vm.fetchCurrentUser)
     }
 
     
