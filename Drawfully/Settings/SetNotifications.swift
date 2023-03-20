@@ -16,6 +16,7 @@ struct SetNotifications: View {
     
     var body: some View {
         
+        // nice looking header
         let header = VStack{
                 HStack{
                     Spacer()
@@ -25,23 +26,25 @@ struct SetNotifications: View {
                 
         }
         
+        // main menu
         let menu = VStack{
             HStack{
                 Toggle(isOn: $notifs){
                     Text("Notifications")
                     Text("Toggle daily reminder").font(.system(size: 20))
-                }.onChange(of: notifs){ _notifs in // I don't really understand why it needs to be _notifs
-                    if _notifs {
+                }.onChange(of: notifs){ notifs in
+                    if notifs {
                         let components = Calendar.current.dateComponents([.hour, .minute], from: date)
-                        doNotification(date: components) }
+                        doNotification(date: components) } // if the toggle changed, either turn on or off the notification
                     else { removeNotification() }
                 }
             }.padding()
             HStack{
+                // scrollable picker to change the time a notification is sent
                 DatePicker("Notification Time", selection: $date, displayedComponents: [.hourAndMinute]).onChange(of: date) { date in
                     let components = Calendar.current.dateComponents([.hour, .minute], from: date)
                     UserDefaults.standard.set(date, forKey: "setTime")
-                    doNotification(date: components)
+                    doNotification(date: components) // when the time is changed, reset the notification. doNotification() has the ability to handle time changes
                 }.padding()
             }.font(.system(size: 20))
             
