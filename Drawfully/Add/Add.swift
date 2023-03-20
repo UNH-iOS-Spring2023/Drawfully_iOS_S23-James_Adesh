@@ -15,7 +15,7 @@ import Firebase
 
 //import package : https://github.com/sanzaru/SimpleToast
 import SimpleToast
-
+import DeviceKit
 
 struct Add: View {
     
@@ -312,6 +312,7 @@ class CameraModel: NSObject ,ObservableObject, AVCapturePhotoCaptureDelegate{
     
     // To store image name
     @Published var imageName = ""
+
     
     
     func Check(){
@@ -341,6 +342,7 @@ class CameraModel: NSObject ,ObservableObject, AVCapturePhotoCaptureDelegate{
         }
         
     }
+
     
     func setUp(){
         
@@ -350,7 +352,22 @@ class CameraModel: NSObject ,ObservableObject, AVCapturePhotoCaptureDelegate{
             // setting configs...
             self.session.beginConfiguration()
             
-            let device = AVCaptureDevice.default(.builtInTripleCamera, for: .video, position: .back)
+            
+            //Using DeviceKit to get device info
+            print("Device name app running on:")
+            print(Device.current)
+            
+            
+            //Choosing best avaiable device
+            // Citation : https://developer.apple.com/documentation/avfoundation/capture_setup/choosing_a_capture_device
+            // Citation : ChatGPT
+            // Get all the available capture devices.
+            let captureDevices = AVCaptureDevice.DiscoverySession(
+                deviceTypes: [.builtInTripleCamera,.builtInDualCamera, .builtInWideAngleCamera, .builtInTelephotoCamera],
+                mediaType: .video, position: .back).devices
+            
+            // Choose the device with the highest resolution.
+            let device = captureDevices.max(by: { $0.activeFormat.videoMaxZoomFactor < $1.activeFormat.videoMaxZoomFactor })
             
             let input = try AVCaptureDeviceInput(device: device!)
             

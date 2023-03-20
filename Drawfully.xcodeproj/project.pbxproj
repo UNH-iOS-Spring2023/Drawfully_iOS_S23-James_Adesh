@@ -25,6 +25,7 @@
 		DE2076AB299C5A480059825D /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = DE2076AA299C5A480059825D /* FirebaseStorage */; };
 		DE2076AD299C5A480059825D /* FirebaseStorageCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = DE2076AC299C5A480059825D /* FirebaseStorageCombine-Community */; };
 		DE2076AF299C5B0A0059825D /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DE2076AE299C5B0A0059825D /* Launch Screen.storyboard */; };
+		DE28053829C8AC8F00207866 /* DeviceKit in Frameworks */ = {isa = PBXBuildFile; productRef = DE28053729C8AC8F00207866 /* DeviceKit */; };
 		DE39278129B31CF90083D866 /* SignUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE39277F29B31CF90083D866 /* SignUp.swift */; };
 		DE39278229B31CF90083D866 /* Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE39278029B31CF90083D866 /* Login.swift */; };
 		DE5A0FA9299F6420006182C4 /* BottomBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE5A0FA8299F6420006182C4 /* BottomBar.swift */; };
@@ -84,6 +85,7 @@
 				DE2076A1299C5A470059825D /* FirebaseFirestore in Frameworks */,
 				DE2076AB299C5A480059825D /* FirebaseStorage in Frameworks */,
 				DE2076A3299C5A470059825D /* FirebaseFirestoreCombine-Community in Frameworks */,
+				DE28053829C8AC8F00207866 /* DeviceKit in Frameworks */,
 				DE2076AD299C5A480059825D /* FirebaseStorageCombine-Community in Frameworks */,
 				DE2076A5299C5A470059825D /* FirebaseFirestoreSwift in Frameworks */,
 			);
@@ -239,6 +241,7 @@
 				DE2076AA299C5A480059825D /* FirebaseStorage */,
 				DE2076AC299C5A480059825D /* FirebaseStorageCombine-Community */,
 				DEE9BEF529B339E000F37FF4 /* SimpleToast */,
+				DE28053729C8AC8F00207866 /* DeviceKit */,
 			);
 			productName = Drawfully;
 			productReference = DE207681299C58F20059825D /* Drawfully.app */;
@@ -271,6 +274,7 @@
 			packageReferences = (
 				DE207695299C5A470059825D /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				DEE9BEF429B339E000F37FF4 /* XCRemoteSwiftPackageReference "SimpleToast" */,
+				DE28053629C8AC8F00207866 /* XCRemoteSwiftPackageReference "DeviceKit" */,
 			);
 			productRefGroup = DE207682299C58F20059825D /* Products */;
 			projectDirPath = "";
@@ -547,6 +551,14 @@
 				kind = branch;
 			};
 		};
+		DE28053629C8AC8F00207866 /* XCRemoteSwiftPackageReference "DeviceKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/devicekit/DeviceKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
 		DEE9BEF429B339E000F37FF4 /* XCRemoteSwiftPackageReference "SimpleToast" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/sanzaru/SimpleToast";
@@ -617,6 +629,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = DE207695299C5A470059825D /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = "FirebaseStorageCombine-Community";
+		};
+		DE28053729C8AC8F00207866 /* DeviceKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DE28053629C8AC8F00207866 /* XCRemoteSwiftPackageReference "DeviceKit" */;
+			productName = DeviceKit;
 		};
 		DEE9BEF529B339E000F37FF4 /* SimpleToast */ = {
 			isa = XCSwiftPackageProductDependency;
