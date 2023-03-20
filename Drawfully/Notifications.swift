@@ -13,23 +13,25 @@ import UserNotifications
 
 func requestNotification(){
     UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge]){ // ask user for notification permissions
-        (granted, error) in print("notification granted: (\(granted))")
+        (granted, error) in
+            print("notification granted: (\(granted))")
+        if granted {
+            var dateInfo = DateComponents()
+            dateInfo.hour = 18
+            dateInfo.minute = 0
+            doNotification(date: dateInfo)
+        }
     }
-    doNotification()
 }
 
-func doNotification(){
+func doNotification(date: DateComponents){
     
     UserDefaults.standard.set(true, forKey: "notification")
         let content = UNMutableNotificationContent() // notification creation
         content.title = "Your daily drawing reminder"
         content.body = "Use Drawfully to practice your drawing"
         
-        var dateInfo = DateComponents() // time notification should ping
-        dateInfo.hour = 18
-        dateInfo.minute = 0
-        
-        let trigger = UNCalendarNotificationTrigger(dateMatching: dateInfo, repeats: true) // type of trigger
+        let trigger = UNCalendarNotificationTrigger(dateMatching: date, repeats: true) // type of trigger
 
         let request = UNNotificationRequest(identifier: "Drawing Reminder", content: content, trigger: trigger) // NSObject creation to prevent repetition
     // if bugged, try UserDefaults()
