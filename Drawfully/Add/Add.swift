@@ -258,6 +258,7 @@ struct CameraView: View {
                     }
                     
                 }
+                //Resetting photo and camera view
                 camera.isTaken=false
                 camera.isSaved=false
                 camera.imageLink=URL(string: "")
@@ -273,7 +274,7 @@ struct CameraView: View {
 
                 
                 //If user has posted the previous day
-                //if Calendar.current.isDateInToday(stored.addingTimeInterval(86400))
+                //if Calendar.current.isDateInToday(stored.addingTimeInterval(86400)) //Increment
                 
                 //If user has posted on the same day
                 if Calendar.current.isDateInToday(storedDate){
@@ -282,15 +283,18 @@ struct CameraView: View {
                     UserDefaults.standard.set(date, forKey: "lastDate")
 
                     print("updated streak")
+                    //Remain the same
                 }
                 
                 //If user has not posted on the day or the previous day
                 else if ((!Calendar.current.isDateInToday(storedDate))&&(!Calendar.current.isDateInToday(stored.addingTimeInterval(86400)))){
-                    FirebaseManager.shared.firestore.collection("users").document(uid).updateData(["streak" : 1])
+                    FirebaseManager.shared.firestore.collection("users").document(uid).updateData(["streak" : 0])
                     let date = Date.now
                     UserDefaults.standard.set(date, forKey: "lastDate")
 
                     print("updated streak")
+                    
+                    // Reset to 1
                     
                 }
                 

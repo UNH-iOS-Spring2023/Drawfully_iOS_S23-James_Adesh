@@ -58,7 +58,7 @@ class HomeViewModel: ObservableObject{
             guard let data=snapshot?.data() else {
                 return}
             
-            let appUser = AppUser(uid: uid,  email: data["email"] as? String ?? "", firstName: data["FirstName"] as? String ?? "", lastName: data["LastName"] as? String ?? "", username: data["username"] as? String ?? "", streak: data["streak"] as? Int ?? 1,drawings: data["drawings"] as? [DocumentReference] ?? [] )
+            let appUser = AppUser(uid: uid,  email: data["email"] as? String ?? "", firstName: data["FirstName"] as? String ?? "", lastName: data["LastName"] as? String ?? "", username: data["username"] as? String ?? "", streak: data["streak"] as? Int ?? 0,drawings: data["drawings"] as? [DocumentReference] ?? [] )
             self.CurrentUser=appUser
             //print(appUser.drawings.count)
             
