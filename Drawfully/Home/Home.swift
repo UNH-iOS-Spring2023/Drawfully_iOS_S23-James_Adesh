@@ -58,7 +58,7 @@ class HomeViewModel: ObservableObject{
                 FirebaseManager.shared.firestore.collection("users").document(uid).updateData(["streak" : 0])
                 print("reset streak to 0")
                 // TODO Screen notifying that streak is lost
-                // TODO properly test the function, since the UserDefaults object can't be stored
+                // TODO properly test the function, since the UserDefaults object can't be stored in simulator
             }
             else{
                 print("streak is safe")
