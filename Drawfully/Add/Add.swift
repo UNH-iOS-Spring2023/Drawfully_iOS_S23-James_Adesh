@@ -288,10 +288,11 @@ struct CameraView: View {
                 }
                 
                 //If user has not posted on the day or the previous day
-                else if ((!Calendar.current.isDateInToday(storedDate))&&(!Calendar.current.isDateInToday(stored.addingTimeInterval(86400)))){
+                else if ((!Calendar.current.isDateInToday(storedDate))&&(!Calendar.current.isDateInToday(storedDate.addingTimeInterval(86400)))){
                     FirebaseManager.shared.firestore.collection("users").document(uid).updateData(["streak" : 0])
                     let date = Date.now
                     UserDefaults.standard.set(date, forKey: "lastDate")
+                    
 
                     print("updated streak")
                     

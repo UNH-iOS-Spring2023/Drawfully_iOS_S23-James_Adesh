@@ -46,10 +46,33 @@ class HomeViewModel: ObservableObject{
     }
     
     func fetchCurrentUser(){
+        
+        // If the user hasn't posted the day before, reset their streak to 0
+        // Preconditions: valid firebase user id
+        // Postconditions: if nothing posted yesterday, firebase document has streak set to 0
+        func CheckStreak(uid: String) {
+            let storedDate = UserDefaults.standard.object(forKey: "lastDate") as? Date ?? Calendar.current.date(byAdding: .day, value: -2, to: Date.now)
+            
+            // if the date is less than today && if the date is not yesterday
+            if storedDate! < Date.now && !Calendar.current.isDateInToday(storedDate!.addingTimeInterval(86400)){
+                FirebaseManager.shared.firestore.collection("users").document(uid).updateData(["streak" : 0])
+                print("reset streak to 0")
+                // TODO Screen notifying that streak is lost
+                // TODO properly test the function, since the UserDefaults object can't be stored
+            }
+            else{
+                print("streak is safe")
+            }
+        }
+        
+        
         self.posts=[]
         self.drawingImages=[]
         guard let uid = FirebaseManager.shared.auth.currentUser?.uid else{
             return}
+        
+        CheckStreak(uid: uid)
+        
         FirebaseManager.shared.firestore.collection("users").document(uid).getDocument{snapshot, error in
             if let error = error{
                 print("Failed to fetch user data : \(error)")
@@ -79,6 +102,8 @@ class HomeViewModel: ObservableObject{
             }
             
             print(self.posts.count)
+            
+            
             
             
         }
