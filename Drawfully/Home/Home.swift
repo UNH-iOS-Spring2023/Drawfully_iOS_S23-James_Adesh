@@ -13,7 +13,9 @@ import Firebase
 
 //Creating data model for fetching and storing user data
 struct AppUser{
-    let uid,streak,email,firstName,lastName,username: String
+    let uid,email,firstName,lastName,username: String
+    let streak: Int
+    
     //let drawings: Array<Any>
     @State var drawings = [DocumentReference]()
 }
@@ -31,7 +33,7 @@ class HomeViewModel: ObservableObject{
     
     @Published var errorMessage:String=""
     @Published var streakCount:String="T"
-    @Published var CurrentUser:AppUser=AppUser(uid: "", streak: "", email: "", firstName: "", lastName: "", username: "", drawings: [])
+    @Published var CurrentUser:AppUser=AppUser(uid: "", email: "", firstName: "", lastName: "", username: "", streak: 0, drawings: [])
     @Published var drawing:DrawingPost=DrawingPost(uid:"", caption: "", likes: "", title: "", isPublic: false)
     @Published var posts=[DrawingPost]()
     
@@ -39,11 +41,13 @@ class HomeViewModel: ObservableObject{
     
     init()
     {
-        fetchCurrentUser()
+        //fetchCurrentUser()
         //getDrawingImage(x:"")
     }
     
-    private func fetchCurrentUser(){
+    func fetchCurrentUser(){
+        self.posts=[]
+        self.drawingImages=[]
         guard let uid = FirebaseManager.shared.auth.currentUser?.uid else{
             return}
         FirebaseManager.shared.firestore.collection("users").document(uid).getDocument{snapshot, error in
@@ -54,20 +58,20 @@ class HomeViewModel: ObservableObject{
             guard let data=snapshot?.data() else {
                 return}
             
-            let appUser = AppUser(uid: uid, streak: data["streak"] as? String ?? "", email: data["email"] as? String ?? "", firstName: data["FirstName"] as? String ?? "", lastName: data["LastName"] as? String ?? "", username: data["username"] as? String ?? "", drawings: data["drawings"] as? [DocumentReference] ?? [] )
+            let appUser = AppUser(uid: uid,  email: data["email"] as? String ?? "", firstName: data["FirstName"] as? String ?? "", lastName: data["LastName"] as? String ?? "", username: data["username"] as? String ?? "", streak: data["streak"] as? Int ?? 0,drawings: data["drawings"] as? [DocumentReference] ?? [] )
             self.CurrentUser=appUser
-            print(appUser.drawings.count)
+            //print(appUser.drawings.count)
             
             for doc in appUser.drawings{
-                print(doc)
-                print(doc.path)
+                //print(doc)
+                //print(doc.path)
                 doc.getDocument{ document, error in
                     if let error = error {
                         print("Error getting document: \(error)")
                     } else if let document = document {
                         let art = DrawingPost(uid: document.documentID , caption: document["Caption"] as? String ?? "", likes: document["Likes"]as? String ?? "", title: document["Title"] as? String ?? "", isPublic: document["isPublic"] as? Bool ?? false)
                         self.posts.append(art)
-                        print(art)
+                        //print(art)
                         self.getDrawingImage(x: art.uid)
                         //drawingImages.append(getDrawingImage(x: art.uid) ?? Image("sample_drawing"))
                     }
@@ -116,7 +120,7 @@ struct Home: View {
                 Image("streak").resizable().frame(width:30, height: 30)
                 
                 //Getting streak count from user's data
-                Text(vm.CurrentUser.streak)
+                Text(String(vm.CurrentUser.streak))
                     .font(.title2)
                     .fontWeight(.bold)
                 Spacer()
@@ -146,7 +150,7 @@ struct Home: View {
                                 }
                 
             }
-        }
+        }.onAppear(perform: vm.fetchCurrentUser)
     }
 
     

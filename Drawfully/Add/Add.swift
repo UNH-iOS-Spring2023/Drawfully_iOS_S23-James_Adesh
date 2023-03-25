@@ -15,7 +15,7 @@ import Firebase
 
 //import package : https://github.com/sanzaru/SimpleToast
 import SimpleToast
-
+import DeviceKit
 
 struct Add: View {
     
@@ -258,20 +258,45 @@ struct CameraView: View {
                     }
                     
                 }
-                
+                //Resetting photo and camera view
+                camera.isTaken=false
+                camera.isSaved=false
+                camera.imageLink=URL(string: "")
+                camera.imageName=""
+                camera.picData=Data(count: 0)
+                title=""
+                caption=""
                 
                 // TODO check if this updates streak using phone
                 
                 // get the last date the user posted
                 let storedDate = UserDefaults.standard.object(forKey: "lastDate") as? Date ?? Date.now
+                //print("Stored data : \(storedDate)")
+
                 
-                // if the last date is not today
-                if !Calendar.current.isDateInToday(storedDate){
-                    FirebaseManager.shared.firestore.collection("users").document(uid).updateData(["streak" : FieldValue.increment(1.0)]) // update the streak in the database
+                //If user has posted the previous day
+                //if Calendar.current.isDateInToday(stored.addingTimeInterval(86400)) //Increment
+                
+                //If user has posted on the same day
+                if Calendar.current.isDateInToday(storedDate){
+                    FirebaseManager.shared.firestore.collection("users").document(uid).updateData(["streak" : FieldValue.increment(1.0)])
                     let date = Date.now
-                    UserDefaults.standard.set(date, forKey: "lastDate") // set the latest post date to today
-                    
+                    UserDefaults.standard.set(date, forKey: "lastDate")
+
                     print("updated streak")
+                    //Remain the same
+                }
+                
+                //If user has not posted on the day or the previous day
+                else if ((!Calendar.current.isDateInToday(storedDate))&&(!Calendar.current.isDateInToday(stored.addingTimeInterval(86400)))){
+                    FirebaseManager.shared.firestore.collection("users").document(uid).updateData(["streak" : 0])
+                    let date = Date.now
+                    UserDefaults.standard.set(date, forKey: "lastDate")
+
+                    print("updated streak")
+                    
+                    // Reset to 1
+                    
                 }
                 
                 
@@ -308,6 +333,7 @@ class CameraModel: NSObject ,ObservableObject, AVCapturePhotoCaptureDelegate{
     
     // To store image name
     @Published var imageName = ""
+
     
     
     func Check(){
@@ -337,6 +363,7 @@ class CameraModel: NSObject ,ObservableObject, AVCapturePhotoCaptureDelegate{
         }
         
     }
+
     
     func setUp(){
         
@@ -346,7 +373,22 @@ class CameraModel: NSObject ,ObservableObject, AVCapturePhotoCaptureDelegate{
             // setting configs...
             self.session.beginConfiguration()
             
-            let device = AVCaptureDevice.default(.builtInTripleCamera, for: .video, position: .back)
+            
+            //Using DeviceKit to get device info
+            print("Device name app running on:")
+            print(Device.current)
+            
+            
+            //Choosing best avaiable device
+            // Citation : https://developer.apple.com/documentation/avfoundation/capture_setup/choosing_a_capture_device
+            // Citation : ChatGPT
+            // Get all the available capture devices.
+            let captureDevices = AVCaptureDevice.DiscoverySession(
+                deviceTypes: [.builtInTripleCamera,.builtInDualCamera, .builtInWideAngleCamera, .builtInTelephotoCamera],
+                mediaType: .video, position: .back).devices
+            
+            // Choose the device with the highest resolution.
+            let device = captureDevices.max(by: { $0.activeFormat.videoMaxZoomFactor < $1.activeFormat.videoMaxZoomFactor })
             
             let input = try AVCaptureDeviceInput(device: device!)
             
@@ -423,6 +465,7 @@ class CameraModel: NSObject ,ObservableObject, AVCapturePhotoCaptureDelegate{
         WriteToFirestore()
         
         self.isSaved.toggle()
+        
         
     }
     
