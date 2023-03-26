@@ -41,20 +41,52 @@ struct Login: View {
     // Switching views as per log in status
     var body: some View{
         //if user is not logged in, display login page
-        if userIsLoggedIn==false{
+        if Auth.auth().currentUser != nil {
+//            print("User not nil")
+            BottomBar(AnyView(Home()),
+                      AnyView(Community()),
+                      AnyView(Add()),
+                      AnyView(Search()),
+                      AnyView(Settings())
+            )
+            .environmentObject(AppVariables())
+        }
+        else{
+//            print("user is nil")
             content
         }
-        //if user is logged in, take into the app
-        else
-        {
-                        BottomBar(AnyView(Home()),
-                                  AnyView(Community()),
-                                  AnyView(Add()),
-                                  AnyView(Search()),
-                                  AnyView(Settings())
-                        )
-                        .environmentObject(AppVariables())
-        }
+        
+//        let handle = Auth.auth().addStateDidChangeListener { (auth, user) in
+//            if user != nil {
+//                print("User not nil")
+//                BottomBar(AnyView(Home()),
+//                          AnyView(Community()),
+//                          AnyView(Add()),
+//                          AnyView(Search()),
+//                          AnyView(Settings())
+//                )
+//                .environmentObject(AppVariables())
+//            }
+//            else {
+//                print("user is nil")
+//                content
+//            }
+//
+//        }
+//        if uid==nil{
+//            content
+//        }
+//        //if user is logged in, take into the app
+//        else
+//        {
+//                        BottomBar(AnyView(Home()),
+//                                  AnyView(Community()),
+//                                  AnyView(Add()),
+//                                  AnyView(Search()),
+//                                  AnyView(Settings())
+//                        )
+//                        .environmentObject(AppVariables())
+//        }
     }
     
     var content: some View {
@@ -147,6 +179,7 @@ struct Login: View {
                 {
                     statusMessage="Login Successful!"
                     userIsLoggedIn.toggle()
+                    
                     print("user logged in")
                     
                 }
