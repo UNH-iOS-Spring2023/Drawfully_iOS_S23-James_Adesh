@@ -54,7 +54,7 @@ class HomeViewModel: ObservableObject{
             let storedDate = UserDefaults.standard.object(forKey: "lastDate") as? Date ?? Calendar.current.date(byAdding: .day, value: -2, to: Date.now)
             
             // if the date is less than today && if the date is not yesterday
-            if storedDate! < Date.now && !Calendar.current.isDateInToday(storedDate!.addingTimeInterval(86400)){
+            if storedDate! < Calendar.current.startOfDay(for: Date.now) && !Calendar.current.isDateInToday(storedDate!.addingTimeInterval(86400)){
                 FirebaseManager.shared.firestore.collection("users").document(uid).updateData(["streak" : 0])
                 print("reset streak to 0")
                 // TODO Screen notifying that streak is lost
