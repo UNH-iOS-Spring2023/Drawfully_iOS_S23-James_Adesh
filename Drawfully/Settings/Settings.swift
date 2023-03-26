@@ -30,6 +30,14 @@ struct Settings: View {
                 }.padding()
                 Text("Change Username").padding() // TODO
                 Text("Change Email").padding() // TODO
+            Button("Set Date"){
+                UserDefaults.standard.set(Date.now, forKey: "lastDate")
+                print("Date set")
+            }
+            Button("Set Old Date"){
+                UserDefaults.standard.set(Calendar.current.date(byAdding: .day, value: -2, to: Date.now), forKey: "lastDate")
+                print("Old Date set")
+            }
             }.padding().font(.system(size: 30))
         
         
