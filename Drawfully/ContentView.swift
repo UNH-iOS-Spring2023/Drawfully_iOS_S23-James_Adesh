@@ -28,7 +28,7 @@ struct ContentView: View {
         //Implementing Bottom Bar View with required parameters (Tabs)
         
         //Loading app into signup page
-            SignUp()
+            Login()
             
 //            BottomBar(AnyView(Home()),
 //                      AnyView(Community()),
