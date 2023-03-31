@@ -91,6 +91,7 @@ struct BottomBar: View {
 }
 
 struct BottomBar_Previews: PreviewProvider {
+    @State static var isUserCurrentlyLoggedIn = false
     static var previews: some View {
         
         //Defining Bottom Bar with required parameters
@@ -98,7 +99,7 @@ struct BottomBar_Previews: PreviewProvider {
                   AnyView(Community()),
                   AnyView(Add()),
                   AnyView(Search()),
-                  AnyView(Settings())
+                  AnyView(Settings(isUserCurrentlyLoggedIn: $isUserCurrentlyLoggedIn))
         )
             .environmentObject(AppVariables())
     }

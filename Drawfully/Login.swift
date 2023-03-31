@@ -21,11 +21,12 @@ struct Login: View {
     
     @State var email: String = ""
     @State var password: String = ""
-    @State var userIsLoggedIn: Bool=false
     @State var statusMessage: String=""
-    
     //Boolean to trigger toast
     @State var error:Bool=false
+    
+    @Binding var isUserCurrentlyLoggedIn: Bool
+    
     
     private let toastOptions=SimpleToastOptions(
         alignment: .top,
@@ -38,7 +39,6 @@ struct Login: View {
     
     // Citation : https://developer.apple.com/forums/thread/667742
     // Citation : https://www.youtube.com/watch?v=6b2WAePdiqA
-    // Switching views as per log in status
     var body: some View{
         //if user is not logged in, display login page
         if Auth.auth().currentUser != nil {
@@ -124,7 +124,7 @@ struct Login: View {
                     //Text("Firebase Authentication").padding().underline()
                     
                     //Added navigation to signup page
-                        NavigationLink(destination: SignUp().navigationBarBackButtonHidden(true)) {
+                    NavigationLink(destination: SignUp( isUserCurrentlyLoggedIn: $isUserCurrentlyLoggedIn).navigationBarBackButtonHidden(true)) {
                             Text("New here? Register").underline().foregroundColor(.black)
                         }
                         
@@ -178,6 +178,9 @@ struct Login: View {
                 else
                 {
                     statusMessage="Login Successful!"
+                    self.isUserCurrentlyLoggedIn = true
+                    print("user logged in", self.$isUserCurrentlyLoggedIn)
+                    
                     userIsLoggedIn.toggle()
                     
                     print("user logged in")
@@ -190,7 +193,9 @@ struct Login: View {
 
 
 struct Login_Previews: PreviewProvider {
+    @State static var isUserCurrentlyLoggedOut = false
+
     static var previews: some View {
-        Login()
+        Login(isUserCurrentlyLoggedIn: $isUserCurrentlyLoggedOut)
     }
 }
