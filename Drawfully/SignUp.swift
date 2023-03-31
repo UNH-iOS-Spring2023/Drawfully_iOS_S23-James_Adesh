@@ -22,11 +22,18 @@ struct SignUp: View {
     @State var lastName: String = ""
     @State var password: String=""
     @State var email: String=""
+    @State var userIsLoggedIn: Bool=false
     @State var statusMessage: String=""
+    
+    
+    //var ref: DatabaseReference!
+
+    //var ref = Database.database().reference()
+    
+    
     
     //Boolean to trigger toast
     @State var error:Bool=false
-    @Binding var isUserCurrentlyLoggedIn: Bool
     
     
     // Citation : https://www.youtube.com/watch?v=pC6qGSSh9bI
@@ -38,10 +45,29 @@ struct SignUp: View {
         modifierType: .slide
     )
     
+    //initialising Firebase firestore
+    let db = Firestore.firestore()
+
+    
     // Citation : https://developer.apple.com/forums/thread/667742
     // Citation : https://www.youtube.com/watch?v=6b2WAePdiqA
+    // Switching views as per log in status
     var body: some View{
-        content
+        //if user is not logged in, display login page
+        if userIsLoggedIn==false{
+            content
+        }
+        //if user is logged in, take into the app
+        else
+        {
+                        BottomBar(AnyView(Home()),
+                                  AnyView(Community()),
+                                  AnyView(Add()),
+                                  AnyView(Search()),
+                                  AnyView(Settings())
+                        )
+                        .environmentObject(AppVariables())
+        }
     }
     
     var content: some View {
@@ -92,7 +118,7 @@ struct SignUp: View {
                         // Citation : https://stackoverflow.com/questions/57112026/how-can-i-hide-the-navigation-back-button-in-swiftui
                         // Citation : https://swiftspeedy.com/go-to-another-view-in-swiftui-using-navigationview/
                         //Added navigation to login page
-                            NavigationLink(destination: Login(isUserCurrentlyLoggedIn: $isUserCurrentlyLoggedIn).environmentObject(AppVariables()).navigationBarBackButtonHidden(true)) {
+                            NavigationLink(destination: Login().navigationBarBackButtonHidden(true)) {
                                 Text("Already a user?").underline().foregroundColor(.black)
                             }
                             .padding()
@@ -153,7 +179,7 @@ struct SignUp: View {
                     let ref: DocumentReference? = nil
                     
                     //ChatGPT
-                    FirebaseManager.shared.firestore.collection("users").document(uid).setData(["FirstName": firstName,
+                    db.collection("users").document(uid).setData(["FirstName": firstName,
                                                                   "LastName": lastName,
                                                                   "username": username,
                                                                   "email":email,
@@ -169,7 +195,7 @@ struct SignUp: View {
                     
                     
                     //Take to Home
-                    self.isUserCurrentlyLoggedIn = true
+                    userIsLoggedIn.toggle()
                     print("new user created")
                     
                 }
@@ -182,9 +208,7 @@ struct SignUp: View {
 }
 
 struct SignUp_Previews: PreviewProvider {
-    @State static var isUserCurrentlyLoggedIn = false
-
     static var previews: some View {
-        SignUp(isUserCurrentlyLoggedIn: $isUserCurrentlyLoggedIn)
+        SignUp()
     }
 }
