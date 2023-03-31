@@ -110,10 +110,11 @@ class HomeViewModel: ObservableObject{
 struct Home: View {
     
     @ObservedObject private var vm = HomeViewModel()
+    @State private var tabBar: UITabBar! = nil
     @State var c:Int = 0
     
     var body: some View {
-        
+        NavigationView{
         //Added scroll view for user's images
         VStack{
             HStack{
@@ -131,26 +132,39 @@ struct Home: View {
             
             
             ScrollView{
+                //Images are now navigation links to their full screen display
                 
-                // Citation :  ChatGPT
-                ForEach(vm.drawingImages.chunks(of: 3), id: \.self) { chunk in
-                                    HStack {
-                                        ForEach(chunk, id: \.self) { image in
-                                            Image(uiImage: image)
-                                                .resizable()
-                                                .frame(width: 100,height: 100)
-                                                .aspectRatio(contentMode: .fill)
-                                                .cornerRadius(30)
-                                                .padding()
-                                                .overlay(
-                                                    RoundedRectangle(cornerRadius: 16)
-                                                        .stroke(Color(red: 0.0, green: 0.6078431372549019, blue: 0.5098039215686274), lineWidth: 3))
-                                        }
-                                    }
+                    // Citation :  ChatGPT
+                    ForEach(vm.drawingImages.chunks(of: 3), id: \.self) { chunk in
+                        HStack {
+                            ForEach(chunk, id: \.self) { image in
+                                let img:UIImage = image
+                                NavigationLink {
+                                    //Link to Destination - full screen view
+                                    SelectedImage(img: img)
+                                        .toolbar(.hidden, for: .tabBar)
+                                    
+                                } label: {
+                                    Image(uiImage: image)
+                                        .resizable()
+                                        .frame(width: 100,height: 100)
+                                        .aspectRatio(contentMode: .fill)
+                                        .cornerRadius(30)
+                                        .padding()
+                                        .overlay(
+                                            RoundedRectangle(cornerRadius: 16)
+                                                .stroke(Color(red: 0.0, green: 0.6078431372549019, blue: 0.5098039215686274), lineWidth: 3))
                                 }
+                            }
+                        }
+                    }
+                    Spacer()
+                }
                 
             }
+            Spacer()
         }.onAppear(perform: vm.fetchCurrentUser)
+            .accentColor(.white)
     }
 
     
