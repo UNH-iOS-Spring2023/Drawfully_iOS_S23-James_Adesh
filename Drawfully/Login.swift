@@ -25,7 +25,7 @@ struct Login: View {
     //Boolean to trigger toast
     @State var error:Bool=false
     
-    @Binding var isUserCurrentlyLoggedIn: Bool
+    //@Binding var isUserCurrentlyLoggedIn: Bool
     
     
     private let toastOptions=SimpleToastOptions(
@@ -56,37 +56,7 @@ struct Login: View {
             content
         }
         
-//        let handle = Auth.auth().addStateDidChangeListener { (auth, user) in
-//            if user != nil {
-//                print("User not nil")
-//                BottomBar(AnyView(Home()),
-//                          AnyView(Community()),
-//                          AnyView(Add()),
-//                          AnyView(Search()),
-//                          AnyView(Settings())
-//                )
-//                .environmentObject(AppVariables())
-//            }
-//            else {
-//                print("user is nil")
-//                content
-//            }
-//
-//        }
-//        if uid==nil{
-//            content
-//        }
-//        //if user is logged in, take into the app
-//        else
-//        {
-//                        BottomBar(AnyView(Home()),
-//                                  AnyView(Community()),
-//                                  AnyView(Add()),
-//                                  AnyView(Search()),
-//                                  AnyView(Settings())
-//                        )
-//                        .environmentObject(AppVariables())
-//        }
+
     }
     
     var content: some View {
@@ -124,7 +94,7 @@ struct Login: View {
                     //Text("Firebase Authentication").padding().underline()
                     
                     //Added navigation to signup page
-                    NavigationLink(destination: SignUp( isUserCurrentlyLoggedIn: $isUserCurrentlyLoggedIn).navigationBarBackButtonHidden(true)) {
+                    NavigationLink(destination: SignUp().navigationBarBackButtonHidden(true)) {
                             Text("New here? Register").underline().foregroundColor(.black)
                         }
                         
@@ -152,9 +122,7 @@ struct Login: View {
         .simpleToast(isPresented: $error, options: toastOptions, content: {
             Text("All fields not completed!")
         })
-//        .simpleToast(isPresented: $userIsLoggedIn, options: toastOptions, content: {
-//            Text("Login Successful!")
-//        })
+
     }
     
     
@@ -178,7 +146,7 @@ struct Login: View {
                 else
                 {
                     statusMessage="Login Successful!"
-                    userIsLoggedIn.toggle()
+                    //userIsLoggedIn.toggle()
                     
                     print("user logged in")
                     
@@ -190,9 +158,9 @@ struct Login: View {
 
 
 struct Login_Previews: PreviewProvider {
-    @State static var isUserCurrentlyLoggedOut = false
+    //@State static var isUserCurrentlyLoggedOut = false
 
     static var previews: some View {
-        Login(isUserCurrentlyLoggedIn: $isUserCurrentlyLoggedOut)
+        Login()
     }
 }

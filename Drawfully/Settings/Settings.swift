@@ -10,7 +10,7 @@ import SwiftUI
 struct Settings: View {
     @EnvironmentObject var app: AppVariables
     
-    @Binding var isUserCurrentlyLoggedIn: Bool
+    //@Binding var isUserCurrentlyLoggedIn: Bool
     var body: some View {
         
         //Add title bar to Settings Tab
@@ -68,7 +68,7 @@ struct Settings: View {
                 //Added Button for logout
                 HStack{
                     Spacer()
-                    NavigationLink(destination: Login(isUserCurrentlyLoggedIn: $isUserCurrentlyLoggedIn))
+                    NavigationLink(destination: Login())
                     {
                         Button(action: Logout, label: {
                             Text("Logout")
@@ -93,7 +93,7 @@ struct Settings: View {
             // Citation : https://firebase.google.com/docs/auth/ios/custom-auth
             try FirebaseManager.shared.auth.signOut()
             // Navigate to your app's login screen or home screen
-            self.isUserCurrentlyLoggedIn = false
+            //self.isUserCurrentlyLoggedIn = false
             
             print ("User Logged out")
         } catch let signOutError as NSError {
@@ -107,7 +107,7 @@ struct Settings: View {
 struct Settings_Previews: PreviewProvider {
     @State static var isUserCurrentlyLoggedIn = false
     static var previews: some View {
-        Settings(isUserCurrentlyLoggedIn: $isUserCurrentlyLoggedIn)
+        Settings()
     }
 }
 

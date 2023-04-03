@@ -26,7 +26,7 @@ struct SignUp: View {
     
     //Boolean to trigger toast
     @State var error:Bool=false
-    @Binding var isUserCurrentlyLoggedIn: Bool
+    //@Binding var isUserCurrentlyLoggedIn: Bool
     
     
     // Citation : https://www.youtube.com/watch?v=pC6qGSSh9bI
@@ -92,7 +92,7 @@ struct SignUp: View {
                         // Citation : https://stackoverflow.com/questions/57112026/how-can-i-hide-the-navigation-back-button-in-swiftui
                         // Citation : https://swiftspeedy.com/go-to-another-view-in-swiftui-using-navigationview/
                         //Added navigation to login page
-                            NavigationLink(destination: Login(isUserCurrentlyLoggedIn: $isUserCurrentlyLoggedIn).environmentObject(AppVariables()).navigationBarBackButtonHidden(true)) {
+                            NavigationLink(destination: Login().environmentObject(AppVariables()).navigationBarBackButtonHidden(true)) {
                                 Text("Already a user?").underline().foregroundColor(.black)
                             }
                             .padding()
@@ -169,7 +169,7 @@ struct SignUp: View {
                     
                     
                     //Take to Home
-                    self.isUserCurrentlyLoggedIn = true
+                    //self.isUserCurrentlyLoggedIn = true
                     print("new user created")
                     
                 }
@@ -182,9 +182,9 @@ struct SignUp: View {
 }
 
 struct SignUp_Previews: PreviewProvider {
-    @State static var isUserCurrentlyLoggedIn = false
+    //@State static var isUserCurrentlyLoggedIn = false
 
     static var previews: some View {
-        SignUp(isUserCurrentlyLoggedIn: $isUserCurrentlyLoggedIn)
+        SignUp()
     }
 }

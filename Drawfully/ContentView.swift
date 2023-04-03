@@ -19,7 +19,7 @@ class AppVariables: ObservableObject{
 struct ContentView: View {
     @StateObject var app = AppVariables()
     //default state is that user is logged out
-    @State private var isUserCurrentlyLoggedIn: Bool = false
+    //@State private var isUserCurrentlyLoggedIn: Bool = false
 
     var body: some View {
         
