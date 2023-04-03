@@ -12,7 +12,7 @@
 import UserNotifications
 
 func requestNotification(){
-    UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge]){ // ask user for notification permissions
+    UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge]){ // ask user for notification permissions, only alerts and badges
         (granted, error) in
             print("notification granted: (\(granted))")
         if granted {
@@ -24,7 +24,7 @@ func requestNotification(){
     }
 }
 
-func doNotification(date: DateComponents){
+func doNotification(date: DateComponents){ //takes DateComponents since UNCalendarNotification
     
     UserDefaults.standard.set(true, forKey: "notification")
         let content = UNMutableNotificationContent() // notification creation
@@ -42,6 +42,7 @@ func doNotification(date: DateComponents){
 
 func removeNotification(){
     UserDefaults.standard.set(false, forKey: "notification")
+    //remove the notifiation with the identifier "notification"
     UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: ["notification"])
     print("removed notification")
 }

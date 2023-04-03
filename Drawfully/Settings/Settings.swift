@@ -24,13 +24,20 @@ struct Settings: View {
         }
         
         let menu = VStack(alignment: .leading){
-            // toggle if you want to receive daily notification: see Notifications.swift
+                // toggle if you want to receive daily notification: see Notifications.swift
+                
             NavigationLink(destination: SetNotifications()){
-                Text("Edit Notifications")
-            }.padding()
-            Text("Change Username").padding() // TODO
-            Text("Change Email").padding() // TODO
-        }.padding().font(.system(size: 30))
+                    Text("Edit Notifications")
+                }.padding()
+                
+            NavigationLink(destination: SetUser()){
+                    Text("Edit Profile")
+                }.padding()
+                
+            
+            
+            
+            }.padding().font(.system(size: 30))
         
         
         NavigationView{
@@ -39,6 +46,23 @@ struct Settings: View {
                 Divider()
                 Spacer()
                 menu
+                
+                // Remove for production
+                Divider()
+                
+                VStack(alignment: .leading){
+                    Text("Debugging Buttons")
+                    Button("Set Date"){
+                        UserDefaults.standard.set(Date.now, forKey: "lastDate")
+                        print("Date set")
+                    }.padding()
+                    
+                    Button("Set Old Date"){
+                        UserDefaults.standard.set(Calendar.current.date(byAdding: .day, value: -2, to: Date.now), forKey: "lastDate")
+                        print("Old Date set")
+                    }.padding()
+                }.padding().font(.system(size: 30))
+                
                 Spacer()
                 
                 //Added Button for logout

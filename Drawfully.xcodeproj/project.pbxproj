@@ -41,6 +41,7 @@
 		DEE9BEF629B339E000F37FF4 /* SimpleToast in Frameworks */ = {isa = PBXBuildFile; productRef = DEE9BEF529B339E000F37FF4 /* SimpleToast */; };
 		DEE9BEF929B34FD800F37FF4 /* FirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEE9BEF829B34FD800F37FF4 /* FirebaseManager.swift */; };
 		EEA5504A29C7DEA80094B704 /* SetNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEA5504929C7DEA80094B704 /* SetNotifications.swift */; };
+		EEA5504E29D00D7D0094B704 /* SetUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEA5504D29D00D7D0094B704 /* SetUser.swift */; };
 		EEDC097A29BF04C1000D5B71 /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEDC097929BF04C1000D5B71 /* Notifications.swift */; };
 /* End PBXBuildFile section */
 
@@ -68,6 +69,7 @@
 		DECB177729B0514100544F32 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		DEE9BEF829B34FD800F37FF4 /* FirebaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseManager.swift; sourceTree = "<group>"; };
 		EEA5504929C7DEA80094B704 /* SetNotifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetNotifications.swift; sourceTree = "<group>"; };
+		EEA5504D29D00D7D0094B704 /* SetUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetUser.swift; sourceTree = "<group>"; };
 		EEDC097929BF04C1000D5B71 /* Notifications.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -201,6 +203,7 @@
 			isa = PBXGroup;
 			children = (
 				DE5A0FBD299F6D13006182C4 /* Settings.swift */,
+				EEA5504D29D00D7D0094B704 /* SetUser.swift */,
 				EEA5504929C7DEA80094B704 /* SetNotifications.swift */,
 			);
 			path = Settings;
@@ -322,6 +325,7 @@
 				DE5A0FB8299F6CD8006182C4 /* Community.swift in Sources */,
 				DE5A0FBC299F6D01006182C4 /* Search.swift in Sources */,
 				DE5A0FBE299F6D13006182C4 /* Settings.swift in Sources */,
+				EEA5504E29D00D7D0094B704 /* SetUser.swift in Sources */,
 				DE207687299C58F20059825D /* ContentView.swift in Sources */,
 				DE207685299C58F20059825D /* DrawfullyApp.swift in Sources */,
 			);

@@ -22,24 +22,24 @@ struct ContentView: View {
     @State private var isUserCurrentlyLoggedIn: Bool = false
 
     var body: some View {
-
-        NavigationView{
-            //if user is logged in
-            if self.isUserCurrentlyLoggedIn{
-                BottomBar(AnyView(Home()),
-                          AnyView(Community()),
-                          AnyView(Add()),
-                          AnyView(Search()),
-                          AnyView(Settings(isUserCurrentlyLoggedIn: $isUserCurrentlyLoggedIn))
-                )
-                .environmentObject(AppVariables())
-            }
-            //if user has not logged in yet
-            else
-            {
-                SignUp(isUserCurrentlyLoggedIn: $isUserCurrentlyLoggedIn)
-            }
-        }
+        
+        
+        
+        //Implementing Bottom Bar View with required parameters (Tabs)
+        
+        //Loading app into signup page
+            Login()
+            
+//            BottomBar(AnyView(Home()),
+//                      AnyView(Community()),
+//                      AnyView(Add()),
+//                      AnyView(Search()),
+//                      AnyView(Settings())
+//            )
+//            .environmentObject(AppVariables())
+        
+        
+        
     }
     
 }

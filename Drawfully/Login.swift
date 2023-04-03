@@ -40,7 +40,53 @@ struct Login: View {
     // Citation : https://developer.apple.com/forums/thread/667742
     // Citation : https://www.youtube.com/watch?v=6b2WAePdiqA
     var body: some View{
-        content
+        //if user is not logged in, display login page
+        if Auth.auth().currentUser != nil {
+//            print("User not nil")
+            BottomBar(AnyView(Home()),
+                      AnyView(Community()),
+                      AnyView(Add()),
+                      AnyView(Search()),
+                      AnyView(Settings())
+            )
+            .environmentObject(AppVariables())
+        }
+        else{
+//            print("user is nil")
+            content
+        }
+        
+//        let handle = Auth.auth().addStateDidChangeListener { (auth, user) in
+//            if user != nil {
+//                print("User not nil")
+//                BottomBar(AnyView(Home()),
+//                          AnyView(Community()),
+//                          AnyView(Add()),
+//                          AnyView(Search()),
+//                          AnyView(Settings())
+//                )
+//                .environmentObject(AppVariables())
+//            }
+//            else {
+//                print("user is nil")
+//                content
+//            }
+//
+//        }
+//        if uid==nil{
+//            content
+//        }
+//        //if user is logged in, take into the app
+//        else
+//        {
+//                        BottomBar(AnyView(Home()),
+//                                  AnyView(Community()),
+//                                  AnyView(Add()),
+//                                  AnyView(Search()),
+//                                  AnyView(Settings())
+//                        )
+//                        .environmentObject(AppVariables())
+//        }
     }
     
     var content: some View {
@@ -132,9 +178,9 @@ struct Login: View {
                 else
                 {
                     statusMessage="Login Successful!"
-                    self.isUserCurrentlyLoggedIn = true
-                    print("user logged in", self.$isUserCurrentlyLoggedIn)
+                    userIsLoggedIn.toggle()
                     
+                    print("user logged in")
                     
                 }
             }

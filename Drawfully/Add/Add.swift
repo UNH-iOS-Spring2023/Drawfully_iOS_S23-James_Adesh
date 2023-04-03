@@ -269,6 +269,7 @@ struct CameraView: View {
                 
                 // TODO check if this updates streak using phone
                 
+                // get the last date the user posted
                 let storedDate = UserDefaults.standard.object(forKey: "lastDate") as? Date ?? Date.now
                 //print("Stored data : \(storedDate)")
 
@@ -291,6 +292,7 @@ struct CameraView: View {
                     FirebaseManager.shared.firestore.collection("users").document(uid).updateData(["streak" : 0])
                     let date = Date.now
                     UserDefaults.standard.set(date, forKey: "lastDate")
+                    
 
                     print("updated streak")
                     
