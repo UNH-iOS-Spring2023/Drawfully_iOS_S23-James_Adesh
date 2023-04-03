@@ -11,7 +11,8 @@ struct Search: View {
     var body: some View {
         
         //Add title bar to Search Tab
-            VStack{
+        
+        let header = VStack{
                 
                 HStack{
                     
@@ -20,11 +21,64 @@ struct Search: View {
                     Spacer()
                 
                 }.padding()
-                
-                Spacer()
-                
             }
+        
+        let dropdown = ScrollView{
+            Text("User").padding(3)
+            Text("User").padding(3)
+            Text("User").padding(3)
+        }
+        
+        let posts = ScrollView {
+            HStack{
+                Text("Posts").padding()
+                Text("Posts").padding()
+                Text("Posts").padding()
+            }.padding()
+            HStack{
+                Text("Posts").padding()
+                Text("Posts").padding()
+                Text("Posts").padding()
+            }.padding()
+            HStack{
+                Text("Posts").padding()
+                Text("Posts").padding()
+                Text("Posts").padding()
+            }.padding()
+        }
+        
+        let suggestions = HStack{
+                Text("Get a Time Limit!").padding()
+                Text("Get a Theme!").padding()
+                Text("Get an Object!").padding()
             }
+        
+        let body = VStack {
+            Text("Search Bar").bold(true).underline()
+            dropdown
+            Divider()
+            
+            Text("Saved Posts").padding().bold(true).underline()
+            posts
+            Divider()
+            
+            Text("Suggestions")
+            suggestions
+        }
+        
+        
+        // Display content
+        VStack {
+            header
+            Divider()
+            
+            body
+            Spacer()
+        }
+        
+        
+        }
+    
     }
 
 
