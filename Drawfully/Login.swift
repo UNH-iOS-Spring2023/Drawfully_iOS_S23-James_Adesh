@@ -42,7 +42,7 @@ struct Login: View {
     var body: some View{
         //if user is not logged in, display login page
         if Auth.auth().currentUser != nil {
-//            print("User not nil")
+            let _ = print("User not nil")
             BottomBar(AnyView(Home()),
                       AnyView(Community()),
                       AnyView(Add()),
@@ -52,7 +52,7 @@ struct Login: View {
             .environmentObject(AppVariables())
         }
         else{
-//            print("user is nil")
+            let _ = print("user is nil")
             content
         }
         
@@ -72,20 +72,6 @@ struct Login: View {
 //                content
 //            }
 //
-//        }
-//        if uid==nil{
-//            content
-//        }
-//        //if user is logged in, take into the app
-//        else
-//        {
-//                        BottomBar(AnyView(Home()),
-//                                  AnyView(Community()),
-//                                  AnyView(Add()),
-//                                  AnyView(Search()),
-//                                  AnyView(Settings())
-//                        )
-//                        .environmentObject(AppVariables())
 //        }
     }
     
