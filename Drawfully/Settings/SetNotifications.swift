@@ -35,7 +35,7 @@ struct SetNotifications: View {
                 }.onChange(of: notifs){ notifs in
                     if notifs {
                         let components = Calendar.current.dateComponents([.hour, .minute], from: date)
-                        doNotification(date: components) } // if the toggle changed, either turn on or off the notification
+                        createNotification(date: components) } // if the toggle changed, either turn on or off the notification
                     else { removeNotification() }
                 }
             }.padding()
@@ -45,7 +45,7 @@ struct SetNotifications: View {
                     DatePicker("Notification Time", selection: $date, displayedComponents: [.hourAndMinute]).onChange(of: date) { date in
                         let components = Calendar.current.dateComponents([.hour, .minute], from: date)
                         UserDefaults.standard.set(date, forKey: "setTime")
-                        doNotification(date: components) // when the time is changed, reset the notification. doNotification() has the ability to handle time changes
+                        createNotification(date: components) // when the time is changed, reset the notification. doNotification() has the ability to handle time changes
                         
                     }.padding()
                 }
