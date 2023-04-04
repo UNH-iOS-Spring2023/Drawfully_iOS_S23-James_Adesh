@@ -23,35 +23,15 @@ struct Settings: View {
             
         }
         
-        let menu = VStack(alignment: .leading){
-                // toggle if you want to receive daily notification: see Notifications.swift
-                
-            NavigationLink(destination: SetNotifications()){
-                    Text("Edit Notifications")
-                }.padding()
-                
-            NavigationLink(destination: SetUser()){
-                    Text("Edit Profile")
-                }.padding()
-                
+        // Debugging settings to help with development
+        let debugging = VStack {
+            Text("Debugging Buttons").padding().font(.system(size: 30))
+            Divider()
             
-            
-            
-            }.padding().font(.system(size: 30))
-        
-        
-        NavigationView{
-            VStack{
-                header
-                Divider()
-                Spacer()
-                menu
-                
-                // Remove for production
-                Divider()
-                
-                VStack(alignment: .leading){
-                    Text("Debugging Buttons")
+            // When testing the streak, set the date to either now or two days ago
+            ScrollView {
+                Text("Testing Streak")
+                HStack{
                     Button("Set Date"){
                         UserDefaults.standard.set(Date.now, forKey: "lastDate")
                         print("Date set")
@@ -61,9 +41,38 @@ struct Settings: View {
                         UserDefaults.standard.set(Calendar.current.date(byAdding: .day, value: -2, to: Date.now), forKey: "lastDate")
                         print("Old Date set")
                     }.padding()
-                }.padding().font(.system(size: 30))
+                }
+            }.padding().font(.system(size: 30))
+        }
+        
+        // Menu to manage navigation
+        let menu = ScrollView {
+            VStack(alignment: .leading){
+                // toggle if you want to receive daily notification: see Notifications.swift
                 
-                Spacer()
+                // Edit Notifications
+                NavigationLink(destination: SetNotifications()){
+                    Text("Edit Notifications")
+                }.padding()
+                
+                // Edit User's Profile
+                NavigationLink(destination: SetUser()){
+                    Text("Edit Profile")
+                }.padding()
+            }
+        }.padding().font(.system(size: 30))
+        
+        
+        // Display the content
+        NavigationView{
+            VStack{
+                header
+                Divider()
+                menu
+                
+                // Remove for production
+                Divider()
+                debugging
             }
         }
     }

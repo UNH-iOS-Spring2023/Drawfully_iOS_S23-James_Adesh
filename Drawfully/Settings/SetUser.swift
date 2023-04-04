@@ -93,6 +93,9 @@ struct SetUser: View {
         }
     }
     
+    // If there is an error or other system notification, notify the user
+    // Precondition: text is passed in
+    // Postcondition: A popup with relevant text is displayed
     func doPopUp(){
         print("Implement Popup")
     }
@@ -140,7 +143,7 @@ struct SetUser: View {
             HStack{
                 Spacer()
                 Text("New Password:")
-                TextField("password", text: $password).disableAutocorrection(true)
+                SecureField("password", text: $password).disableAutocorrection(true)
                 Spacer()
             }
 

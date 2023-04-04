@@ -12,6 +12,7 @@ struct Search: View {
         
         //Add title bar to Search Tab
         
+        // Nice looking header
         let header = VStack{
                 
                 HStack{
@@ -23,12 +24,14 @@ struct Search: View {
                 }.padding()
             }
         
+        // After searching, show related users or Titles
         let dropdown = ScrollView{
             Text("User").padding(3)
             Text("User").padding(3)
             Text("User").padding(3)
         }
         
+        // Show all the posts user has saved
         let posts = ScrollView {
             HStack{
                 Text("Posts").padding()
@@ -47,12 +50,14 @@ struct Search: View {
             }.padding()
         }
         
+        // Give random ideas from the database to the user
         let suggestions = HStack{
                 Text("Get a Time Limit!").padding()
                 Text("Get a Theme!").padding()
                 Text("Get an Object!").padding()
             }
         
+        // Make the body of the UI
         let body = VStack {
             Text("Search Bar").bold(true).underline()
             dropdown
@@ -75,8 +80,6 @@ struct Search: View {
             body
             Spacer()
         }
-        
-        
         }
     
     }
