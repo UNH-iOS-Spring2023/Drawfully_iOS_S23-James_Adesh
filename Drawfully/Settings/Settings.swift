@@ -10,7 +10,7 @@ import SwiftUI
 struct Settings: View {
     @EnvironmentObject var app: AppVariables
     
-    //@Binding var isUserCurrentlyLoggedIn: Bool
+    @EnvironmentObject var session: SessionStore
     var body: some View {
         
         //Add title bar to Settings Tab
@@ -24,7 +24,7 @@ struct Settings: View {
         }
         
         let menu = VStack(alignment: .leading){
-                // toggle if you want to receive daily notification: see Notifications.swift
+            // toggle if you want to receive daily notification: see Notifications.swift
                 
             NavigationLink(destination: SetNotifications()){
                     Text("Edit Notifications")
@@ -33,10 +33,6 @@ struct Settings: View {
             NavigationLink(destination: SetUser()){
                     Text("Edit Profile")
                 }.padding()
-                
-            
-            
-            
             }.padding().font(.system(size: 30))
         
         
@@ -68,9 +64,7 @@ struct Settings: View {
                 //Added Button for logout
                 HStack{
                     Spacer()
-                    NavigationLink(destination: Login())
-                    {
-                        Button(action: Logout, label: {
+                    Button(action: session.logout, label: {
                             Text("Logout")
                         }).padding(10)
                             .foregroundColor(.black)
@@ -78,28 +72,11 @@ struct Settings: View {
                             .padding(10)
                             .background(Color.green)
                             .clipShape(Capsule())
-                    }
                     Spacer()
-                }
+                }.padding(20)
             }
             
         }
-    }
-    
-    func Logout()
-    {
-        do {
-            // Citation : https://www.youtube.com/watch?v=XLi-ljpjwdQ
-            // Citation : https://firebase.google.com/docs/auth/ios/custom-auth
-            try FirebaseManager.shared.auth.signOut()
-            // Navigate to your app's login screen or home screen
-            //self.isUserCurrentlyLoggedIn = false
-            
-            print ("User Logged out")
-        } catch let signOutError as NSError {
-            print ("Error signing out: %@", signOutError)
-        }
-        
     }
     
 }
