@@ -9,8 +9,7 @@ import SwiftUI
 
 struct Settings: View {
     
-    
-    
+    @EnvironmentObject var session: SessionStore
     var body: some View {
         
         //Add title bar to Settings Tab

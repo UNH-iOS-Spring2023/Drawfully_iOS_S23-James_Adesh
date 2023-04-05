@@ -3,7 +3,7 @@
 //  Drawfully
 //
 //  Created by James on 2/26/23.
-//
+// Citation : ImagePicker : https://www.youtube.com/watch?v=MjHUPgGPVwA&list=PLdBY1aYxSpPVI3wTlK1cKHNOoq4JA3X5-&index=3
 
 import SwiftUI
 
@@ -34,8 +34,24 @@ struct SignUp: View {
     
     //Boolean to trigger toast
     @State var error:Bool=false
+    @State var errorMsg:String=""
+    //@Binding var isUserCurrentlyLoggedIn: Bool
     
+    @State var profileImage : Image?
+    @State var pickedImage : Image?
     
+    @State var showingActionSheet = false
+    @State var showingImagePicker = false
+    @State var userLoginStatus: User?
+
+    
+    @State var imageData: Data = Data()
+    @State var sourceType: UIImagePickerController.SourceType = .photoLibrary
+    
+    @EnvironmentObject var session: SessionStore
+    
+
+
     // Citation : https://www.youtube.com/watch?v=pC6qGSSh9bI
     private let toastOptions=SimpleToastOptions(
         alignment: .top,
@@ -45,29 +61,79 @@ struct SignUp: View {
         modifierType: .slide
     )
     
-    //initialising Firebase firestore
-    let db = Firestore.firestore()
+    
+    //loading up and displaying picked profile image
+    func loadImage(){
+        guard let inputImage = pickedImage else {return}
+        profileImage = inputImage
+    }
+    
+    //Clearing fields after successful login
+    func clear(){
+        self.username = ""
+        self.firstName = ""
+        self.lastName = ""
+        self.password=""
+        self.email=""
+    }
+    
+    // Citation : https://www.youtube.com/watch?v=6b2WAePdiqA
+    // Citation : https://firebase.google.com/docs/auth/ios/start
+    func register(){
+        if (username.isEmpty || password.isEmpty || firstName.isEmpty || email.isEmpty){
+            //Triggering toast display
+            error.toggle()
+            
+        }
+        
+        else{
+            
+            // Citation : https://www.youtube.com/watch?v=aOM_MmZm9Q4&list=PLdBY1aYxSpPVI3wTlK1cKHNOoq4JA3X5-&index=8&t=1290s
+            AuthService.signUp(fname: firstName, lname: lastName, username: username, email: email, password: password, imageData: imageData, onSuccess: {
+                (user) in
+                self.clear()
+                print("Signed up user successfully \(String(describing: session.session))")
+                
+                
+                //Updating auth status
+                session.session = User(uid: user.uid,
+                                           email: email,
+                                       profileImageUrl:user.profileImageUrl,
+                                            username:username,
+                                       searchName:user.searchName,
+                                       streak:user.streak,
+                                            firstName: firstName,
+                                            lastName: lastName)
 
+            }){
+                (errorMessage) in
+                print("Error \(errorMessage)")
+                self.errorMsg=errorMessage
+                return
+            }
+            
+        }
+    }
     
     // Citation : https://developer.apple.com/forums/thread/667742
     // Citation : https://www.youtube.com/watch?v=6b2WAePdiqA
     // Switching views as per log in status
     var body: some View{
-        //if user is not logged in, display login page
-        if userIsLoggedIn==false{
+        
+        if session.session != nil{
+           // HomeView()
+            BottomBar(AnyView(Home()),
+                      AnyView(Community()),
+                      AnyView(Add()),
+                      AnyView(Search()),
+                      AnyView(Settings())
+            )
+            .environmentObject(AppVariables())
+        }
+        else{
             content
         }
-        //if user is logged in, take into the app
-        else
-        {
-                        BottomBar(AnyView(Home()),
-                                  AnyView(Community()),
-                                  AnyView(Add()),
-                                  AnyView(Search()),
-                                  AnyView(Settings())
-                        )
-                        .environmentObject(AppVariables())
-        }
+        
     }
     
     var content: some View {
@@ -81,10 +147,10 @@ struct SignUp: View {
                     //Added logo display
                     Image("drawing-draw-svgrepo-com")
                         .resizable()
-                        //.imageScale(.large)
-                        //.foregroundColor(.accentColor)
+                    //.imageScale(.large)
+                    //.foregroundColor(.accentColor)
                         .frame(width: 75, height: 75, alignment: .top)
-
+                    
                     VStack{
                         Text("Sign Up")
                             .font(
@@ -94,6 +160,33 @@ struct SignUp: View {
                             .shadow(color: .gray, radius: 1)
                             .padding()
                         
+                        // VStack{
+                        Group{
+                            if profileImage != nil {
+                                profileImage!.resizable()
+                                    .clipShape(Circle())
+                                    .frame(width: 100, height: 100)
+                                    .padding(20)
+                                    .onTapGesture {
+                                        self.showingActionSheet = true
+                                        
+                                    }
+                                
+                            }
+                            else
+                            {
+                                Image(systemName: "person.circle.fill")
+                                    .resizable()
+                                    .clipShape(Circle())
+                                    .frame(width: 100, height: 100)
+                                    .padding(20)
+                                    .onTapGesture {
+                                        self.showingActionSheet = true
+                                        
+                                    }
+                            }
+                        }
+                        //  }
                         
                         TextField("First Name", text: $firstName)
                             .padding(5)
@@ -118,96 +211,60 @@ struct SignUp: View {
                         // Citation : https://stackoverflow.com/questions/57112026/how-can-i-hide-the-navigation-back-button-in-swiftui
                         // Citation : https://swiftspeedy.com/go-to-another-view-in-swiftui-using-navigationview/
                         //Added navigation to login page
-                            NavigationLink(destination: Login().navigationBarBackButtonHidden(true)) {
-                                Text("Already a user?").underline().foregroundColor(.black)
-                            }
-                            .padding()
+//                        NavigationLink(destination: Login().environmentObject(AppVariables()).navigationBarBackButtonHidden(true)) {
+//                            Text("Already a user?").underline().foregroundColor(.black)
+//                        }
+                        .padding()
                         
                         
                         
-                                       }
+                    }
                     .overlay(
                         RoundedRectangle(cornerRadius: 5)
                             .stroke(.blue, lineWidth: 4)
                     ).background(.white)
-                    .padding(40)
-                    .multilineTextAlignment(.center)
-                    .disableAutocorrection(true)
+                        .padding(40)
+                        .multilineTextAlignment(.center)
+                        .disableAutocorrection(true)
                     
                     
                     Text(statusMessage).padding()
-
+                    
                 }
                 .padding(.bottom)
+                
+            }.sheet(isPresented: $showingImagePicker, onDismiss: loadImage){
+                ImagePicker(pickedImage: self.$pickedImage, showImagePicker: $showingImagePicker, imageData: $imageData)
+            }
+            .actionSheet(isPresented: $showingActionSheet){
+                ActionSheet(title: Text(""), buttons: [.default(Text("Choose a Photo")){
+                    self.sourceType = .photoLibrary
+                    self.showingImagePicker = true
+                },
+                                                       .default(Text("Take a Photo")){
+                                                           self.sourceType = .camera
+                                                           self.showingImagePicker=true
+                                                       },
+                                                       .cancel()
+                                                      ])
             }
         }
         // Citation : https://www.youtube.com/watch?v=pC6qGSSh9bI
         .simpleToast(isPresented: $error, options: toastOptions, content: {
             Text("All fields not completed!")
         })
-//        .simpleToast(isPresented: $userIsLoggedIn, options: toastOptions, content: {
-//            Text("User Account Created Successfully!")
-//        })
+        //        .simpleToast(isPresented: $userIsLoggedIn, options: toastOptions, content: {
+        //            Text("User Account Created Successfully!")
+        //        })
     }
     
     
-    // Citation : https://www.youtube.com/watch?v=6b2WAePdiqA
-    // Citation : https://firebase.google.com/docs/auth/ios/start
-    func register(){
-        if (username.isEmpty || password.isEmpty || firstName.isEmpty || email.isEmpty){
-            //Triggering toast display
-            error.toggle()
-            
-        }
-        else{
-            
-            // Citation : https://www.youtube.com/watch?v=yHngqpFpVZU&list=PL0dzCUj1L5JEN2aWYFCpqfTBeVHcGZjGw&index=7
-
-            
-            FirebaseManager.shared.auth.createUser(withEmail: email, password: password){result, error in
-                if error != nil{
-                    print(error!.localizedDescription)
-                    statusMessage="Sign up failed!"
-                }
-                
-                
-                else{
-                    
-                    // Citation : https://www.youtube.com/watch?v=yHngqpFpVZU&list=PL0dzCUj1L5JEN2aWYFCpqfTBeVHcGZjGw&index=7
-
-                    guard let uid=Auth.auth().currentUser?.uid else {return}
-                    let ref: DocumentReference? = nil
-                    
-                    //ChatGPT
-                    db.collection("users").document(uid).setData(["FirstName": firstName,
-                                                                  "LastName": lastName,
-                                                                  "username": username,
-                                                                  "email":email,
-                                                                  "streak":"1"]){ err in
-                        if let err = err{
-                            print ("Error adding document: \(err)")
-                        }
-                        else{
-                            print("Document added with ID: \(String(describing: ref?.documentID))")
-                        }
-
-                    }
-                    
-                    
-                    //Take to Home
-                    userIsLoggedIn.toggle()
-                    print("new user created")
-                    
-                }
-                
-                
-                
-            }
-        }
-    }
+    
 }
 
 struct SignUp_Previews: PreviewProvider {
+    //@State static var isUserCurrentlyLoggedIn = false
+    
     static var previews: some View {
         SignUp()
     }
