@@ -18,9 +18,14 @@ class AppVariables: ObservableObject{
 
 struct ContentView: View {
     @StateObject var app = AppVariables()
-    //default state is that user is logged out
-    //@State private var isUserCurrentlyLoggedIn: Bool = false
 
+    
+    @EnvironmentObject var session: SessionStore
+    
+    func getUser() {
+        session.listen()
+    }
+    
     var body: some View {
         
         
@@ -28,15 +33,25 @@ struct ContentView: View {
         //Implementing Bottom Bar View with required parameters (Tabs)
         
         //Loading app into signup page
-            Login()
+            //Login()
             
-//            BottomBar(AnyView(Home()),
-//                      AnyView(Community()),
-//                      AnyView(Add()),
-//                      AnyView(Search()),
-//                      AnyView(Settings())
-//            )
-//            .environmentObject(AppVariables())
+        Group {
+          if (session.session != nil) {
+
+              BottomBar(AnyView(Home()),
+                        AnyView(Community()),
+                        AnyView(Add()),
+                        AnyView(Search()),
+                        AnyView(Settings())
+              )
+              .environmentObject(AppVariables())
+
+             // HomeView()
+          } else {
+            //Text("Our authentication screen goes here...")
+              Login()
+          }
+        }.onAppear(perform: getUser)
         
         
         
