@@ -24,10 +24,11 @@ struct Login: View {
     @State var statusMessage: String=""
     //Boolean to trigger toast
     @State var error:Bool=false
-    
-    //@Binding var isUserCurrentlyLoggedIn: Bool
-    
-    
+    @State var errorMsg:String=""
+
+    //Fetching Environment Object - session - to track and handle auth states
+    @EnvironmentObject var session: SessionStore
+
     private let toastOptions=SimpleToastOptions(
         alignment: .top,
         hideAfter: 3,
@@ -36,95 +37,11 @@ struct Login: View {
         modifierType: .slide
     )
 
-    
-    // Citation : https://developer.apple.com/forums/thread/667742
-    // Citation : https://www.youtube.com/watch?v=6b2WAePdiqA
-    var body: some View{
-        //if user is not logged in, display login page
-        if Auth.auth().currentUser != nil {
-//            print("User not nil")
-            BottomBar(AnyView(Home()),
-                      AnyView(Community()),
-                      AnyView(Add()),
-                      AnyView(Search()),
-                      AnyView(Settings())
-            )
-            .environmentObject(AppVariables())
-        }
-        else{
-//            print("user is nil")
-            content
-        }
-        
-
+    //Clearing fields after successful login
+    func clear(){
+        self.password=""
+        self.email=""
     }
-    
-    var content: some View {
-        ZStack{
-            Color.mint.ignoresSafeArea()
-            
-            
-            VStack{
-                //Added logo display
-                Image("drawing-draw-svgrepo-com")
-                    .resizable()
-                //.imageScale(.large)
-                //.foregroundColor(.accentColor)
-                    .frame(width: 75, height: 75, alignment: .top)
-                
-                VStack{
-                    Text("Login")
-                        .font(
-                            .system(size: 40)
-                        )
-                        .bold()
-                        .shadow(color: .gray, radius: 1)
-                        .padding()
-                    
-                    TextField("Email", text: $email).textInputAutocapitalization(.never)
-                        .padding(5)
-                    //Added password field
-                    SecureField("Password",text:$password).padding(5)
-                    
-                    Button(action: login){
-                        Text("Submit")
-                            .padding(1)
-                    }
-                    .padding()
-                    //Text("Firebase Authentication").padding().underline()
-                    
-                    //Added navigation to signup page
-                    NavigationLink(destination: SignUp().navigationBarBackButtonHidden(true)) {
-                            Text("New here? Register").underline().foregroundColor(.black)
-                        }
-                        
-                        .padding()
-                    
-                
-                    
-                }
-                .overlay(
-                    RoundedRectangle(cornerRadius: 5)
-                        .stroke(.blue, lineWidth: 4)
-                ).background(.white)
-                    .padding(40)
-                    .multilineTextAlignment(.center)
-                    .disableAutocorrection(true)
-                
-                Text(statusMessage).padding()
-                
-            }
-            .padding(.bottom)
-            
-            
-        }
-        // Citation : https://www.youtube.com/watch?v=pC6qGSSh9bI
-        .simpleToast(isPresented: $error, options: toastOptions, content: {
-            Text("All fields not completed!")
-        })
-
-    }
-    
     
     // Citation : https://www.youtube.com/watch?v=6b2WAePdiqA
     // Citation : https://firebase.google.com/docs/auth/ios/start
@@ -135,25 +52,90 @@ struct Login: View {
             
         }
         else{
-            
-            // Citation : https://www.youtube.com/watch?v=yHngqpFpVZU&list=PL0dzCUj1L5JEN2aWYFCpqfTBeVHcGZjGw&index=7
-            
-            FirebaseManager.shared.auth.signIn(withEmail: email, password: password){result, error in
-                if error != nil{
-                    print(error!.localizedDescription)
-                    statusMessage="Login failed!"
-                }
-                else
-                {
-                    statusMessage="Login Successful!"
-                    //userIsLoggedIn.toggle()
-                    
-                    print("user logged in")
-                    
-                }
+            // Citation : https://www.youtube.com/watch?v=aOM_MmZm9Q4&list=PLdBY1aYxSpPVI3wTlK1cKHNOoq4JA3X5-&index=8&t=1290s
+            AuthService.signIn(email: email, password: password, onSuccess: {
+                (user) in
+                self.clear()
+                print("After login \(String(describing: session.session))")
+                
+            }){
+                (errorMessage) in
+                print("Custom Adesh Error \(errorMessage)")
+                self.errorMsg=errorMessage
+                return
             }
+
         }
     }
+    
+    
+    var body: some View {
+        NavigationView{
+            ZStack{
+                Color.mint.ignoresSafeArea()
+                
+                
+                VStack{
+                    //Added logo display
+                    Image("drawing-draw-svgrepo-com")
+                        .resizable()
+                        .frame(width: 75, height: 75, alignment: .top)
+                    
+                    VStack{
+                        Text("Login")
+                            .font(
+                                .system(size: 40)
+                            )
+                            .bold()
+                            .shadow(color: .gray, radius: 1)
+                            .padding()
+                        
+                        TextField("Email", text: $email).textInputAutocapitalization(.never)
+                            .padding(5)
+                        //Added password field
+                        SecureField("Password",text:$password).padding(5)
+                        
+                        Button(action: login){
+                            Text("Submit")
+                                .padding(1)
+                        }
+                        .padding()
+                        //Text("Firebase Authentication").padding().underline()
+                        
+                        //Added navigation to signup page
+                        NavigationLink(destination: SignUp().navigationBarBackButtonHidden(false)) {
+                            Text("New here? Register").underline().foregroundColor(.black)
+                        }
+                        .padding()
+                        
+                        
+                        
+                    }
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 5)
+                            .stroke(.blue, lineWidth: 4)
+                    ).background(.white)
+                        .padding(40)
+                        .multilineTextAlignment(.center)
+                        .disableAutocorrection(true)
+                    
+                    Text(statusMessage).padding()
+                    
+                }
+                .padding(.bottom)
+                
+                
+            }
+            // Citation : https://www.youtube.com/watch?v=pC6qGSSh9bI
+            .simpleToast(isPresented: $error, options: toastOptions, content: {
+                Text("All fields not completed!")
+            })
+        }
+
+    }
+    
+    
+
 }
 
 
