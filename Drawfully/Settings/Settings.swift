@@ -58,6 +58,15 @@ struct Settings: View {
                 NavigationLink(destination: SetUser()){
                     Text("Edit Profile")
                 }.padding()
+                
+                Button(action: session.logout,label:  {
+                    Text("Logout")
+                }).padding(10)
+                    .foregroundColor(.black)
+                    .font(.headline)
+                    .padding(10)
+                    .background(Color.green)
+                    .clipShape(Capsule())
             }
         }.padding().font(.system(size: 30))
         
