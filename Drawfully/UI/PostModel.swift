@@ -7,7 +7,17 @@
 
 import SwiftUI
 
-struct PostImage: View {
+struct PostModel: View, Encodable, Decodable {
+//    var caption: String
+//    var likes: [String:Bool]
+//    var ownerId: String
+//    var postId: String
+//    var username: String
+//    var profile: String
+//    var mediaUrl: String
+//    var date: Double
+//    var likeCount: Int
+    
     var body: some View {
         let primaryColor:Color=Color(red: 0.0, green: 0.6078431372549019, blue: 0.5098039215686274)
         
@@ -48,6 +58,6 @@ struct PostImage: View {
 
 struct PostImage_Previews: PreviewProvider {
     static var previews: some View {
-        PostImage()
+        PostModel()
     }
 }
