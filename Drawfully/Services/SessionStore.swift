@@ -16,6 +16,8 @@ class SessionStore: ObservableObject {
     var didChange = PassthroughSubject<SessionStore, Never>()
     @Published var session: User? {didSet{self.didChange.send(self)}}
         
+    
+
     var handle: AuthStateDidChangeListenerHandle?
     
     func listen()
