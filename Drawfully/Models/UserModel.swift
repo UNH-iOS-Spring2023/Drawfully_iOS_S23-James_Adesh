@@ -13,7 +13,10 @@ struct User: Encodable, Decodable{
     var profileImageUrl:String
     var username:String
     var searchName:[String]
-    var streak:String
+    var streak:Int
+    var firstName: String
+    var lastName: String
+    
     
     //var bio:String
 }
