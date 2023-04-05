@@ -13,7 +13,7 @@ import Firebase
 
 //Creating data model for fetching and storing user data
 struct AppUser{
-    let uid,email,firstName,lastName,username: String
+    let uid,email,firstName,lastName,username, profileImageUrl: String
     let streak: Int
     
     //let drawings: Array<Any>
@@ -33,16 +33,18 @@ class HomeViewModel: ObservableObject{
     
     @Published var errorMessage:String=""
     @Published var streakCount:String="T"
-    @Published var CurrentUser:AppUser=AppUser(uid: "", email: "", firstName: "", lastName: "", username: "", streak: 0, drawings: [])
+    @Published var CurrentUser:User=User(uid: "", email: "", profileImageUrl: "", username: "", searchName: [], streak: 0, firstName: "", lastName: "")
     @Published var drawing:DrawingPost=DrawingPost(uid:"", caption: "", likes: "", title: "", isPublic: false)
     @Published var posts=[DrawingPost]()
     
     @Published var drawingImages=[UIImage]()
+    static let shared = HomeViewModel ()
     
     init()
     {
         //fetchCurrentUser()
         //getDrawingImage(x:"")
+        //super.init()
     }
     
     func fetchCurrentUser(){
@@ -81,27 +83,28 @@ class HomeViewModel: ObservableObject{
             guard let data=snapshot?.data() else {
                 return}
             
-            let appUser = AppUser(uid: uid,  email: data["email"] as? String ?? "", firstName: data["FirstName"] as? String ?? "", lastName: data["LastName"] as? String ?? "", username: data["username"] as? String ?? "", streak: data["streak"] as? Int ?? 0,drawings: data["drawings"] as? [DocumentReference] ?? [] )
+            let appUser = User(uid: uid,  email: data["email"] as? String ?? "", profileImageUrl: data["profileImageUrl"] as? String ?? "", username: data["username"] as? String ?? "", searchName: data["searchName"] as? [String] ?? [""], streak: data["streak"] as? Int ?? 0, firstName: data["firstName"] as? String ?? "", lastName: data["lastName"] as? String ?? "")
+                               //drawings: data["drawings"] as? [DocumentReference] ?? [] )
             self.CurrentUser=appUser
             //print(appUser.drawings.count)
             
-            for doc in appUser.drawings{
-                //print(doc)
-                //print(doc.path)
-                doc.getDocument{ document, error in
-                    if let error = error {
-                        print("Error getting document: \(error)")
-                    } else if let document = document {
-                        let art = DrawingPost(uid: document.documentID , caption: document["Caption"] as? String ?? "", likes: document["Likes"]as? String ?? "", title: document["Title"] as? String ?? "", isPublic: document["isPublic"] as? Bool ?? false)
-                        self.posts.append(art)
-                        //print(art)
-                        self.getDrawingImage(x: art.uid)
-                        //drawingImages.append(getDrawingImage(x: art.uid) ?? Image("sample_drawing"))
-                    }
-                }
-            }
+//            for doc in appUser.drawings{
+//                //print(doc)
+//                //print(doc.path)
+//                doc.getDocument{ document, error in
+//                    if let error = error {
+//                        print("Error getting document: \(error)")
+//                    } else if let document = document {
+//                        let art = DrawingPost(uid: document.documentID , caption: document["Caption"] as? String ?? "", likes: document["Likes"]as? String ?? "", title: document["Title"] as? String ?? "", isPublic: document["isPublic"] as? Bool ?? false)
+//                        self.posts.append(art)
+//                        //print(art)
+//                        self.getDrawingImage(x: art.uid)
+//                        //drawingImages.append(getDrawingImage(x: art.uid) ?? Image("sample_drawing"))
+//                    }
+//                }
+//            }
             
-            print(self.posts.count)
+            //print(self.posts.count)
             
             
             
@@ -135,63 +138,67 @@ class HomeViewModel: ObservableObject{
 struct Home: View {
     
     @ObservedObject private var vm = HomeViewModel()
-    @State private var tabBar: UITabBar! = nil
     @State var c:Int = 0
+    @State private var tabBar: UITabBar! = nil
     
     var body: some View {
         NavigationView{
-        //Added scroll view for user's images
-        VStack{
-            HStack{
-                Image("streak").resizable().frame(width:30, height: 30)
+            //Added scroll view for user's images
+            VStack{
+                HStack{
+                    Image("streak").resizable().frame(width:30, height: 30)
+                    
+                    //Getting streak count from user's data
+                    Text(String(vm.CurrentUser.streak))
+                        .font(.title2)
+                        .fontWeight(.bold)
+                    Spacer()
+                    Text("Home").font(.title).fontWeight(.bold).padding(.trailing, 42.0).multilineTextAlignment(.center)
+                    Spacer()
+                    Image(systemName: "magnifyingglass")
+                }.padding()
                 
-                //Getting streak count from user's data
-                Text(String(vm.CurrentUser.streak))
-                    .font(.title2)
-                    .fontWeight(.bold)
-                Spacer()
-                Text("Home").font(.title).fontWeight(.bold).padding(.trailing, 42.0).multilineTextAlignment(.center)
-                Spacer()
-                Image(systemName: "magnifyingglass")
-            }.padding()
-            
-            
-            ScrollView{
-                //Images are now navigation links to their full screen display
                 
+                ScrollView{
+                    //Images are now navigation links to their full screen display
+                    
                     // Citation :  ChatGPT
-                    ForEach(vm.drawingImages.chunks(of: 3), id: \.self) { chunk in
-                        HStack {
-                            ForEach(chunk, id: \.self) { image in
-                                let img:UIImage = image
-                                NavigationLink {
-                                    //Link to Destination - full screen view
-                                    SelectedImage(img: img)
-                                        .toolbar(.hidden, for: .tabBar)
-                                    
-                                } label: {
-                                    Image(uiImage: image)
-                                        .resizable()
-                                        .frame(width: 100,height: 100)
-                                        .aspectRatio(contentMode: .fill)
-                                        .cornerRadius(30)
-                                        .padding()
-                                        .overlay(
-                                            RoundedRectangle(cornerRadius: 16)
-                                                .stroke(Color(red: 0.0, green: 0.6078431372549019, blue: 0.5098039215686274), lineWidth: 3))
-                                }
-                            }
-                        }
-                    }
+                    
+//                    ForEach(vm.drawingImages.chunks(of: 3), id: \.self) { chunk in
+//                        HStack {
+//                            ForEach(chunk, id: \.self) { image in
+//                                let img:UIImage = image
+//                                NavigationLink {
+//                                    //Link to Destination - full screen view
+//                                    SelectedImage(img: img)
+//                                } label: {
+//                                    Image(uiImage: image)
+//                                        .resizable()
+//                                        .frame(width: 100,height: 100)
+//                                        .aspectRatio(contentMode: .fill)
+//                                        .cornerRadius(30)
+//                                        .padding()
+//                                        .overlay(
+//                                            RoundedRectangle(cornerRadius: 16)
+//                                                .stroke(Color(red: 0.0, green: 0.6078431372549019, blue: 0.5098039215686274), lineWidth: 3))
+//                                }
+//                            }
+//                        }
+//                    }
+                    
+                    Text("User Logged in")
+                    Text("First Name \(vm.CurrentUser.firstName)")
+                    Text("Last Name \(vm.CurrentUser.lastName)")
+                    //Text("Search Name \(vm.CurrentUser.searchName)")
                     Spacer()
                 }
-                
-            }
+            }.onAppear(perform: vm.fetchCurrentUser)
             Spacer()
-        }.onAppear(perform: vm.fetchCurrentUser)
-            .accentColor(.white)
+        }
+        //.toolbar(.visible, for: .tabBar)
+        .accentColor(.white)
+        //.toolbar(.visible, for: .tabBar)
     }
-
     
 }
 
