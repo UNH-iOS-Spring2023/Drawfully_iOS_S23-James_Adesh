@@ -97,7 +97,13 @@ struct Login: View {
                         //Added password field
                         SecureField("Password",text:$password).padding(5)
                         
-                        Button(action: login){
+                        Button(action: {
+                            // Setting state to logged in
+                            self.session.loggedIn=true
+
+                            login()
+                            
+                        }){
                             Text("Submit")
                                 .padding(1)
                         }
