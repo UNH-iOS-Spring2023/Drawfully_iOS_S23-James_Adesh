@@ -26,7 +26,6 @@ class AuthService  {
                 onError(error!.localizedDescription)
                 return
             }
-            
             guard let userId = authData?.user.uid else {return}
             
             let ref: DocumentReference? = nil
@@ -49,8 +48,6 @@ class AuthService  {
             let metadata = StorageMetadata()
             metadata.contentType="image/jpg"
             StorageService.saveProfileImage(userId: userId, username: username, email: email, firstName: fname, lastName: lname, imageData: imageData, metaData: metadata, storageProfileImageRef: storageProfileUserId, onSuccess: onSuccess, onError: onError)
-            //Auth.auth().signIn(withEmail: email, password: password)
-        
         }
     }
     
@@ -64,13 +61,16 @@ class AuthService  {
                 return
             }
             
+            
             guard let userId = authData?.user.uid else {return}
 
             let firestoreUserId =  getUserId(userId: userId)
             
             firestoreUserId.getDocument{
                 (document, error) in
-                if let dict = document?.data() {
+                if var dict = document?.data() {
+                    dict.updateValue("", forKey: "drawings")
+                    print("Before decoding \(dict)")
                     guard let decodedUser = try? User.init(fromDictionary: dict) else {return}
                     print ("User signed in successfully (Decoded User Value: ) \(decodedUser)")
                     onSuccess(decodedUser)
