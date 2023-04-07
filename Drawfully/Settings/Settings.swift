@@ -59,7 +59,10 @@ struct Settings: View {
                     Text("Edit Profile")
                 }.padding()
                 
-                Button(action: session.logout,label:  {
+                Button(action: {
+                    self.session.loggedIn=false
+
+                    self.session.logout()} ,label:  {
                     Text("Logout")
                 }).padding(10)
                     .foregroundColor(.black)
