@@ -6,6 +6,8 @@
 // Citation : https://youtu.be/GMxo8MA6Nnc?list=PLdBY1aYxSpPVI3wTlK1cKHNOoq4JA3X5-
 
 import Foundation
+import Firebase
+import FirebaseFirestore
 
 struct User: Encodable, Decodable{
     var uid:String
@@ -16,6 +18,7 @@ struct User: Encodable, Decodable{
     var streak:Int
     var firstName: String
     var lastName: String
+    //var drawingsRef: [DocumentReference]
     
     
     //var bio:String
