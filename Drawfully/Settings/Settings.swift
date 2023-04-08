@@ -46,29 +46,36 @@ struct Settings: View {
         
         // Menu to manage navigation
         let menu = ScrollView {
-            VStack(alignment: .leading){
-                // toggle if you want to receive daily notification: see Notifications.swift
+            VStack(alignment: .center){
+                // toggle if you want to receive daily notification: see NotificationManager.swift
                 
                 // Edit Notifications
                 NavigationLink(destination: SetNotifications()){
                     Text("Edit Notifications")
-                }.padding()
+                }.foregroundColor(.black)
+                    .font(.headline)
+                    .padding(20)
+                    .background(Color.green)
+                    .clipShape(Capsule())
                 
                 // Edit User's Profile
                 NavigationLink(destination: SetUser()){
                     Text("Edit Profile")
-                }.padding()
+                }.foregroundColor(.black)
+                    .font(.headline)
+                    .padding(20)
+                    .background(Color.green)
+                    .clipShape(Capsule())
                 
                 Button(action: session.logout,label:  {
                     Text("Logout")
-                }).padding(10)
-                    .foregroundColor(.black)
+                }).foregroundColor(.black)
                     .font(.headline)
-                    .padding(10)
+                    .padding(20)
                     .background(Color.green)
                     .clipShape(Capsule())
             }
-        }.padding().font(.system(size: 30))
+        }.font(.system(size: 30))
         
         
         // Display the content
