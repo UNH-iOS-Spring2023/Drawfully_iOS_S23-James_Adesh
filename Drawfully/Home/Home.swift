@@ -58,6 +58,7 @@ class HomeViewModel: ObservableObject{
             // if the date is less than today && if the date is not yesterday
             if storedDate! < Calendar.current.startOfDay(for: Date.now) && !Calendar.current.isDateInToday(storedDate!.addingTimeInterval(86400)){
                 FirebaseManager.shared.firestore.collection("users").document(uid).updateData(["streak" : 0])
+                UserDefaults.standard.set(Date.now, forKey: "lastDate")
                 print("reset streak to 0")
                 // TODO Screen notifying that streak is lost
                 // TODO properly test the function, since the UserDefaults object can't be stored in simulator
@@ -74,6 +75,12 @@ class HomeViewModel: ObservableObject{
             return}
         
         CheckStreak(uid: uid)
+        
+        let requested: Bool = UserDefaults.standard.bool(forKey: "requestedNotif")
+        if !requested {
+            requestNotification()
+            UserDefaults.standard.set(true, forKey: "requestedNotif")
+        }
         
         FirebaseManager.shared.firestore.collection("users").document(uid).getDocument{snapshot, error in
             if let error = error{
