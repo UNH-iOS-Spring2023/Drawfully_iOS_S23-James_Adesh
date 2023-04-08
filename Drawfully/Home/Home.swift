@@ -196,6 +196,11 @@ struct Home: View {
                     Text("User Logged in")
                     Text("First Name \(vm.CurrentUser.firstName)")
                     Text("Last Name \(vm.CurrentUser.lastName)")
+                    
+                    if vm.drawingImages.count == 0 {
+                        Text("You haven't saved any drawings!\nClick 'Add' to save one!").multilineTextAlignment(.center)
+                    }
+                    
                     //Text("Search Name \(vm.CurrentUser.searchName)")
                     Spacer()
                 }
