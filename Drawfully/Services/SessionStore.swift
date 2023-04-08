@@ -3,6 +3,7 @@
 //  Drawfully
 //
 //  Created by Adesh Agarwal on 4/3/23.
+//  Citation : The entire class is implemented with reference to the YouTube tutorial series - SwiftUI Instagram Clone with Firebase by iosMastery
 // Citation : https://www.youtube.com/watch?v=aOM_MmZm9Q4&list=PLdBY1aYxSpPVI3wTlK1cKHNOoq4JA3X5-&index=8
 
 import Foundation
