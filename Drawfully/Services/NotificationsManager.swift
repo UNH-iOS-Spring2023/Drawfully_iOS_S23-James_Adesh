@@ -17,7 +17,7 @@ import UserNotifications
 func requestNotification(){
     UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge]){ // ask user for notification permissions, only alerts and badges
         (granted, error) in
-            print("notification granted: (\(granted))")
+            print("notification permissions: (\(granted))")
         if granted {
             var dateInfo = DateComponents()
             dateInfo.hour = 18
@@ -31,19 +31,20 @@ func requestNotification(){
 // Preconditions: requestNotification() has been run and approved
 // Postcondition: a notification is created at the given date time
 func createNotification(date: DateComponents){ //takes DateComponents since UNCalendarNotification needs it
-    
-    UserDefaults.standard.set(true, forKey: "notification")
+    let doNotif = UserDefaults.standard.bool(forKey: "notification")
+    if doNotif == false {
+        UserDefaults.standard.set(true, forKey: "notification")
         let content = UNMutableNotificationContent() // notification creation
         content.title = "Your daily drawing reminder"
         content.body = "Use Drawfully to practice your drawing"
         
         let trigger = UNCalendarNotificationTrigger(dateMatching: date, repeats: true) // type of notification trigger
-
+        
         let request = UNNotificationRequest(identifier: "Drawing Reminder", content: content, trigger: trigger) // NSObject creation to prevent repetition
-    // if bugged, try UserDefaults()
-
+        
         UNUserNotificationCenter.current().add(request) // add notification to NotificationCenter with the ID "Drawing Reminder"
-    print("added notification")
+        print("added notification")
+    }
 }
 
 // Turns of the "Drawing Reminder" notification from the UserNotification Center
