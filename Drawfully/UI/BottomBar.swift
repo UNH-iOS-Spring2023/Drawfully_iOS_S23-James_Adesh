@@ -75,7 +75,7 @@ struct BottomBar: View {
                 {
                     //Using SF Symbol icons
                     Image(systemName: "waveform.and.magnifyingglass")
-                    Text("Search & Suggestions") }.tag(3)
+                    Text("Inspiration") }.tag(3)
                 
                 Settings.tabItem
                 {
