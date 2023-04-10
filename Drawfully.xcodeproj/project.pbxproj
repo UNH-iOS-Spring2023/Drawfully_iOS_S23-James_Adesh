@@ -42,9 +42,15 @@
 		DE80F8B829DA897000DDA645 /* StorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE80F8B729DA897000DDA645 /* StorageService.swift */; };
 		DE80F8BA29DA96D900DDA645 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE80F8B929DA96D900DDA645 /* ImagePicker.swift */; };
 		DE80F8BC29DAA9D400DDA645 /* SessionStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE80F8BB29DAA9D400DDA645 /* SessionStore.swift */; };
+		DE878F0729DE217C000BA28D /* PostService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE878F0629DE217C000BA28D /* PostService.swift */; };
 		DE95887829D69B5400C20BDE /* SelectedImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE95887729D69B5400C20BDE /* SelectedImage.swift */; };
 		DEE9BEF629B339E000F37FF4 /* SimpleToast in Frameworks */ = {isa = PBXBuildFile; productRef = DEE9BEF529B339E000F37FF4 /* SimpleToast */; };
 		DEE9BEF929B34FD800F37FF4 /* FirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEE9BEF829B34FD800F37FF4 /* FirebaseManager.swift */; };
+		DEEA8F2729DF9B6400287C37 /* PostCardService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEEA8F2629DF9B6400287C37 /* PostCardService.swift */; };
+		DEEA8F2929DF9B7500287C37 /* PostCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEEA8F2829DF9B7500287C37 /* PostCard.swift */; };
+		DEEA8F2B29DFA83B00287C37 /* ProfileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEEA8F2A29DFA83B00287C37 /* ProfileService.swift */; };
+		DEEA8F2D29DFA9BF00287C37 /* PostCardImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEEA8F2C29DFA9BF00287C37 /* PostCardImage.swift */; };
+		DEEA8F3029DFC0F900287C37 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = DEEA8F2F29DFC0F900287C37 /* SDWebImageSwiftUI */; };
 		DEFA4B9029D6CB9E00913464 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEFA4B8F29D6CB9E00913464 /* Extensions.swift */; };
 		EEA5504A29C7DEA80094B704 /* SetNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEA5504929C7DEA80094B704 /* SetNotifications.swift */; };
 		EEA5504E29D00D7D0094B704 /* SetUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEA5504D29D00D7D0094B704 /* SetUser.swift */; };
@@ -76,9 +82,14 @@
 		DE80F8B729DA897000DDA645 /* StorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageService.swift; sourceTree = "<group>"; };
 		DE80F8B929DA96D900DDA645 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		DE80F8BB29DAA9D400DDA645 /* SessionStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStore.swift; sourceTree = "<group>"; };
+		DE878F0629DE217C000BA28D /* PostService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostService.swift; sourceTree = "<group>"; };
 		DE95887729D69B5400C20BDE /* SelectedImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedImage.swift; sourceTree = "<group>"; };
 		DECB177729B0514100544F32 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		DEE9BEF829B34FD800F37FF4 /* FirebaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseManager.swift; sourceTree = "<group>"; };
+		DEEA8F2629DF9B6400287C37 /* PostCardService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCardService.swift; sourceTree = "<group>"; };
+		DEEA8F2829DF9B7500287C37 /* PostCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCard.swift; sourceTree = "<group>"; };
+		DEEA8F2A29DFA83B00287C37 /* ProfileService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileService.swift; sourceTree = "<group>"; };
+		DEEA8F2C29DFA9BF00287C37 /* PostCardImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCardImage.swift; sourceTree = "<group>"; };
 		DEFA4B8F29D6CB9E00913464 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		EEA5504929C7DEA80094B704 /* SetNotifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetNotifications.swift; sourceTree = "<group>"; };
 		EEA5504D29D00D7D0094B704 /* SetUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetUser.swift; sourceTree = "<group>"; };
@@ -90,6 +101,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DEEA8F3029DFC0F900287C37 /* SDWebImageSwiftUI in Frameworks */,
 				DE20769F299C5A470059825D /* FirebaseDatabaseSwift in Frameworks */,
 				DE207697299C5A470059825D /* FirebaseAnalytics in Frameworks */,
 				DE2076A9299C5A480059825D /* FirebaseMessaging in Frameworks */,
@@ -175,7 +187,8 @@
 			children = (
 				DE5A0FA8299F6420006182C4 /* BottomBar.swift */,
 				DE5A0FBF299F6ED7006182C4 /* HomeImage.swift */,
-				DE5A0FC1299F6EE9006182C4 /* PostModel.swift */,
+				DEEA8F2829DF9B7500287C37 /* PostCard.swift */,
+				DEEA8F2C29DFA9BF00287C37 /* PostCardImage.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -226,6 +239,7 @@
 		DE80F8B129DA56C800DDA645 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				DE5A0FC1299F6EE9006182C4 /* PostModel.swift */,
 				DE80F8B229DA56D600DDA645 /* UserModel.swift */,
 			);
 			path = Models;
@@ -237,6 +251,9 @@
 				DE80F8B529DA606C00DDA645 /* AuthService.swift */,
 				DE80F8B729DA897000DDA645 /* StorageService.swift */,
 				DE80F8BB29DAA9D400DDA645 /* SessionStore.swift */,
+				DE878F0629DE217C000BA28D /* PostService.swift */,
+				DEEA8F2629DF9B6400287C37 /* PostCardService.swift */,
+				DEEA8F2A29DFA83B00287C37 /* ProfileService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -282,6 +299,7 @@
 				DE2076AC299C5A480059825D /* FirebaseStorageCombine-Community */,
 				DEE9BEF529B339E000F37FF4 /* SimpleToast */,
 				DE28053729C8AC8F00207866 /* DeviceKit */,
+				DEEA8F2F29DFC0F900287C37 /* SDWebImageSwiftUI */,
 			);
 			productName = Drawfully;
 			productReference = DE207681299C58F20059825D /* Drawfully.app */;
@@ -315,6 +333,7 @@
 				DE207695299C5A470059825D /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				DEE9BEF429B339E000F37FF4 /* XCRemoteSwiftPackageReference "SimpleToast" */,
 				DE28053629C8AC8F00207866 /* XCRemoteSwiftPackageReference "DeviceKit" */,
+				DEEA8F2E29DFC0F900287C37 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
 			);
 			productRefGroup = DE207682299C58F20059825D /* Products */;
 			projectDirPath = "";
@@ -344,6 +363,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DEEA8F2729DF9B6400287C37 /* PostCardService.swift in Sources */,
 				EEDC097A29BF04C1000D5B71 /* Notifications.swift in Sources */,
 				DEFA4B9029D6CB9E00913464 /* Extensions.swift in Sources */,
 				DE5A0FC2299F6EE9006182C4 /* PostModel.swift in Sources */,
@@ -355,8 +375,10 @@
 				DE5A0FC0299F6ED7006182C4 /* HomeImage.swift in Sources */,
 				DE80F8B829DA897000DDA645 /* StorageService.swift in Sources */,
 				DE5A0FAD299F66A6006182C4 /* DrawingList.swift in Sources */,
+				DEEA8F2929DF9B7500287C37 /* PostCard.swift in Sources */,
 				EEA5504A29C7DEA80094B704 /* SetNotifications.swift in Sources */,
 				DE5A0FA9299F6420006182C4 /* BottomBar.swift in Sources */,
+				DEEA8F2B29DFA83B00287C37 /* ProfileService.swift in Sources */,
 				DE80F8BA29DA96D900DDA645 /* ImagePicker.swift in Sources */,
 				DE80F8BC29DAA9D400DDA645 /* SessionStore.swift in Sources */,
 				DE5A0FBA299F6CEC006182C4 /* Add.swift in Sources */,
@@ -366,8 +388,10 @@
 				DE80F8B329DA56D600DDA645 /* UserModel.swift in Sources */,
 				DE5A0FBE299F6D13006182C4 /* Settings.swift in Sources */,
 				EEA5504E29D00D7D0094B704 /* SetUser.swift in Sources */,
+				DE878F0729DE217C000BA28D /* PostService.swift in Sources */,
 				DE207687299C58F20059825D /* ContentView.swift in Sources */,
 				DE207685299C58F20059825D /* DrawfullyApp.swift in Sources */,
+				DEEA8F2D29DFA9BF00287C37 /* PostCardImage.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -621,6 +645,14 @@
 				minimumVersion = 0.6.2;
 			};
 		};
+		DEEA8F2E29DFC0F900287C37 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SDWebImage/SDWebImageSwiftUI";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -693,6 +725,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = DEE9BEF429B339E000F37FF4 /* XCRemoteSwiftPackageReference "SimpleToast" */;
 			productName = SimpleToast;
+		};
+		DEEA8F2F29DFC0F900287C37 /* SDWebImageSwiftUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DEEA8F2E29DFC0F900287C37 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */;
+			productName = SDWebImageSwiftUI;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
