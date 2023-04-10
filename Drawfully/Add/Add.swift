@@ -4,6 +4,8 @@
 //
 //  Created by Adesh Agarwal on 2/17/23.
 // Referred to https://www.youtube.com/watch?v=8hvaniprctk
+//  Citation : The entire class is implemented with reference to the YouTube tutorial series - SwiftUI Instagram Clone with Firebase by iosMastery
+//  Citation : https://youtu.be/GMxo8MA6Nnc?list=PLdBY1aYxSpPVI3wTlK1cKHNOoq4JA3X5-
 
 import SwiftUI
 import AVFoundation
