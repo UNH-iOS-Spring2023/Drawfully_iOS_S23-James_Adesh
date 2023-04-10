@@ -10,14 +10,14 @@ import Firebase
 import FirebaseFirestore
 
 struct User: Encodable, Decodable{
-    var uid:String
-    var email: String
-    var profileImageUrl:String
-    var username:String
-    var searchName:[String]
-    var streak:Int
-    var firstName: String
-    var lastName: String
+    var uid:String //FirebaseAuth generated uid
+    var email: String //Email of that user
+    var profileImageUrl:String //URL to the profile picture stored in Cloud Storage
+    var username:String //username of the user
+    var searchName:[String] //Dictionary of split strings of username. Created to make implementation of search quicker and easier
+    var streak:Int //Current streak of that user
+    var firstName: String //First name of the user
+    var lastName: String //Last Name of the user
     //var drawingsRef: [DocumentReference]
     
     
