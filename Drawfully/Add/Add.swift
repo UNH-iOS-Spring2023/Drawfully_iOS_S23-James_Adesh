@@ -12,6 +12,8 @@ import AVFoundation
 import FirebaseAuth
 import FirebaseCore
 import Firebase
+import FirebaseStorage
+import FirebaseFirestore
 
 //import package : https://github.com/sanzaru/SimpleToast
 import SimpleToast
@@ -22,11 +24,11 @@ struct Add: View {
     //Environment Object created to access global variables
     @EnvironmentObject private var app: AppVariables
     var body: some View {
-
-            //Text("Camera View here. Currently commented for testing in simulator")
-
-                CameraView()
-            
+        
+        //Text("Camera View here. Currently commented for testing in simulator")
+        
+        CameraView()
+        
     }
 }
 
@@ -66,8 +68,8 @@ struct CameraView: View {
     
     
     var body: some View{
-                
-     
+        
+        
         //If save button is not clicked yet
         if(!camera.isSaved)
         {
@@ -145,112 +147,128 @@ struct CameraView: View {
         
         //If save button on image has been clicked
         else{
-
-                ZStack{
-                    VStack{
-                        
-                        HStack{
-                            Spacer()
-
-                            //Button to write file with all properties to firebase
-                            
-                            NavigationLink(destination: Home()){
-                                Button(action: WriteToFirebase, label: {
-                                    Text("Add to Drawings")
-                                }).padding(10)
-                                    .foregroundColor(.black)
-                                    .font(.headline)
-                                    .padding(10)
-                                    .background(Color.green)
-                                    .clipShape(Capsule())
-                            }
-                          }.padding(10)
-                        
+            
+            ZStack{
+                VStack{
+                    
+                    HStack{
                         Spacer()
                         
+                        //Button to write file with all properties to firebase
                         
-                        //Async call to image that has just been uploaded to cloud storage
-                        // Citation : https://developer.apple.com/documentation/swiftui/asyncimage
-                        // Citation : https://serialcoder.dev/text-tutorials/swiftui/asyncimage-in-swiftui/
-                        AsyncImage(url : camera.imageLink)
-                        { image in
-                            image
-                                .resizable()
-                                .frame(width: 360, height: 360)
-                                .aspectRatio(contentMode: .fit)
-                                .clipShape(RoundedRectangle(cornerRadius: 15))
-                                .padding(10)
-                        } placeholder: {
-                            Image("sample_drawing")
-                                .resizable()
-                                .frame(width: 360, height: 360)
-                            .padding(10)                    }
-                        
-                        // Text Field to take Title input
-                        TextField("Add Title Here!",text: $title)
+                        // NavigationLink(destination: Home()){
+                        Button(action: WriteToFirebase, label: {
+                            Text("Add to Drawings")
+                        }).padding(10)
                             .foregroundColor(.black)
-                            .multilineTextAlignment(.center)
                             .font(.headline)
                             .padding(10)
-                        
-                        
-                        // Text Field to take Caption input
-                        TextField("Add Caption Here!",text: $caption)
-                            .foregroundColor(.black)
-                            .multilineTextAlignment(.center)
-                            .font(.subheadline)
-                            .padding(10)
-                        
-                        
-                        
-                        // Toggle to take Visibility input
-                        Toggle(isOn: $postVisibility, label: {Text("Make Post Visible")}).padding(10)
-                        
-                        Spacer()
-                    }
+                            .background(Color.green)
+                            .clipShape(Capsule())
+                        // }
+                    }.padding(10)
                     
+                    Spacer()
+                    
+                    
+                    //Async call to image that has just been uploaded to cloud storage
+                    // Citation : https://developer.apple.com/documentation/swiftui/asyncimage
+                    // Citation : https://serialcoder.dev/text-tutorials/swiftui/asyncimage-in-swiftui/
+                    AsyncImage(url : camera.imageLink)
+                    { image in
+                        image
+                            .resizable()
+                            .frame(width: 360, height: 360)
+                            .aspectRatio(contentMode: .fill)
+                            .clipShape(RoundedRectangle(cornerRadius: 15))
+                            .padding(10)
+                    } placeholder: {
+                        Image("sample_drawing")
+                            .resizable()
+                            .frame(width: 360, height: 360)
+                        .padding(10)                    }
+                    
+                    // Text Field to take Title input
+                    TextField("Add Title Here!",text: $title)
+                        .foregroundColor(.black)
+                        .multilineTextAlignment(.center)
+                        .font(.headline)
+                        .padding(10)
+                    
+                    
+                    // Text Field to take Caption input
+                    TextField("Add Caption Here!",text: $caption)
+                        .foregroundColor(.black)
+                        .multilineTextAlignment(.center)
+                        .font(.subheadline)
+                        .padding(10)
+                    
+                    
+                    
+                    // Toggle to take Visibility input
+                    Toggle(isOn: $postVisibility, label: {Text("Make Post Visible")}).padding(10)
+                    
+                    Spacer()
                 }
-                // Citation : https://www.youtube.com/watch?v=pC6qGSSh9bI
-                //Giving toast after upload is successful
-                .simpleToast(isPresented: $drawingPosted, options: toastOptions, content: {
-                    Text("Drawing successfully uploaded!")
-                })
-            
-
+                
             }
+            // Citation : https://www.youtube.com/watch?v=pC6qGSSh9bI
+            //Giving toast after upload is successful
+            .simpleToast(isPresented: $drawingPosted, options: toastOptions, content: {
+                Text("Drawing successfully uploaded!")
+            })
+            
+            
         }
-        
+    }
+    
     //function to write post to database
     func WriteToFirebase()
     {
-
+        
         // Citation : https://www.youtube.com/watch?v=yHngqpFpVZU&list=PL0dzCUj1L5JEN2aWYFCpqfTBeVHcGZjGw&index=7
         
         guard let uid=Auth.auth().currentUser?.uid else {return}
         let ref: DocumentReference? = nil
+
+        //Currently we are posting a single post, multiple times(old way and new way). This has to be optimized. TODO
+        
+        //Add Post to firebase with all attributes - caption, title, isPublic
+        PostService.uploadPost(caption: caption, title: title, isPublic: postVisibility, imageData: camera.picData, onSuccess: {}) { errorMessage in
+            print ("SavePostPhoto error : \(errorMessage)" )
+        }
+        
         
         //Citation : ChatGPT
         //Setting properties of drawing and writing to Firebase - Likes, Owner, Time, etc
-        FirebaseManager.shared.firestore.collection("drawings").document(camera.imageName).setData(["Caption": caption,
-                                                                      "Likes": 0,
-                                                                      "Owner": uid,
-                                                                      "Time Created":FieldValue.serverTimestamp(),
-                                                                      "Title":title,
-                                                                      "isPublic": postVisibility]){ err in
+        FirebaseManager.shared.firestore.collection("drawings").document(camera.imageName)
+            .setData(
+            ["caption": caption,
+             "likes": [String:Bool](),
+            "ownerId": uid,
+            "postId": camera.imageName,
+             "username": Auth.auth().currentUser!.displayName!,
+             "profile": Auth.auth().currentUser!.photoURL!.absoluteString,
+             "mediaUrl": camera.imageLink?.absoluteString as Any,
+            "date":FieldValue.serverTimestamp(),
+            "title":title,
+            "likeCount": 0,
+            "isPublic": postVisibility])
+            { err in
             if let err = err{
-                print ("Error adding document: \(err)")
+                print ("Error adding document (PostImage) : \(err)")
             }
             else{
-                print("Document added with ID: \(String(describing: ref?.documentID))")
+                print("Document (PostImage) added with ID: \(String(describing: ref?.documentID))")
                 drawingPosted=true
-        
+                
                 let newDocRef = FirebaseManager.shared.firestore.collection("drawings").document(camera.imageName)
                 
                 //Adding to array of drawings for each user
                 // Citation : ChatGPT
                 FirebaseManager.shared.firestore.collection("users").document(uid).updateData(["drawings": FieldValue.arrayUnion([newDocRef])]){ err in
                     if let err = err{
-                        print ("Error adding document reference: \(err)")
+                        print ("Error adding document reference (PostImage) : \(err)")
                     }
                     else{
                         //Switching to home tab again
@@ -272,7 +290,7 @@ struct CameraView: View {
                 // get the last date the user posted
                 let storedDate = UserDefaults.standard.object(forKey: "lastDate") as? Date ?? Date.now
                 //print("Stored data : \(storedDate)")
-
+                
                 
                 //If user has posted the previous day
                 //if Calendar.current.isDateInToday(stored.addingTimeInterval(86400)) //Increment
@@ -282,7 +300,7 @@ struct CameraView: View {
                     FirebaseManager.shared.firestore.collection("users").document(uid).updateData(["streak" : FieldValue.increment(1.0)])
                     let date = Date.now
                     UserDefaults.standard.set(date, forKey: "lastDate")
-
+                    
                     print("updated streak")
                     //Remain the same
                 }
@@ -293,7 +311,7 @@ struct CameraView: View {
                     let date = Date.now
                     UserDefaults.standard.set(date, forKey: "lastDate")
                     
-
+                    
                     print("updated streak")
                     
                     // Reset to 1
@@ -334,7 +352,7 @@ class CameraModel: NSObject ,ObservableObject, AVCapturePhotoCaptureDelegate{
     
     // To store image name
     @Published var imageName = ""
-
+    
     
     
     func Check(){
@@ -364,7 +382,7 @@ class CameraModel: NSObject ,ObservableObject, AVCapturePhotoCaptureDelegate{
         }
         
     }
-
+    
     
     func setUp(){
         
@@ -461,16 +479,18 @@ class CameraModel: NSObject ,ObservableObject, AVCapturePhotoCaptureDelegate{
         
         let image = UIImage(data: self.picData)!
         
-        UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
+        //UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
         
-        WriteToFirestore()
+
+        
+        WriteToCloudStorage()
         
         self.isSaved.toggle()
         
         
     }
     
-    func WriteToFirestore()
+    func WriteToCloudStorage()
     {
         //Generate random universally unique value
         // Citation : https://developer.apple.com/documentation/foundation/nsuuid
