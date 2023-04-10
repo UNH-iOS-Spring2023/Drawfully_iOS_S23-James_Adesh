@@ -3,29 +3,14 @@
 //  Drawfully
 //
 //  Created by Adesh Agarwal on 2/17/23.
-//
-// Citation : https://www.youtube.com/watch?v=yHngqpFpVZU&list=PL0dzCUj1L5JEN2aWYFCpqfTBeVHcGZjGw&index=7
-
+//  Citation : //  Citation : The entire class is implemented with reference to the YouTube tutorial series - SwiftUI Instagram Clone with Firebase by iosMastery
+//  Citation : https://www.youtube.com/watch?v=yHngqpFpVZU&list=PL0dzCUj1L5JEN2aWYFCpqfTBeVHcGZjGw&index=7
+//  Citation : https://youtu.be/Jpr7CxjJwGo?list=PLdBY1aYxSpPVI3wTlK1cKHNOoq4JA3X5-
 
 import SwiftUI
 import Firebase
-
-
-//Creating data model for fetching and storing user data
-struct AppUser{
-    let uid,email,firstName,lastName,username, profileImageUrl: String
-    let streak: Int
-    
-    //let drawings: Array<Any>
-    @State var drawings = [DocumentReference]()
-}
-
-//Creating data model for fetching and storing user data
-struct DrawingPost{
-    let uid,caption,likes,title: String
-    let isPublic: Bool
-}
-
+import FirebaseAuth
+import SDWebImageSwiftUI
 
 //View Model for making firebase calls and receiving snapshots
 // Citation : https://www.youtube.com/watch?v=yHngqpFpVZU&list=PL0dzCUj1L5JEN2aWYFCpqfTBeVHcGZjGw&index=7
@@ -34,16 +19,11 @@ class HomeViewModel: ObservableObject{
     @Published var errorMessage:String=""
     @Published var streakCount:String="T"
     @Published var CurrentUser:User=User(uid: "", email: "", profileImageUrl: "", username: "", searchName: [], streak: 0, firstName: "", lastName: "")
-    @Published var drawing:DrawingPost=DrawingPost(uid:"", caption: "", likes: "", title: "", isPublic: false)
-    @Published var posts=[DrawingPost]()
-    
-    @Published var drawingImages=[UIImage]()
     static let shared = HomeViewModel ()
     
     init()
     {
         //fetchCurrentUser()
-        //getDrawingImage(x:"")
         //super.init()
     }
     
@@ -66,14 +46,11 @@ class HomeViewModel: ObservableObject{
                 print("streak is safe")
             }
         }
-        
-        
-        self.posts=[]
-        self.drawingImages=[]
         guard let uid = FirebaseManager.shared.auth.currentUser?.uid else{
             return}
         
         CheckStreak(uid: uid)
+        
         
         FirebaseManager.shared.firestore.collection("users").document(uid).getDocument{snapshot, error in
             if let error = error{
@@ -84,65 +61,26 @@ class HomeViewModel: ObservableObject{
                 return}
             
             let appUser = User(uid: uid,  email: data["email"] as? String ?? "", profileImageUrl: data["profileImageUrl"] as? String ?? "", username: data["username"] as? String ?? "", searchName: data["searchName"] as? [String] ?? [""], streak: data["streak"] as? Int ?? 0, firstName: data["firstName"] as? String ?? "", lastName: data["lastName"] as? String ?? "")
-                               //drawings: data["drawings"] as? [DocumentReference] ?? [] )
             self.CurrentUser=appUser
-            //print(appUser.drawings.count)
-            
-//            for doc in appUser.drawings{
-//                //print(doc)
-//                //print(doc.path)
-//                doc.getDocument{ document, error in
-//                    if let error = error {
-//                        print("Error getting document: \(error)")
-//                    } else if let document = document {
-//                        let art = DrawingPost(uid: document.documentID , caption: document["Caption"] as? String ?? "", likes: document["Likes"]as? String ?? "", title: document["Title"] as? String ?? "", isPublic: document["isPublic"] as? Bool ?? false)
-//                        self.posts.append(art)
-//                        //print(art)
-//                        self.getDrawingImage(x: art.uid)
-//                        //drawingImages.append(getDrawingImage(x: art.uid) ?? Image("sample_drawing"))
-//                    }
-//                }
-//            }
-            
-            //print(self.posts.count)
-            
-            
-            
-            
-        }
-    }
-    
-    
-    // Citation : https://firebase.google.com/docs/storage/ios/download-files
-    func getDrawingImage(x:String)
-    {
-        // Create a reference with an initial file path and name
-        let pathReference = FirebaseManager.shared.storage.reference(withPath: "drawings/\(self.CurrentUser.uid)/\(x)")
-        pathReference.getData(maxSize: 2 * 1024 * 1024){ data, error in
-            if let error = error {
-                // Uh-oh, an error occurred!
-                print("Error getting drawing image : \(error)")
-                return()
-            }
-            else{
-                let image = UIImage(data: data!)
-                self.drawingImages.append( image!)
-                
-            }
+ 
         }
     }
     
 }
 
-
 struct Home: View {
     
+    @EnvironmentObject var session: SessionStore
+    
+    @StateObject var profileService = ProfileService()
+    
+    let threeColumns = [GridItem(), GridItem(), GridItem()]
+    
     @ObservedObject private var vm = HomeViewModel()
-    @State var c:Int = 0
-    @State private var tabBar: UITabBar! = nil
     
     var body: some View {
-        NavigationView{
+        
+       // NavigationView{
             //Added scroll view for user's images
             VStack{
                 HStack{
@@ -160,55 +98,46 @@ struct Home: View {
                 
                 
                 ScrollView{
-                    //Images are now navigation links to their full screen display
-                    
-                    // Citation :  ChatGPT
-                    
-//                    ForEach(vm.drawingImages.chunks(of: 3), id: \.self) { chunk in
-//                        HStack {
-//                            ForEach(chunk, id: \.self) { image in
-//                                let img:UIImage = image
-//                                NavigationLink {
-//                                    //Link to Destination - full screen view
-//                                    SelectedImage(img: img)
-//                                } label: {
-//                                    Image(uiImage: image)
-//                                        .resizable()
-//                                        .frame(width: 100,height: 100)
-//                                        .aspectRatio(contentMode: .fill)
-//                                        .cornerRadius(30)
-//                                        .padding()
-//                                        .overlay(
-//                                            RoundedRectangle(cornerRadius: 16)
-//                                                .stroke(Color(red: 0.0, green: 0.6078431372549019, blue: 0.5098039215686274), lineWidth: 3))
-//                                }
-//                            }
-//                        }
-//                    }
-                    
                     Text("User Logged in")
                     Text("First Name \(vm.CurrentUser.firstName)")
                     Text("Last Name \(vm.CurrentUser.lastName)")
-                    //Text("Search Name \(vm.CurrentUser.searchName)")
-                    Spacer()
+                    
+                    //Code above this line has to be modified to be using new services made. We have to get rid of fetchCurrentUser function from this class.
+                    
+                    
+                    //Displaying 3 photos in a row
+                    LazyVGrid(columns: threeColumns) {
+                        ForEach(self.profileService.posts, id:\.postId){
+                            (post) in
+                            
+                            WebImage(url: URL(string : post.mediaUrl)!)
+                                .resizable()
+                                .frame(width: ((UIScreen.main.bounds.width/3)-5),
+                                       height: UIScreen.main.bounds.height/3)
+                                .aspectRatio(contentMode: .fill)
+                                .padding(5)
+                            
+                        }
+                    }
+                    
                 }
-            }.onAppear(perform: vm.fetchCurrentUser)
-            Spacer()
-        }
-        //.toolbar(.visible, for: .tabBar)
-        .accentColor(.white)
-        //.toolbar(.visible, for: .tabBar)
+
+                
+            }
+            .onAppear{
+                //To check if user is still logged in
+                if (self.session.loggedIn == true)
+                {
+                    
+                    //If user is logged in, load user posts again to make the page dynamic and realtime. Example - if a user posts, we want that picture to be visible in that session itself
+                    self.profileService.loadUserPosts(userId: Auth.auth().currentUser!.uid)
+                    
+                }
+            }
+        
     }
     
-}
-
-// Citation :  ChatGPT
-extension Array {
-    func chunks(of chunkSize: Int) -> [[Element]] {
-        return stride(from: 0, to: self.count, by: chunkSize).map {
-            Array(self[$0..<Swift.min($0 + chunkSize, self.count)])
-        }
-    }
+    
 }
 
 struct Home_Previews: PreviewProvider {
