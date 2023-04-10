@@ -115,13 +115,17 @@ class StorageService{
                 storagePostRef.downloadURL{
                     url, error in
                     if let metaImageUrl = url?.absoluteString {
+                        //Getting Document reference to store post
                         let firestorePostRef = PostService.PostsUserId(userId: userId).collection("posts").document(postId)
 
+                        //Creating post
                         let post = PostModel.init(caption: caption, likes: [:], ownerId: userId, postId: postId, username: Auth.auth().currentUser!.displayName!, profile: Auth.auth().currentUser!.photoURL!.absoluteString, mediaUrl: metaImageUrl,title: title, date: Date().timeIntervalSince1970,  likeCount: 0, isPublic: isPublic)
 
 
+                        //Encoding post to dictionary for firebase
                         guard let dict = try? post.asDictionary() else {return}
 
+                        //Pushing dictionary to Firebase
                         firestorePostRef.setData(dict){
                             error in
                             if error != nil {
@@ -129,8 +133,10 @@ class StorageService{
                                 return
                             }
 
+                            //Adding to 'timeline' collection to implement timeline later. TODO
                             PostService.TimelineUserId(userId: userId).collection("timeline").document(postId).setData(dict)
 
+                            //Adding post to allPosts
                             PostService.AllPosts.document(postId).setData(dict)
 
                             onSuccess()
