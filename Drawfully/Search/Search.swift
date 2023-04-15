@@ -76,6 +76,9 @@ struct Search: View {
         
         // Give random ideas from the database to the user
         let suggestions = VStack{
+            Text(suggestionDisplay).padding().font(.system(size: 30)).multilineTextAlignment(.center)
+            
+            
             Button(action: getTime){
                 Text("Get a time limit!")
             }.padding().buttonStyle(.bordered)
@@ -87,9 +90,8 @@ struct Search: View {
             Button(action: getObject){
                 Text("Get a object!")
             }.padding().buttonStyle(.bordered)
+        }
             
-            Text(suggestionDisplay).padding().font(.system(size: 30)).multilineTextAlignment(.center)
-            }
         
         
     
