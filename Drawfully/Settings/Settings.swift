@@ -67,7 +67,10 @@ struct Settings: View {
                     .background(Color.green)
                     .clipShape(Capsule())
                 
-                Button(action: session.logout,label:  {
+                Button(action: {
+                    self.session.loggedIn=false
+
+                    self.session.logout()} ,label:  {
                     Text("Logout")
                 }).foregroundColor(.black)
                     .font(.headline)

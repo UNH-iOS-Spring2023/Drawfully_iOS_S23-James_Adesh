@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import FirebaseAuth
 
 struct Community: View {
     
@@ -20,6 +21,11 @@ struct Community: View {
     @State private var alertTitle: String = "Oh No!"
     @State private var text = ""
     
+    @EnvironmentObject var session: SessionStore
+    
+    @StateObject var profileService = ProfileService()
+    
+    
     var body: some View {
         
         //Will write code for Community Tab View here
@@ -30,16 +36,25 @@ struct Community: View {
                 Spacer()
                 Image(systemName: "magnifyingglass")
             }.padding()
-            
             ScrollView{
-                        VStack{
-                            PostModel()
-                            PostModel()
-                            PostModel()
-                            
-                        }
+//                VStack{
+//                    ForEach(self.profileService.posts, id:\.postId){
+//                        (post) in
+//
+//                        PostCardImage(post: post)
+//                        PostCard(post: post)
+//
+//                    }
+//                }
+            }
+            .onAppear{
+                if (self.session.session != nil)
+                {
+                    self.profileService.loadUserPosts(userId: Auth.auth().currentUser!.uid)
+                }
             }
         }
+        
     }
 }
 

@@ -8,17 +8,17 @@
 import SwiftUI
 
 struct PostModel: Encodable, Decodable {
-    var caption: String
-    var likes: [String:Bool]
-    var ownerId: String
-    var postId: String
-    var username: String
-    var profile: String
-    var mediaUrl: String
-    var title: String
-    var date: Double
-    var likeCount: Int
-    var isPublic: Bool
+    var caption: String //The caption for the post
+    var likes: [String:Bool] //Dictionary [(uid - String: true/false - boolean)] to keep track of who has liked a particular post. If a user unlikes a post after liking it, we set the boolean value to false
+    var ownerId: String //The user who has created that post
+    var postId: String //The randomly generated UUID String used to store the post image
+    var username: String //username of the user who has created the post
+    var profile: String //URL Link to profile picture of that user
+    var mediaUrl: String //URL Link to the post ikmage
+    var title: String //The title of the post
+    var date: Double //Date/Timestap of the post
+    var likeCount: Int //The number of likes that the post has. Basically number of elements in the "likes" Dictionary which has "true" value
+    var isPublic: Bool //The post visibility
 
 }
 

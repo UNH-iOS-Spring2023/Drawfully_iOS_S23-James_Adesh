@@ -68,13 +68,16 @@ struct SignUp: View {
         profileImage = inputImage
     }
     
-    //Clearing fields after successful login
+    //Clearing all fields on SignUp form after successful signup and login
     func clear(){
         self.username = ""
         self.firstName = ""
         self.lastName = ""
         self.password=""
         self.email=""
+        self.imageData=Data()
+        self.profileImage=Image(systemName: "person.circle.fill" )
+        
     }
     
     // Citation : https://www.youtube.com/watch?v=6b2WAePdiqA
@@ -96,7 +99,7 @@ struct SignUp: View {
                 
                 
                 //Updating auth status
-                session.session = User(uid: user.uid,
+                self.session.session = User(uid: user.uid,
                                            email: email,
                                        profileImageUrl:user.profileImageUrl,
                                             username:username,
@@ -104,6 +107,11 @@ struct SignUp: View {
                                        streak:user.streak,
                                             firstName: firstName,
                                             lastName: lastName)
+                
+                //Setting state to logged in
+                self.session.loggedIn=true
+                
+                
 
             }){
                 (errorMessage) in

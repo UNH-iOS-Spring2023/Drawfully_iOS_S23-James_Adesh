@@ -3,7 +3,9 @@
 //  Drawfully
 //
 //  Created by Adesh Agarwal on 3/31/23.
-// Citation : https://youtu.be/GMxo8MA6Nnc?list=PLdBY1aYxSpPVI3wTlK1cKHNOoq4JA3X5-
+//  Citation : The entire class is implemented with reference to the YouTube tutorial series - SwiftUI Instagram Clone with Firebase by iosMastery
+//  Encoder, Decoder and splitString : Citation : https://youtu.be/GMxo8MA6Nnc?list=PLdBY1aYxSpPVI3wTlK1cKHNOoq4JA3X5-
+//  timeAgo : Citation : https://youtu.be/M0OrDT7iXJY?list=PLdBY1aYxSpPVI3wTlK1cKHNOoq4JA3X5-
 
 import Foundation
 
@@ -40,13 +42,17 @@ extension String{
         return stringArray
     }
 }
-
-
-//Citation :  ChatGPT
-//extension Array {
-//    func chunks(of chunkSize: Int) -> [[Element]] {
-//        return stride(from: 0, to: self.count, by: chunkSize).map {
-//            Array(self[$0..<Swift.min($0 + chunkSize, self.count)])
-//        }
-//    }
-//}
+//https://youtu.be/M0OrDT7iXJY?list=PLdBY1aYxSpPVI3wTlK1cKHNOoq4JA3X5-
+//Extension to return how much time it has been since the post was made. Example -  "15 mins ago" or "1 day ago"
+extension Date {
+    func timeAgo()-> String {
+        let formatter = DateComponentsFormatter()
+        formatter.unitsStyle = .full
+        formatter.allowedUnits = [.year,.month,.day,.hour,.minute,.second]
+        
+        formatter.zeroFormattingBehavior = .dropAll
+        formatter.maximumUnitCount = 1
+        return String(format: formatter.string(from: self, to: Date()) ?? "", locale: .current)
+        
+    }
+}
