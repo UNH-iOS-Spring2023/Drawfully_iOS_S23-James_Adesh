@@ -7,6 +7,9 @@
 // Reference for User Search Field: https://www.hackingwithswift.com/quick-start/swiftui/how-to-add-a-search-bar-to-filter-your-data
 
 import SwiftUI
+import Firebase
+import FirebaseAuth
+import SDWebImageSwiftUI
 
 struct Search: View {
     @State private var search: String = ""
@@ -16,6 +19,12 @@ struct Search: View {
     private var users: [String] = firebaseUserQuery() // TODO make user references
     private var favorites: [String] = firebaseUserSavedQuery() // TODO make drawing document references
     private var scopeFields: [String] = ["Users", "Saved", "Suggestions"]
+    
+    
+    // Images
+    @EnvironmentObject var session: SessionStore
+    @StateObject var profileService = ProfileService()
+    let threeColumns = [GridItem(), GridItem(), GridItem()]
     
     var body: some View {
         // Nice looking header
@@ -60,18 +69,52 @@ struct Search: View {
                 }
             }
         
+        
+        
         // Display the drawings
         let savedDrawings = NavigationStack{
-            List {
-                ForEach(savedDrawingsList, id: \.self) { name in
-                    NavigationLink{
-                        Text(name) //TODO make visible drawing page
-                    } label: {
-                        Text(name)
+            ScrollView{
+                //Displaying 3 photos in a row
+                LazyVGrid(columns: threeColumns) {
+                    ForEach(self.profileService.posts, id:\.postId){
+                        (post) in
+                        
+                        WebImage(url: URL(string : post.mediaUrl)!)
+                            .resizable()
+                            .frame(width: ((UIScreen.main.bounds.width/3)-5),
+                                   height: UIScreen.main.bounds.height/3)
+                            .aspectRatio(contentMode: .fill)
+                            .padding(5)
+                        
                     }
                 }
-            }.navigationTitle("Saved")
-        }.searchable(text: $search).disableAutocorrection(true).textInputAutocapitalization(.never)
+            }
+//            List {
+////                ForEach(savedDrawingsList, id: \.self) { name in
+////                    NavigationLink{
+////                        Text(name) //TODO make visible drawing page
+////                    } label: {
+////                        Text(name)
+////                    }
+////                }\
+//
+//
+//            }
+        }
+            //.searchable(text: $search)
+            //.disableAutocorrection(true)
+            //.textInputAutocapitalization(.never)
+            .navigationTitle("Saved")
+            .onAppear{
+            //To check if user is still logged in
+            if (self.session.loggedIn == true)
+            {
+                
+                //If user is logged in, load user posts again to make the page dynamic and realtime. Example - if a user posts, we want that picture to be visible in that session itself
+                self.profileService.loadUserPosts(userId: Auth.auth().currentUser!.uid)
+                
+            }
+        }
     
         
         // Give random ideas from the database to the user
