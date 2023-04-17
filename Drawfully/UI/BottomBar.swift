@@ -96,7 +96,7 @@ struct BottomBar_Previews: PreviewProvider {
         BottomBar(AnyView(Home()),
                   AnyView(Community()),
                   AnyView(Add()),
-                  AnyView(Search()),
+                  AnyView(Search().environmentObject(SearchQueries())),
                   AnyView(Settings())
         )
             .environmentObject(AppVariables())

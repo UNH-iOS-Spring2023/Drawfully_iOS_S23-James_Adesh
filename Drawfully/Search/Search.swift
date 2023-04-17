@@ -12,13 +12,16 @@ import FirebaseAuth
 import SDWebImageSwiftUI
 
 struct Search: View {
+    
+    @EnvironmentObject var informationArr: SearchQueries
+    
     @State private var search: String = ""
     @State private var scope: String = "Users"
     @State private var suggestionDisplay = ""
     
-    private var users: [String] = firebaseUserQuery() // TODO make user references
-    private var favorites: [String] = firebaseUserSavedQuery() // TODO make drawing document references
     private var scopeFields: [String] = ["Users", "Saved", "Suggestions"]
+    
+    
     
     
     // Images
@@ -39,9 +42,9 @@ struct Search: View {
         // create the list referenced by the search bar, with filters applied
         var usersList: [String] {
             if search.isEmpty{
-                return users
+                return informationArr.users
             } else {
-                return users.filter{item in
+                return informationArr.users.filter{item in
                     item.localizedCaseInsensitiveContains(search) } //if any part matches the current text in search, display it
             }
         }
@@ -62,9 +65,9 @@ struct Search: View {
             // create the array of all the saved drawings, adhering to search filters
             var savedDrawingsList: [String] {
                 if search.isEmpty{
-                    return favorites
+                    return informationArr.savedPosts
                 } else {
-                    return favorites.filter{item in
+                    return informationArr.savedPosts.filter{item in
                         item.localizedCaseInsensitiveContains(search) } //if any part matches the current text in search, display it
                 }
             }
@@ -189,6 +192,6 @@ struct Search: View {
 
 struct Search_Previews: PreviewProvider {
     static var previews: some View {
-        Search()
+        Search().environmentObject(SearchQueries())
     }
 }

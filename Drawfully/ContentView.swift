@@ -20,6 +20,8 @@ class AppVariables: ObservableObject{
 
 struct ContentView: View {
     @StateObject var app = AppVariables()
+    
+    @StateObject var searchFirebase = SearchQueries()
 
     
     @EnvironmentObject var session: SessionStore
@@ -43,7 +45,7 @@ struct ContentView: View {
               BottomBar(AnyView(Home()),
                         AnyView(Community()),
                         AnyView(Add()),
-                        AnyView(Search()),
+                        AnyView(Search().environmentObject(searchFirebase)),
                         AnyView(Settings())
               )
               .environmentObject(AppVariables())
