@@ -55,12 +55,13 @@ struct PostCard: View {
                 }.padding().scaleEffect(animate ? animationScale : 1)
                     .animation(.easeIn(duration: duration))
                 
-                
-                //Comments button
-                Image(systemName: "bubble.right")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 25,height: 25, alignment: .center)
+                NavigationLink(destination: CommentView(post:self.postCardService.post)){
+                    //Comments button
+                    Image(systemName: "bubble.right")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 25,height: 25, alignment: .center)
+                }
                 
                 Spacer()
                 
@@ -74,7 +75,9 @@ struct PostCard: View {
                 
             }
             //Clickable text to view comments. To be implemented
-            Text("View Comments").font(.caption).padding(.leading)
+            NavigationLink(destination: CommentView(post:self.postCardService.post)){
+                Text("View Comments").font(.caption).padding(.leading)
+            }
         }
     }
 }
