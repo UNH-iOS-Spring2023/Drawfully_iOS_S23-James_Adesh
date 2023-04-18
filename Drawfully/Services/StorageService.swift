@@ -20,7 +20,7 @@ class StorageService{
     static var storageRoot = storage.reference()
     
     //Storage root reference for profile pictures
-    static var storageProfile = storageRoot.child("profile")
+    static var storageProfile = storageRoot.child("profileImage")
     
     //Storage root reference for post/drawing pictures
     static var storagePost = storageRoot.child("drawings")
@@ -119,7 +119,7 @@ class StorageService{
                         let firestorePostRef = PostService.PostsUserId(userId: userId).collection("posts").document(postId)
 
                         //Creating post
-                        let post = PostModel.init(caption: caption, likes: [:], ownerId: userId, postId: postId, username: Auth.auth().currentUser!.displayName!, profile: Auth.auth().currentUser!.photoURL!.absoluteString, mediaUrl: metaImageUrl,title: title, date: Date().timeIntervalSince1970,  likeCount: 0, isPublic: isPublic)
+                        let post = PostModel.init(caption: caption, likes: [:], ownerId: userId, postId: postId, username: Auth.auth().currentUser!.displayName!, profileImageUrl: Auth.auth().currentUser!.photoURL!.absoluteString, mediaUrl: metaImageUrl,title: title, date: Date().timeIntervalSince1970,  likeCount: 0, isPublic: isPublic)
 
 
                         //Encoding post to dictionary for firebase
