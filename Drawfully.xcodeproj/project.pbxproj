@@ -55,6 +55,7 @@
 		EEA5504E29D00D7D0094B704 /* SetUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEA5504D29D00D7D0094B704 /* SetUser.swift */; };
 		EECE6D7829E1050B00C21D07 /* PostModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EECE6D7729E1050B00C21D07 /* PostModel.swift */; };
 		EECE6D7A29E1083900C21D07 /* SearchQueries.swift in Sources */ = {isa = PBXBuildFile; fileRef = EECE6D7929E1083900C21D07 /* SearchQueries.swift */; };
+		EECE6D8329EE19D200C21D07 /* UserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EECE6D8229EE19D200C21D07 /* UserView.swift */; };
 		EEDC097A29BF04C1000D5B71 /* NotificationsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEDC097929BF04C1000D5B71 /* NotificationsManager.swift */; };
 /* End PBXBuildFile section */
 
@@ -95,6 +96,7 @@
 		EEA5504D29D00D7D0094B704 /* SetUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetUser.swift; sourceTree = "<group>"; };
 		EECE6D7729E1050B00C21D07 /* PostModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostModel.swift; sourceTree = "<group>"; };
 		EECE6D7929E1083900C21D07 /* SearchQueries.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchQueries.swift; sourceTree = "<group>"; };
+		EECE6D8229EE19D200C21D07 /* UserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserView.swift; sourceTree = "<group>"; };
 		EEDC097929BF04C1000D5B71 /* NotificationsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationsManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -242,6 +244,7 @@
 			children = (
 				DE80F8B229DA56D600DDA645 /* UserModel.swift */,
 				EECE6D7729E1050B00C21D07 /* PostModel.swift */,
+				EECE6D8229EE19D200C21D07 /* UserView.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -377,6 +380,7 @@
 				EEDC097A29BF04C1000D5B71 /* NotificationsManager.swift in Sources */,
 				DEEA8F2729DF9B6400287C37 /* PostCardService.swift in Sources */,
 				EEDC097A29BF04C1000D5B71 /* NotificationsManager.swift in Sources */,
+				EECE6D8329EE19D200C21D07 /* UserView.swift in Sources */,
 				DEFA4B9029D6CB9E00913464 /* Extensions.swift in Sources */,
 				DE39278129B31CF90083D866 /* SignUp.swift in Sources */,
 				DEE9BEF929B34FD800F37FF4 /* FirebaseManager.swift in Sources */,

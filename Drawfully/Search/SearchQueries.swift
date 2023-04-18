@@ -8,7 +8,7 @@
 import Foundation
 
 class SearchQueries : ObservableObject {
-    @Published var users: [String] = []
+    @Published var users: [User] = []
     @Published var savedPosts: [String] = []
     
     init() {
@@ -23,14 +23,13 @@ class SearchQueries : ObservableObject {
             } else {
                 for document in querySnapshot!.documents {
                     let value: String = document.get("username") as? String ?? "Unknown"
-                    print(value)
-                    print("\(document.documentID) => \(document.get("username"))")
-                    self.users.append(value)
+                    let data = document.data()
+                    let queriedUser = User(uid: document.documentID,  email: data["email"] as? String ?? "", profileImageUrl: data["profileImageUrl"] as? String ?? "", username: data["username"] as? String ?? "", searchName: data["searchName"] as? [String] ?? [""], streak: data["streak"] as? Int ?? 0, firstName: data["firstName"] as? String ?? "", lastName: data["lastName"] as? String ?? "")
+                    
+                    self.users.append(queriedUser)
                 }
             }
         }
-        print(self.users)
-        self.users.sort()
     }
     
     func firebaseUserSavedQuery(){

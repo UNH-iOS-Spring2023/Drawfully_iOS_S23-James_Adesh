@@ -40,22 +40,23 @@ struct Search: View {
             }
         
         // create the list referenced by the search bar, with filters applied
-        var usersList: [String] {
+        var usersList: [User] {
             if search.isEmpty{
                 return informationArr.users
+
             } else {
                 return informationArr.users.filter{item in
-                    item.localizedCaseInsensitiveContains(search) } //if any part matches the current text in search, display it
+                    item.username.localizedCaseInsensitiveContains(search) } //if any part matches the current text in search, display it
             }
         }
        // After searching, show related Users or Drawings
         let userSearch = NavigationStack{
             List {
-                ForEach(usersList, id: \.self) { name in
+                ForEach(usersList, id: \.self.username) { user in
                     NavigationLink{
-                        Text(name) //TODO make visible user page
+                        UserView(user: user) //TODO make visible user page
                     } label: {
-                        Text(name)
+                        Text(user.username)
                     }
                 }
             }.navigationTitle("Users")
