@@ -95,13 +95,13 @@ class StorageService{
         //Pushing data
         storagePostRef.putData(imageData, metadata: metadata) {
             (StorageMetadata, error) in
-            
+
             if error != nil {
                 onError(error!.localizedDescription)
                 return
-                
+
             }
-            
+
             storagePostRef.putData(imageData, metadata: metadata){
                 
                 (StorageMetadata, error) in
@@ -134,7 +134,7 @@ class StorageService{
                             }
 
                             //Adding to 'timeline' collection to implement timeline later. TODO
-                            PostService.TimelineUserId(userId: userId).collection("timeline").document(postId).setData(dict)
+                            //PostService.TimelineUserId(userId: userId).collection("timeline").document(postId).setData(dict)
 
                             //Adding post to allPosts
                             PostService.AllPosts.document(postId).setData(dict)
