@@ -10,24 +10,6 @@ import Firebase
 import FirebaseAuth
 import SDWebImageSwiftUI
 
-class UserViewModel: ObservableObject{
-    
-    @Published var errorMessage:String=""
-    @Published var streakCount:String=""
-    @Published var CurrentUser:User=User(uid: "", email: "", profileImageUrl: "", username: "", searchName: [], streak: 0, firstName: "", lastName: "")
-    
-    func fetchCurrentUser(){
-        
-        // If the user hasn't posted the day before, reset their streak to 0
-        // Preconditions: valid firebase user id
-        // Postconditions: if nothing posted yesterday, firebase document has streak set to 0
-   
-    }
-    
-}
-
-
-
 struct UserView: View {
     var user: User
     
