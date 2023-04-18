@@ -87,7 +87,7 @@ struct Home: View {
                     Image("streak").resizable().frame(width:30, height: 30)
                     
                     //Getting streak count from user's data
-                    Text(String(self.session.session!.streak))
+                    Text(String(session.session?.streak ?? 0))
                         .font(.title2)
                         .fontWeight(.bold)
                     Spacer()
@@ -123,11 +123,11 @@ struct Home: View {
             }
             .onAppear{
                 //To check if user is still logged in
-                if (self.session.loggedIn == true)
+                if (session.loggedIn == true)
                 {
                     
                     //If user is logged in, load user posts again to make the page dynamic and realtime. Example - if a user posts, we want that picture to be visible in that session itself
-                    self.profileService.loadUserPosts(userId: Auth.auth().currentUser!.uid)
+                    profileService.loadUserPosts(userId: Auth.auth().currentUser!.uid)
                     
                 }
             }

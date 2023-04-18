@@ -59,6 +59,7 @@ struct Login: View {
                 (user) in
                 self.clear()
                 print("After login \(String(describing: session.session))")
+                session.loggedIn = true
                 
             }){
                 (errorMessage) in
@@ -99,7 +100,7 @@ struct Login: View {
                         
                         Button(action: {
                             // Setting state to logged in
-                            self.session.loggedIn=true
+                            session.loggedIn=true
 
                             login()
                             

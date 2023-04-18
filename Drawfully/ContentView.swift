@@ -39,10 +39,10 @@ struct ContentView: View {
             //Login()
             
         Group {
-          if (session.session != nil) {
+            if (session.session != nil && session.loggedIn == true ) {
 
               BottomBar(AnyView(Home().environmentObject(session)),
-                        AnyView(Community(newSession: session)),
+                        AnyView(Community().environmentObject(session)),
                         AnyView(Add().environmentObject(session)),
                         AnyView(Search().environmentObject(searchFirebase)),
                         AnyView(Settings().environmentObject(session))
@@ -52,7 +52,7 @@ struct ContentView: View {
              // HomeView()
           } else {
             //Text("Our authentication screen goes here...")
-              Login()
+              Login().environmentObject(session)
           }
         }.onAppear(perform: getUser)
         
