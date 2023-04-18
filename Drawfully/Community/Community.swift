@@ -24,33 +24,46 @@ struct Community: View {
     @EnvironmentObject var session: SessionStore
     
     @StateObject var profileService = ProfileService()
-    
+
+    @StateObject var postCardService = PostCardService()
+    @StateObject var communityService = CommunityService()
+
     
     var body: some View {
-        
-        //Will write code for Community Tab View here
-        VStack {
+        NavigationView{
             
-            HStack{
-                Text("Community").font(.title).fontWeight(.bold).padding(.trailing, 42.0).multilineTextAlignment(.center)
-                Spacer()
-                Image(systemName: "magnifyingglass")
-            }.padding()
-            ScrollView{
-//                VStack{
-//                    ForEach(self.profileService.posts, id:\.postId){
-//                        (post) in
-//
-//                        PostCardImage(post: post)
-//                        PostCard(post: post)
-//
-//                    }
-//                }
-            }
-            .onAppear{
-                if (self.session.session != nil)
-                {
-                    self.profileService.loadUserPosts(userId: Auth.auth().currentUser!.uid)
+            //Will write code for Community Tab View here
+            VStack {
+                
+                HStack{
+                    Text("Community").font(.title).fontWeight(.bold).padding(.trailing, 42.0).multilineTextAlignment(.center)
+                    Spacer()
+                    Image(systemName: "magnifyingglass")
+                }.padding()
+                ScrollView{
+                    VStack{
+                        ForEach(communityService.posts, id:\.postId){
+                            (post) in
+                            
+                            PostCardImage(post: post)
+                            PostCard(post: post)
+                            
+                        }
+                    }
+                }
+                .onAppear{
+                    //                if (self.session.session != nil)
+                    //                {
+                    //                    self.profileService.loadUserPosts(userId: Auth.auth().currentUser!.uid)
+                    //                }
+                    if (self.session.loggedIn == true)
+                    {
+                        
+                        //If user is logged in, load user posts again to make the page dynamic and realtime. Example - if a user posts, we want that picture to be visible in that session itself
+                        self.communityService.loadAllPosts()
+                        
+                    }
+                    
                 }
             }
         }

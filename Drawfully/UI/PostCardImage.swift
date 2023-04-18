@@ -22,7 +22,7 @@ struct PostCardImage: View {
         VStack(alignment: .leading) {
             HStack{
                 //Profile image of owner of post
-                WebImage(url: URL(string: post.profile)!)
+                WebImage(url: URL(string: post.profileImageUrl)!)
                     .resizable()
                     .aspectRatio(contentMode: .fill)
                     .scaledToFit()

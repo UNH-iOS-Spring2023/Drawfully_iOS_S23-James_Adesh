@@ -45,6 +45,8 @@ class PostService{
         let postId = PostService.PostsUserId(userId: userId).collection("userPosts").document().documentID
         
         let storagePostRef = StorageService.storagePostId(postId: postId)
+        let storageAllPostRef = StorageService.storagePost
+        
         
         //Defining metadata
         let metadata = StorageMetadata() 
@@ -53,14 +55,35 @@ class PostService{
         
         // This call uses StorageService function - savePostPhoto with all attributes
         StorageService.savePostPhoto(userId: userId, caption: caption, title: title, isPublic: isPublic, postId: postId, imageData: imageData, metadata: metadata, storagePostRef: storagePostRef, onSuccess: onSuccess, onError: onError)
+        StorageService.savePostPhoto(userId: userId, caption: caption, title: title, isPublic: isPublic, postId: postId, imageData: imageData, metadata: metadata, storagePostRef: storageAllPostRef, onSuccess: onSuccess, onError: onError)
         
         
     }
+    static func loadPost(postId: String, onSuccess: @escaping(_ post: PostModel)->Void)
+    {
+        PostService.AllPosts.document(postId).getDocument{
+            (snapshot, err) in
+            guard let snap = snapshot else {
+                print("Error loading all posts")
+                return
+            }
+            
+            let dict = snap.data()
+            
+            guard let decoded = try?PostModel.init(fromDictionary: dict!)
+            else{return}
+            
+            onSuccess(decoded)
+            
+            
+        }
+    }
+    
     
     // Function to load up specific user's posts
     static func loadUserPosts(userId: String, onSuccess: @escaping(_ posts: [PostModel]) -> Void )
     {
-        PostService.PostsUserId(userId: userId).collection("posts").getDocuments { (snapshot,error) in
+        PostService.PostsUserId(userId: userId).collection("posts").order(by: "date", descending: true).getDocuments { (snapshot,error) in
             guard let snap = snapshot else {
                 print("Error loading user posts")
                 return
@@ -83,6 +106,32 @@ class PostService{
             onSuccess(posts)
         }
     }
-    
+
+    // Function to load up all users' posts
+    static func loadAllPosts(onSuccess: @escaping(_ posts: [PostModel]) -> Void )
+    {
+        PostService.AllPosts.order(by: "date", descending: true).getDocuments { (snapshot,error) in
+            guard let snap = snapshot else {
+                print("Error loading all posts")
+                return
+            }
+            
+            //Creating array of type - PostModel to store all posts
+            var posts = [PostModel]()
+            
+            for doc in snap.documents{
+                let dict = doc.data()
+                //Decoding received snapshot to a readable dictionary
+                guard let decoder = try? PostModel.init(fromDictionary: dict)
+                        
+                else{
+                    return
+                }
+                //Adding each user to array of posts
+                posts.append(decoder)
+            }
+            onSuccess(posts)
+        }
+    }
 }
 
