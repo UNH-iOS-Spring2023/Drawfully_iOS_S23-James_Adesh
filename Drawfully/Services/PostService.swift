@@ -83,6 +83,32 @@ class PostService{
             onSuccess(posts)
         }
     }
-    
+
+    // Function to load up all users' posts
+    static func loadAllPosts(onSuccess: @escaping(_ posts: [PostModel]) -> Void )
+    {
+        PostService.AllPosts.order(by: "date", descending: true).getDocuments { (snapshot,error) in
+            guard let snap = snapshot else {
+                print("Error loading all posts")
+                return
+            }
+            
+            //Creating array of type - PostModel to store all posts
+            var posts = [PostModel]()
+            
+            for doc in snap.documents{
+                let dict = doc.data()
+                //Decoding received snapshot to a readable dictionary
+                guard let decoder = try? PostModel.init(fromDictionary: dict)
+                        
+                else{
+                    return
+                }
+                //Adding each user to array of posts
+                posts.append(decoder)
+            }
+            onSuccess(posts)
+        }
+    }
 }
 
