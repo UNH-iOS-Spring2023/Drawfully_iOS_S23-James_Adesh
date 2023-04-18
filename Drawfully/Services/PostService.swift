@@ -11,6 +11,7 @@ import FirebaseAuth
 import FirebaseStorage
 import Firebase
 import FirebaseFirestore
+import SwiftUI
 
 
 //Defining class PostService to handle storing and fetching posts
@@ -55,7 +56,7 @@ class PostService{
         
         // This call uses StorageService function - savePostPhoto with all attributes
         StorageService.savePostPhoto(userId: userId, caption: caption, title: title, isPublic: isPublic, postId: postId, imageData: imageData, metadata: metadata, storagePostRef: storagePostRef, onSuccess: onSuccess, onError: onError)
-        StorageService.savePostPhoto(userId: userId, caption: caption, title: title, isPublic: isPublic, postId: postId, imageData: imageData, metadata: metadata, storagePostRef: storageAllPostRef, onSuccess: onSuccess, onError: onError)
+//        StorageService.savePostPhoto(userId: userId, caption: caption, title: title, isPublic: isPublic, postId: postId, imageData: imageData, metadata: metadata, storagePostRef: storageAllPostRef, onSuccess: onSuccess, onError: onError)
         
         
     }
@@ -83,6 +84,9 @@ class PostService{
     // Function to load up specific user's posts
     static func loadUserPosts(userId: String, onSuccess: @escaping(_ posts: [PostModel]) -> Void )
     {
+        
+
+        
         PostService.PostsUserId(userId: userId).collection("posts").order(by: "date", descending: true).getDocuments { (snapshot,error) in
             guard let snap = snapshot else {
                 print("Error loading user posts")
@@ -98,6 +102,7 @@ class PostService{
                 guard let decoder = try? PostModel.init(fromDictionary: dict)
                         
                 else{
+                    print("Going where its not supposed to go")
                     return
                 }
                 //Adding each user to array of posts
