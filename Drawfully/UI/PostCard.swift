@@ -71,7 +71,7 @@ struct PostCard: View {
             //Number of likes displayed after post
             if (self.postCardService.post.likeCount > 0) {
                 
-                Text ("\(self.postCardService.post.likeCount) likes")
+                Text ("\(self.postCardService.post.likeCount) likes").padding(.leading)
                 
             }
             //Clickable text to view comments. To be implemented
