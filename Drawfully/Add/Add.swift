@@ -232,98 +232,69 @@ struct CameraView: View {
         
         guard let uid=Auth.auth().currentUser?.uid else {return}
         let ref: DocumentReference? = nil
-
+        
         //Currently we are posting a single post, multiple times(old way and new way). This has to be optimized. TODO
         
         //Add Post to firebase with all attributes - caption, title, isPublic
         PostService.uploadPost(caption: caption, title: title, isPublic: postVisibility, imageData: camera.picData, onSuccess: {}) { errorMessage in
             print ("SavePostPhoto error : \(errorMessage)" )
         }
+        print("Document (PostImage) added with ID: \(String(describing: ref?.documentID))")
+        drawingPosted=true
         
+        let newDocRef = FirebaseManager.shared.firestore.collection("drawings").document(camera.imageName)
         
-        //Citation : ChatGPT
-        //Setting properties of drawing and writing to Firebase - Likes, Owner, Time, etc
-        FirebaseManager.shared.firestore.collection("drawings").document(camera.imageName)
-            .setData(
-            ["caption": caption,
-             "likes": [String:Bool](),
-            "ownerId": uid,
-            "postId": camera.imageName,
-             "username": Auth.auth().currentUser!.displayName!,
-             "profile": Auth.auth().currentUser!.photoURL!.absoluteString,
-             "mediaUrl": camera.imageLink?.absoluteString as Any,
-            "date":FieldValue.serverTimestamp(),
-            "title":title,
-            "likeCount": 0,
-            "isPublic": postVisibility])
-            { err in
+        //Adding to array of drawings for each user
+        // Citation : ChatGPT
+        FirebaseManager.shared.firestore.collection("users").document(uid).updateData(["drawings": FieldValue.arrayUnion([newDocRef])]){ err in
             if let err = err{
-                print ("Error adding document (PostImage) : \(err)")
+                print ("Error adding document reference (PostImage) : \(err)")
             }
             else{
-                print("Document (PostImage) added with ID: \(String(describing: ref?.documentID))")
-                drawingPosted=true
-                
-                let newDocRef = FirebaseManager.shared.firestore.collection("drawings").document(camera.imageName)
-                
-                //Adding to array of drawings for each user
-                // Citation : ChatGPT
-                FirebaseManager.shared.firestore.collection("users").document(uid).updateData(["drawings": FieldValue.arrayUnion([newDocRef])]){ err in
-                    if let err = err{
-                        print ("Error adding document reference (PostImage) : \(err)")
-                    }
-                    else{
-                        //Switching to home tab again
-                        app.selectedTab=0
-                    }
-                    
-                }
-                //Resetting photo and camera view
-                camera.isTaken=false
-                camera.isSaved=false
-                camera.imageLink=URL(string: "")
-                camera.imageName=""
-                camera.picData=Data(count: 0)
-                title=""
-                caption=""
-                
-                // TODO check if this updates streak using phone
-                
-                // get the last date the user posted
-                let storedDate = UserDefaults.standard.object(forKey: "lastDate") as? Date ?? Date.now
-                //print("Stored data : \(storedDate)")
-                
-                
-                //If user has posted the previous day
-                //if Calendar.current.isDateInToday(stored.addingTimeInterval(86400)) //Increment
-                
-                //If user has posted on the same day
-                if Calendar.current.isDateInToday(storedDate){
-                    FirebaseManager.shared.firestore.collection("users").document(uid).updateData(["streak" : FieldValue.increment(1.0)])
-                    let date = Date.now
-                    UserDefaults.standard.set(date, forKey: "lastDate")
-                    
-                    print("updated streak")
-                    //Remain the same
-                }
-                
-                //If user has not posted on the day or the previous day
-                else if ((!Calendar.current.isDateInToday(storedDate))&&(!Calendar.current.isDateInToday(storedDate.addingTimeInterval(86400)))){
-                    FirebaseManager.shared.firestore.collection("users").document(uid).updateData(["streak" : 0])
-                    let date = Date.now
-                    UserDefaults.standard.set(date, forKey: "lastDate")
-                    
-                    
-                    print("updated streak")
-                    
-                    // Reset to 1
-                    
-                }
-                
-                
+                //Switching to home tab again
+                app.selectedTab=0
             }
             
         }
+        //Resetting photo and camera view
+        camera.isTaken=false
+        camera.isSaved=false
+        camera.imageLink=URL(string: "")
+        camera.imageName=""
+        camera.picData=Data(count: 0)
+        title=""
+        caption=""
+        
+        // TODO check if this updates streak using phone
+        
+        // get the last date the user posted
+        let storedDate = UserDefaults.standard.object(forKey: "lastDate") as? Date ?? Date.now
+
+        
+        //If user has posted the previous day
+        //if Calendar.current.isDateInToday(stored.addingTimeInterval(86400)) //Increment
+        
+        //If user has posted on the same day
+        if Calendar.current.isDateInToday(storedDate){
+            FirebaseManager.shared.firestore.collection("users").document(uid).updateData(["streak" : FieldValue.increment(1.0)])
+            let date = Date.now
+            UserDefaults.standard.set(date, forKey: "lastDate")
+            
+            print("updated streak")
+            //Remain the same
+        }
+        
+        //If user has not posted on the day or the previous day
+        else if ((!Calendar.current.isDateInToday(storedDate))&&(!Calendar.current.isDateInToday(storedDate.addingTimeInterval(86400)))){
+            FirebaseManager.shared.firestore.collection("users").document(uid).updateData(["streak" : 0])
+            let date = Date.now
+            UserDefaults.standard.set(date, forKey: "lastDate")
+            
+            
+            print("updated streak")
+            
+            // Reset to 1
+            }
         
     }
     
@@ -483,7 +454,7 @@ class CameraModel: NSObject ,ObservableObject, AVCapturePhotoCaptureDelegate{
         
         //UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
         
-
+        
         
         WriteToCloudStorage()
         
