@@ -9,13 +9,13 @@ import SwiftUI
 
 struct SetNotifications: View {
     
-    @State private var notifs = UserDefaults.standard.bool(forKey: "notification")
     // see if notifications are on or not
+    @State private var notifs = UserDefaults.standard.bool(forKey: "notification")
 
+    // get the set time
     @State private var date: Date = UserDefaults.standard.object(forKey: "setTime") as? Date ?? Date.now
     
     var body: some View {
-        
         // nice looking header
         let header = VStack{
                 HStack{
@@ -31,7 +31,7 @@ struct SetNotifications: View {
             HStack{
                 Toggle(isOn: $notifs){
                     Text("Notifications")
-                    Text("Toggle daily reminder").font(.system(size: 20))
+                    Text("Toggle daily reminder").font(.system(size: 20)) // turn reminders on and off
                 }.onChange(of: notifs){ notifs in
                     if notifs {
                         let components = Calendar.current.dateComponents([.hour, .minute], from: date)
@@ -54,6 +54,7 @@ struct SetNotifications: View {
 
         }
         
+        // display everything
         VStack{
             header
             Divider()

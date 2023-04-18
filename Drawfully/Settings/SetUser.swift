@@ -32,6 +32,7 @@ struct SetUser: View {
             return }
         
         // update the username in firebase auth and firestore
+        // TODO make sure user changes are saved to related SessionStore
         if !username.isEmpty{
             let changeRequest = Auth.auth().currentUser?.createProfileChangeRequest()
             changeRequest?.displayName = username
@@ -56,6 +57,7 @@ struct SetUser: View {
         }
         
         // update the first name in firebase firestore
+        // TODO make sure user changes are saved to related SessionStore
         if !firstName.isEmpty {
             FirebaseManager.shared.firestore.collection("users").document(uid).updateData(["FirstName": firstName]){ error in
                     if error == nil{
@@ -69,6 +71,7 @@ struct SetUser: View {
             }
         
         // update the last name in firebase firestore
+        // TODO make sure user changes are saved to related SessionStore
         if !lastName.isEmpty {
             FirebaseManager.shared.firestore.collection("users").document(uid).updateData(["LastName": lastName]){ error in
                     if error != nil{
@@ -80,9 +83,9 @@ struct SetUser: View {
                     }
                 }
             
-        
-        //TODO input validation
         // update the email in firebase auth
+        // TODO make sure user changes are saved to related SessionStore
+        // TODO input validation
         if !email.isEmpty {
             if !email.contains("@"){
                 myAlert = Alert(title: Text("Error With New Email"), message: Text("Email could not change! Invalid email address! Try again!"), dismissButton: .cancel(Text("Close")))
@@ -100,7 +103,9 @@ struct SetUser: View {
             }
         }
         
-        //update the password
+        // update the password
+        // TODO make sure user changes are saved to related SessionStore
+        // TODO input validation
         if !password.isEmpty{
             if password.count < 8 { //passwords must be 8 characters or more
                 myAlert = Alert(title: Text("Error With New Password"), message: Text("Password is too short! Must be 8 characters or more! Try again!"), dismissButton: .cancel(Text("Close"), action: {}))
@@ -134,7 +139,7 @@ struct SetUser: View {
                 
         }
         
-        // main menu
+        // main menu, separates all fields to look nices
         let menu = VStack{
             VStack{
                 Spacer()
@@ -173,6 +178,7 @@ struct SetUser: View {
 
         }.padding().font(.system(size: 25))
         
+        // display everything
         VStack{
             header
             Divider()

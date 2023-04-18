@@ -9,6 +9,7 @@ import SwiftUI
 
 struct Settings: View {
     
+    // store the user's authorization status
     @EnvironmentObject var session: SessionStore
     var body: some View {
         
@@ -19,7 +20,6 @@ struct Settings: View {
                 Text("Settings").font(.title).fontWeight(.bold).padding(.trailing, 0.0).multilineTextAlignment(.center)
                 Spacer()
             }.padding()
-            
         }
         
         // Debugging settings to help with development
@@ -31,11 +31,13 @@ struct Settings: View {
             ScrollView {
                 Text("Testing Streak")
                 HStack{
+                    // Set the streak date to now
                     Button("Set Date"){
                         UserDefaults.standard.set(Date.now, forKey: "lastDate")
                         print("Date set")
                     }.padding()
                     
+                    //Set streak date to two days ago
                     Button("Set Old Date"){
                         UserDefaults.standard.set(Calendar.current.date(byAdding: .day, value: -2, to: Date.now), forKey: "lastDate")
                         print("Old Date set")
@@ -49,7 +51,7 @@ struct Settings: View {
             VStack(alignment: .center){
                 // toggle if you want to receive daily notification: see NotificationManager.swift
                 
-                // Edit Notifications
+                // Edit Notifications Settings
                 NavigationLink(destination: SetNotifications()){
                     Text("Edit Notifications")
                 }.foregroundColor(.black)
@@ -58,7 +60,7 @@ struct Settings: View {
                     .background(Color.green)
                     .clipShape(Capsule())
                 
-                // Edit User's Profile
+                // Edit User's Profile Information
                 NavigationLink(destination: SetUser()){
                     Text("Edit Profile")
                 }.foregroundColor(.black)
@@ -67,6 +69,7 @@ struct Settings: View {
                     .background(Color.green)
                     .clipShape(Capsule())
                 
+                // Logout the User
                 Button(action: {
                     session.loggedIn=false
 
@@ -88,7 +91,7 @@ struct Settings: View {
                 Divider()
                 menu
                 
-                // Remove for production
+                // TODO Remove for production
                 Divider()
                 debugging
             }
