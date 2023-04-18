@@ -22,6 +22,7 @@ import SimpleToast
 import DeviceKit
 
 struct Add: View {
+    @EnvironmentObject var session: SessionStore
     
     //Environment Object created to access global variables
     @EnvironmentObject private var app: AppVariables
