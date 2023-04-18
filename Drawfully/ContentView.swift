@@ -23,8 +23,7 @@ struct ContentView: View {
     
     @StateObject var searchFirebase = SearchQueries()
 
-    
-    @EnvironmentObject var session: SessionStore
+    @StateObject var session: SessionStore = SessionStore()
     
     func getUser() {
         session.listen()
@@ -42,11 +41,11 @@ struct ContentView: View {
         Group {
           if (session.session != nil) {
 
-              BottomBar(AnyView(Home()),
-                        AnyView(Community()),
-                        AnyView(Add()),
+              BottomBar(AnyView(Home().environmentObject(session)),
+                        AnyView(Community(newSession: session)),
+                        AnyView(Add().environmentObject(session)),
                         AnyView(Search().environmentObject(searchFirebase)),
-                        AnyView(Settings())
+                        AnyView(Settings().environmentObject(session))
               )
               .environmentObject(AppVariables())
 
