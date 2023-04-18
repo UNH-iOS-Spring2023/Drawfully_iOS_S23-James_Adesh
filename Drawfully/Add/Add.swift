@@ -478,7 +478,7 @@ class CameraModel: NSObject ,ObservableObject, AVCapturePhotoCaptureDelegate{
         // Citation : https://firebase.google.com/docs/storage/ios/upload-files
         // Citation : https://www.youtube.com/watch?v=5inXE5d2MUM&t=939s
         
-        let ref=FirebaseManager.shared.storage.reference(withPath: "drawings/\(uid)/\(uuid)")
+        let ref=FirebaseManager.shared.storage.reference(withPath: "extras/\(uid)/\(uuid)")
         
         
         guard let imageData=UIImage(data: self.picData)!.jpegData(compressionQuality: 1.0) else
