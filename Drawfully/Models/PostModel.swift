@@ -13,7 +13,7 @@ struct PostModel: Encodable, Decodable {
     var ownerId: String //The user who has created that post
     var postId: String //The randomly generated UUID String used to store the post image
     var username: String //username of the user who has created the post
-    var profile: String //URL Link to profile picture of that user
+    var profileImageUrl: String //URL Link to profile picture of that user
     var mediaUrl: String //URL Link to the post ikmage
     var title: String //The title of the post
     var date: Double //Date/Timestap of the post
