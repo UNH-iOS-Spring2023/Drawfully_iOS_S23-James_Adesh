@@ -132,8 +132,10 @@ class PostService{
                 else{
                     return
                 }
-                //Adding each user to array of posts
-                posts.append(decoder)
+                //Adding each user to array of posts if post is public
+                if (decoder.isPublic==true){
+                    posts.append(decoder)
+                }
             }
             onSuccess(posts)
         }
