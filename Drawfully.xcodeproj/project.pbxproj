@@ -36,7 +36,6 @@
 		DE5A0FBC299F6D01006182C4 /* Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE5A0FBB299F6D01006182C4 /* Search.swift */; };
 		DE5A0FBE299F6D13006182C4 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE5A0FBD299F6D13006182C4 /* Settings.swift */; };
 		DE5A0FC0299F6ED7006182C4 /* HomeImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE5A0FBF299F6ED7006182C4 /* HomeImage.swift */; };
-		DE5A0FC2299F6EE9006182C4 /* PostModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE5A0FC1299F6EE9006182C4 /* PostModel.swift */; };
 		DE6542B029E9437500DC3B47 /* CommentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6542AF29E9437500DC3B47 /* CommentModel.swift */; };
 		DE6542B229E9438900DC3B47 /* CommentService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6542B129E9438900DC3B47 /* CommentService.swift */; };
 		DE6542B429EE03AC00DC3B47 /* CommentCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6542B329EE03AC00DC3B47 /* CommentCard.swift */; };
@@ -85,7 +84,6 @@
 		DE5A0FBB299F6D01006182C4 /* Search.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Search.swift; sourceTree = "<group>"; };
 		DE5A0FBD299F6D13006182C4 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		DE5A0FBF299F6ED7006182C4 /* HomeImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeImage.swift; sourceTree = "<group>"; };
-		DE5A0FC1299F6EE9006182C4 /* PostModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostModel.swift; sourceTree = "<group>"; };
 		DE6542AF29E9437500DC3B47 /* CommentModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentModel.swift; sourceTree = "<group>"; };
 		DE6542B129E9438900DC3B47 /* CommentService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentService.swift; sourceTree = "<group>"; };
 		DE6542B329EE03AC00DC3B47 /* CommentCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentCard.swift; sourceTree = "<group>"; };
