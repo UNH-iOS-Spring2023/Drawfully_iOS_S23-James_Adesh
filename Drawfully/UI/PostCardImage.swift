@@ -43,7 +43,7 @@ struct PostCardImage: View {
             
             //Title to be displayed. TODO
             //Caption of post
-            Text(post.caption).lineLimit(nil)
+            Text(post.title).lineLimit(nil)
                 .padding(.leading, 16)
                 .padding(.trailing, 32)
             
@@ -51,6 +51,7 @@ struct PostCardImage: View {
             WebImage(url: URL(string: post.mediaUrl)!)
                 .resizable()
                 .aspectRatio(contentMode: .fill)
+                .scaledToFit()
                 .frame(width: UIScreen.main.bounds.size.width, height: 400, alignment: .center)
                 .clipped()
         }
