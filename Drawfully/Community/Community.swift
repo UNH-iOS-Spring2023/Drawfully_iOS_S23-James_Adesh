@@ -45,8 +45,9 @@ struct Community: View {
                         ForEach(communityService.posts, id:\.postId){
                             (post) in
                             
-                            PostCardImage(post: post)
-                            PostCard(post: post)
+                                PostCardImage(post: post)
+                                PostCard(post: post)
+                                Divider()
                             
                         }
                     }
