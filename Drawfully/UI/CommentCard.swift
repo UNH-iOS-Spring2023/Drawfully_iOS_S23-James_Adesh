@@ -17,6 +17,7 @@ struct CommentCard: View {
     
     var body: some View {
         HStack{
+            //Profile image of comment owner
             WebImage(url: URL(string: comment.profileImageUrl)!)
                 .resizable()
                 .aspectRatio(contentMode: .fill)
@@ -26,12 +27,16 @@ struct CommentCard: View {
                 .shadow(color: .gray, radius: 3)
                 .padding(.leading)
             
+            
             VStack(alignment: .leading){
+                //Username of comment owner
                 Text(comment.username).font(.subheadline).bold()
+                //Comment content
                 Text(comment.comment).font(.caption)
             }
             Spacer()
             
+            //Showing time since comment was posted
             Text((Date(timeIntervalSince1970: comment.date)).timeAgo() + " ago").font(.subheadline)
             
         }
