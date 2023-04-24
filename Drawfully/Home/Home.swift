@@ -11,6 +11,7 @@ import SwiftUI
 import Firebase
 import FirebaseAuth
 import SDWebImageSwiftUI
+import Introspect
 
 struct Home: View {
     
@@ -19,9 +20,11 @@ struct Home: View {
     @StateObject var profileService = ProfileService()
     
     let threeColumns = [GridItem(), GridItem(), GridItem()]
+    @State private var tabBar: UITabBar?
     
     var body: some View {
         
+        NavigationView{
             //Added scroll view for user's images
             VStack{
                 HStack{
@@ -84,9 +87,15 @@ struct Home: View {
                     
                 }
             }
-        
+            
+        }.accentColor(.white)
+        // Citation : https://stackoverflow.com/questions/58444689/swiftui-hide-tabbar-in-subview#comment128904398_72905241
+        // To disable bottom bar when viewing an image fullscreen and enable once full screen view is closed
+        .introspectTabBarController { UITabBarController in
+            tabBar = UITabBarController.tabBar
+            self.tabBar?.isHidden = false }
+            
     }
-    
     
 }
 
