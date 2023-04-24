@@ -17,9 +17,26 @@ class CommentService: ObservableObject {
     @Published var comments: [CommentModel] = []
     var postId: String!
     var listener: ListenerRegistration!
-    var post: PostModel!
+   var post: PostModel!
+    @Published var documentCount=0
 
-    
+
+    //Function to count number of comments on post
+    func getCommentsCount(postId: String) {
+
+        
+        // Citation : https://stackoverflow.com/questions/48516763/firestore-swift-4-how-to-get-total-count-of-all-the-documents-inside-a-collect
+        let collectionRef = CommentService.commentsId(postId: postId).collection("comments")
+
+                    collectionRef.getDocuments() { (querySnapshot, error) in
+                        if let error = error {
+                            print("Error getting documents: \(error)")
+                        } else {
+                            self.documentCount = querySnapshot?.documents.count ?? 0
+
+                        }
+                    }
+    }
     //Firebase reference to comments collection
     static var commentsRef = AuthService.storeRoot.collection("comments")
     
