@@ -49,6 +49,7 @@
 		DE80F8BC29DAA9D400DDA645 /* SessionStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE80F8BB29DAA9D400DDA645 /* SessionStore.swift */; };
 		DE878F0729DE217C000BA28D /* PostService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE878F0629DE217C000BA28D /* PostService.swift */; };
 		DE95887829D69B5400C20BDE /* SelectedImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE95887729D69B5400C20BDE /* SelectedImage.swift */; };
+		DEA7C43229F60136005C9AB0 /* Introspect in Frameworks */ = {isa = PBXBuildFile; productRef = DEA7C43129F60136005C9AB0 /* Introspect */; };
 		DEE9BEF629B339E000F37FF4 /* SimpleToast in Frameworks */ = {isa = PBXBuildFile; productRef = DEE9BEF529B339E000F37FF4 /* SimpleToast */; };
 		DEE9BEF929B34FD800F37FF4 /* FirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEE9BEF829B34FD800F37FF4 /* FirebaseManager.swift */; };
 		DEEA8F2729DF9B6400287C37 /* PostCardService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEEA8F2629DF9B6400287C37 /* PostCardService.swift */; };
@@ -122,6 +123,7 @@
 				DE207697299C5A470059825D /* FirebaseAnalytics in Frameworks */,
 				DE2076A9299C5A480059825D /* FirebaseMessaging in Frameworks */,
 				DE2076A7299C5A470059825D /* FirebaseFunctionsCombine-Community in Frameworks */,
+				DEA7C43229F60136005C9AB0 /* Introspect in Frameworks */,
 				DEE9BEF629B339E000F37FF4 /* SimpleToast in Frameworks */,
 				DE20769B299C5A470059825D /* FirebaseAuthCombine-Community in Frameworks */,
 				DE20769D299C5A470059825D /* FirebaseDatabase in Frameworks */,
@@ -332,6 +334,7 @@
 				DEE9BEF529B339E000F37FF4 /* SimpleToast */,
 				DE28053729C8AC8F00207866 /* DeviceKit */,
 				DEEA8F2F29DFC0F900287C37 /* SDWebImageSwiftUI */,
+				DEA7C43129F60136005C9AB0 /* Introspect */,
 			);
 			productName = Drawfully;
 			productReference = DE207681299C58F20059825D /* Drawfully.app */;
@@ -366,6 +369,7 @@
 				DEE9BEF429B339E000F37FF4 /* XCRemoteSwiftPackageReference "SimpleToast" */,
 				DE28053629C8AC8F00207866 /* XCRemoteSwiftPackageReference "DeviceKit" */,
 				DEEA8F2E29DFC0F900287C37 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
+				DEA7C43029F60136005C9AB0 /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */,
 			);
 			productRefGroup = DE207682299C58F20059825D /* Products */;
 			projectDirPath = "";
@@ -678,6 +682,14 @@
 				minimumVersion = 5.0.0;
 			};
 		};
+		DEA7C43029F60136005C9AB0 /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/siteline/SwiftUI-Introspect";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.2.3;
+			};
+		};
 		DEE9BEF429B339E000F37FF4 /* XCRemoteSwiftPackageReference "SimpleToast" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/sanzaru/SimpleToast";
@@ -761,6 +773,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = DE28053629C8AC8F00207866 /* XCRemoteSwiftPackageReference "DeviceKit" */;
 			productName = DeviceKit;
+		};
+		DEA7C43129F60136005C9AB0 /* Introspect */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DEA7C43029F60136005C9AB0 /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */;
+			productName = Introspect;
 		};
 		DEE9BEF529B339E000F37FF4 /* SimpleToast */ = {
 			isa = XCSwiftPackageProductDependency;

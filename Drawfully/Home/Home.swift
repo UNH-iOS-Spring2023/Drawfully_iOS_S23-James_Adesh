@@ -39,30 +39,24 @@ struct Home: View {
                     Spacer()
                 }.padding()
                 
+                // If user doesnt have any posts, display appropriate message
                 if (self.profileService.posts.isEmpty){
                     HStack{
-                        //Spacer()
-                        
                         Text("No drawings added 🙁")
                             .font(.body)
                             .fontWeight(.bold)
-                        
-                        //Spacer()
                     }
                     
                 }
                 
                 ScrollView{
                     
-                    
-                    //Code above this line has to be modified to be using new services made. We have to get rid of fetchCurrentUser function from this class.
-                    
-                    
                     //Displaying 3 photos in a row
                     LazyVGrid(columns: threeColumns) {
                         ForEach(self.profileService.posts, id:\.postId){
                             (post) in
                             
+                            //Now clicking on image, takes you to fullscreen view
                             NavigationLink(destination: SelectedImage(post: post)){
                                 WebImage(url: URL(string : post.mediaUrl)!)
                                     .resizable()
