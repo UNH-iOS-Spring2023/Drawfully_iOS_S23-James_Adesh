@@ -63,13 +63,15 @@ struct Home: View {
                         ForEach(self.profileService.posts, id:\.postId){
                             (post) in
                             
-                            WebImage(url: URL(string : post.mediaUrl)!)
-                                .resizable()
-                                .frame(width: ((UIScreen.main.bounds.width/3)-5),
-                                       height: UIScreen.main.bounds.height/3)
-                                .aspectRatio(contentMode: .fill)
-                                .padding(5)
-                            
+                            NavigationLink(destination: SelectedImage(post: post)){
+                                WebImage(url: URL(string : post.mediaUrl)!)
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: ((UIScreen.main.bounds.width/3)-5))
+                                    .aspectRatio(contentMode: .fit)
+                                    .padding(5)
+                                
+                            }
                         }
                     }
                     
