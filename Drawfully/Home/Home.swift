@@ -32,13 +32,25 @@ struct Home: View {
                         .font(.title2)
                         .fontWeight(.bold)
                     Spacer()
-                    Text("Home").font(.title).fontWeight(.bold).padding(.trailing, 42.0).multilineTextAlignment(.center)
+                    Text(session.session?.username ?? "User").font(.title).fontWeight(.bold).padding(.trailing, 42.0).multilineTextAlignment(.center)
                     Spacer()
-                    Image(systemName: "magnifyingglass")
                 }.padding()
                 
+                if (self.profileService.posts.isEmpty){
+                    HStack{
+                        //Spacer()
+                        
+                        Text("No drawings added 🙁")
+                            .font(.body)
+                            .fontWeight(.bold)
+                        
+                        //Spacer()
+                    }
+                    
+                }
                 
                 ScrollView{
+                    
                     
                     //Code above this line has to be modified to be using new services made. We have to get rid of fetchCurrentUser function from this class.
                     
