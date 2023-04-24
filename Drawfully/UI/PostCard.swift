@@ -12,6 +12,8 @@ struct PostCard: View {
     
     @ObservedObject var postCardService = PostCardService()
     
+    @ObservedObject var commentService = CommentService()
+    
     //animate boolean variable to trigger animation on  'Like' button
     @State private var animate = false
     
@@ -27,6 +29,7 @@ struct PostCard: View {
     init(post: PostModel){
         self.postCardService.post = post
         self.postCardService.hasLikedPost()
+        self.commentService.getCommentsCount(postId: post.postId)
     }
     
     
@@ -61,6 +64,10 @@ struct PostCard: View {
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .frame(width: 25,height: 25, alignment: .center)
+                    
+                    //Number of comments displayed if the post has comments. If 0 comments, number is not displayed
+                    if !(self.commentService.documentCount==0){
+                        Text(String(self.commentService.documentCount))}
                 }
                 
                 Spacer()
