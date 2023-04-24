@@ -182,7 +182,8 @@ struct CameraView: View {
                         image
                             .resizable()
                             .frame(width: 360, height: 360)
-                            .aspectRatio(contentMode: .fill)
+                            .scaledToFit()
+                            .aspectRatio(contentMode: .fit)
                             .clipShape(RoundedRectangle(cornerRadius: 15))
                             .padding(10)
                     } placeholder: {
@@ -253,6 +254,8 @@ struct CameraView: View {
             }
             else{
                 //Switching to home tab again
+
+                Home()
                 app.selectedTab=0
             }
             
