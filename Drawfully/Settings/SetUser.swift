@@ -11,6 +11,7 @@
 import SwiftUI
 
 import Firebase
+import FirebaseAuth
 
 struct SetUser: View {
     
@@ -20,6 +21,8 @@ struct SetUser: View {
     @State private var email: String = ""
     @State private var password: String = ""
     
+    @EnvironmentObject var session: SessionStore
+
     
     @State private var showAlert = false
     @State private var myAlert: Alert?
@@ -178,6 +181,12 @@ struct SetUser: View {
             Divider()
             menu
             Spacer()
+        }.onAppear{
+            username=session.session!.username
+            firstName=session.session!.firstName
+            lastName=session.session!.lastName
+            email=session.session!.email
+            //password=
         }
     }
 }
