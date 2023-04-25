@@ -17,16 +17,34 @@ class CommentService: ObservableObject {
     @Published var comments: [CommentModel] = []
     var postId: String!
     var listener: ListenerRegistration!
-    var post: PostModel!
+   var post: PostModel!
+    @Published var documentCount=0
 
-    
-    
+
+    //Function to count number of comments on post
+    func getCommentsCount(postId: String) {
+
+        
+        // Citation : https://stackoverflow.com/questions/48516763/firestore-swift-4-how-to-get-total-count-of-all-the-documents-inside-a-collect
+        let collectionRef = CommentService.commentsId(postId: postId).collection("comments")
+
+                    collectionRef.getDocuments() { (querySnapshot, error) in
+                        if let error = error {
+                            print("Error getting documents: \(error)")
+                        } else {
+                            self.documentCount = querySnapshot?.documents.count ?? 0
+
+                        }
+                    }
+    }
+    //Firebase reference to comments collection
     static var commentsRef = AuthService.storeRoot.collection("comments")
     
     static func commentsId(postId: String)->DocumentReference {
         return commentsRef.document(postId)
     }
     
+    //Function to create a CommentModel Object with user input and info and add that document to Firebase
     func postComment(comment: String, username: String, profileImageUrl: String, ownerId: String, postId: String, onSuccess: @escaping()->Void, onError:@escaping(_ error: String)->Void){
         
         let comment = CommentModel(profileImageUrl: profileImageUrl, postId: postId, username: username, date: Date().timeIntervalSince1970, comment: comment, ownerId: ownerId)
@@ -46,8 +64,12 @@ class CommentService: ObservableObject {
         
     }
     
+    
+    //  Function with snapshotListener to get comments from Firebase in realtime
     func getComments(postId: String, onSuccess: @escaping ([CommentModel])-> Void, onError: @escaping(_ error: String)-> Void, newComment: @escaping(CommentModel) -> Void, listener: @escaping(_ listenerHandle: ListenerRegistration)-> Void )
     {
+        
+        //Adding snapshotListener
         let listenerPosts = CommentService.commentsId(postId: postId).collection("comments").order(by: "date", descending: false).addSnapshotListener{
             (snapshot, err) in
             guard let snapshot = snapshot else {return}
@@ -59,11 +81,13 @@ class CommentService: ObservableObject {
                 
                 if (diff.type == .added){
                     let dict = diff.document.data()
+                    //Creating comment object with data received
                     guard let decoded = try? CommentModel.init(fromDictionary: dict) else {
                         return
                     }
                     
                     newComment(decoded)
+                    //Appending comment to comments array
                     comments.append(decoded)
                     
                 }
@@ -71,7 +95,7 @@ class CommentService: ObservableObject {
                 if (diff.type == .modified)
                 {
                     print("Modify comment")
-                    //TODO
+                    //TODO @James do you wanna do this? Do you want to add comment edit and delete functionality?
                 }
                 if (diff.type == .removed)
                 {
@@ -88,6 +112,7 @@ class CommentService: ObservableObject {
     }
     
     
+    //Function to load comments onto the service and send to CommentsView
     func loadComments() {
         self.comments = []
         self.isLoading = true
@@ -111,7 +136,7 @@ class CommentService: ObservableObject {
         }
     }
     
-    
+    //Function to add comment with user info and call function postComment
     func addComment(comment: String, onSuccess: @escaping()-> Void){
         guard let currentUserId = Auth.auth().currentUser?.uid else {return}
         

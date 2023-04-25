@@ -11,62 +11,7 @@ import SwiftUI
 import Firebase
 import FirebaseAuth
 import SDWebImageSwiftUI
-
-//View Model for making firebase calls and receiving snapshots
-// Citation : https://www.youtube.com/watch?v=yHngqpFpVZU&list=PL0dzCUj1L5JEN2aWYFCpqfTBeVHcGZjGw&index=7
-//class HomeViewModel: ObservableObject{
-//
-//    @Published var errorMessage:String=""
-//    @Published var streakCount:String="T"
-//    @Published var CurrentUser:User=User(uid: "", email: "", profileImageUrl: "", username: "", searchName: [], streak: 0, firstName: "", lastName: "")
-//    static let shared = HomeViewModel ()
-//
-//    init()
-//    {
-//        //fetchCurrentUser()
-//        //super.init()
-//    }
-//
-//    func fetchCurrentUser(){
-//
-//        // If the user hasn't posted the day before, reset their streak to 0
-//        // Preconditions: valid firebase user id
-//        // Postconditions: if nothing posted yesterday, firebase document has streak set to 0
-//        func CheckStreak(uid: String) {
-//            let storedDate = UserDefaults.standard.object(forKey: "lastDate") as? Date ?? Calendar.current.date(byAdding: .day, value: -2, to: Date.now)
-//
-//            // if the date is less than today && if the date is not yesterday
-//            if storedDate! < Calendar.current.startOfDay(for: Date.now) && !Calendar.current.isDateInToday(storedDate!.addingTimeInterval(86400)){
-//                FirebaseManager.shared.firestore.collection("users").document(uid).updateData(["streak" : 0])
-//                print("reset streak to 0")
-//                // TODO Screen notifying that streak is lost
-//                // TODO properly test the function, since the UserDefaults object can't be stored in simulator
-//            }
-//            else{
-//                print("streak is safe")
-//            }
-//        }
-//        guard let uid = FirebaseManager.shared.auth.currentUser?.uid else{
-//            return}
-//
-//        CheckStreak(uid: uid)
-//
-//
-//        FirebaseManager.shared.firestore.collection("users").document(uid).getDocument{snapshot, error in
-//            if let error = error{
-//                print("Failed to fetch user data : \(error)")
-//            }
-//
-//            guard let data=snapshot?.data() else {
-//                return}
-//
-//            let appUser = User(uid: uid,  email: data["email"] as? String ?? "", profileImageUrl: data["profileImageUrl"] as? String ?? "", username: data["username"] as? String ?? "", searchName: data["searchName"] as? [String] ?? [""], streak: data["streak"] as? Int ?? 0, firstName: data["firstName"] as? String ?? "", lastName: data["lastName"] as? String ?? "")
-//            self.CurrentUser=appUser
-//
-//        }
-//    }
-//
-//}
+import Introspect
 
 struct Home: View {
     
@@ -75,12 +20,11 @@ struct Home: View {
     @StateObject var profileService = ProfileService()
     
     let threeColumns = [GridItem(), GridItem(), GridItem()]
-    
-    //@ObservedObject private var vm = HomeViewModel()
+    @State private var tabBar: UITabBar?
     
     var body: some View {
         
-       // NavigationView{
+        NavigationView{
             //Added scroll view for user's images
             VStack{
                 HStack{
@@ -91,29 +35,37 @@ struct Home: View {
                         .font(.title2)
                         .fontWeight(.bold)
                     Spacer()
-                    Text("Home").font(.title).fontWeight(.bold).padding(.trailing, 42.0).multilineTextAlignment(.center)
+                    Text(session.session?.username ?? "User").font(.title).fontWeight(.bold).padding(.trailing, 42.0).multilineTextAlignment(.center)
                     Spacer()
-                    Image(systemName: "magnifyingglass")
                 }.padding()
                 
+                // If user doesnt have any posts, display appropriate message
+                if (self.profileService.posts.isEmpty){
+                    HStack{
+                        Text("No drawings added 🙁")
+                            .font(.body)
+                            .fontWeight(.bold)
+                    }
+                    
+                }
                 
                 ScrollView{
-                    
-                    //Code above this line has to be modified to be using new services made. We have to get rid of fetchCurrentUser function from this class.
-                    
                     
                     //Displaying 3 photos in a row
                     LazyVGrid(columns: threeColumns) {
                         ForEach(self.profileService.posts, id:\.postId){
                             (post) in
                             
-                            WebImage(url: URL(string : post.mediaUrl)!)
-                                .resizable()
-                                .frame(width: ((UIScreen.main.bounds.width/3)-5),
-                                       height: UIScreen.main.bounds.height/3)
-                                .aspectRatio(contentMode: .fill)
-                                .padding(5)
-                            
+                            //Now clicking on image, takes you to fullscreen view
+                            NavigationLink(destination: SelectedImage(post: post)){
+                                WebImage(url: URL(string : post.mediaUrl)!)
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: ((UIScreen.main.bounds.width/3)-5))
+                                    .aspectRatio(contentMode: .fit)
+                                    .padding(5)
+                                
+                            }
                         }
                     }
                     
@@ -131,9 +83,15 @@ struct Home: View {
                     
                 }
             }
-        
+            
+        }.accentColor(.white)
+        // Citation : https://stackoverflow.com/questions/58444689/swiftui-hide-tabbar-in-subview#comment128904398_72905241
+        // To disable bottom bar when viewing an image fullscreen and enable once full screen view is closed
+        .introspectTabBarController { UITabBarController in
+            tabBar = UITabBarController.tabBar
+            self.tabBar?.isHidden = false }
+            
     }
-    
     
 }
 
