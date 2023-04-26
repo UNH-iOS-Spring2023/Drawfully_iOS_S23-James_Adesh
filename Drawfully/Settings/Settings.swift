@@ -54,19 +54,19 @@ struct Settings: View {
                 // Edit Notifications Settings
                 NavigationLink(destination: SetNotifications()){
                     Text("Edit Notifications")
-                }.foregroundColor(.black)
+                }.foregroundColor(.white)
                     .font(.headline)
                     .padding(20)
-                    .background(Color.green)
+                    .background(AppThemeColor)
                     .clipShape(Capsule())
                 
                 // Edit User's Profile Information
                 NavigationLink(destination: SetUser()){
                     Text("Edit Profile")
-                }.foregroundColor(.black)
+                }.foregroundColor(.white)
                     .font(.headline)
                     .padding(20)
-                    .background(Color.green)
+                    .background(AppThemeColor)
                     .clipShape(Capsule())
                 
                 // Logout the User
@@ -75,10 +75,10 @@ struct Settings: View {
 
                     session.logout()} ,label:  {
                     Text("Logout")
-                }).foregroundColor(.black)
+                }).foregroundColor(.white)
                     .font(.headline)
                     .padding(20)
-                    .background(Color.green)
+                    .background(AppThemeColor)
                     .clipShape(Capsule())
             }
         }.font(.system(size: 30))

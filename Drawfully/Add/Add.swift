@@ -30,7 +30,7 @@ struct Add: View {
         
         //Text("Camera View here. Currently commented for testing in simulator")
         
-        CameraView()
+        CameraView().environmentObject(app)
         
     }
 }
@@ -87,17 +87,14 @@ struct CameraView: View {
                     
                     if camera.isTaken{
                         HStack{
-                            
                             Spacer()
-                            
                             Button(action: camera.reTake, label:{
                                 //Click to retake button
                                 Image(systemName: "arrow.triangle.2.circlepath.camera")
-                                    .foregroundColor(.black)
+                                    .foregroundColor(.white)
                                     .padding()
-                                    .background(Color.white)
+                                    .background(AppThemeColor)
                                     .clipShape(Circle())
-                                
                             })
                             .padding(.trailing,10)
                         }
@@ -110,11 +107,11 @@ struct CameraView: View {
                             //Save photo Button
                             Button(action:{if !camera.isSaved{camera.savePic()}}, label: {
                                 Text(camera.isSaved ? "Saved" : "Save")
-                                    .foregroundColor(.black)
+                                    .foregroundColor(.white)
                                     .fontWeight(.semibold)
                                     .padding(.vertical,10)
                                     .padding(.horizontal,20)
-                                    .background(Color.white)
+                                    .background(AppThemeColor)
                                     .clipShape(Capsule())
                             })
                             .padding(.leading)
@@ -163,10 +160,10 @@ struct CameraView: View {
                         Button(action: WriteToFirebase, label: {
                             Text("Add to Drawings")
                         }).padding(10)
-                            .foregroundColor(.black)
+                            .foregroundColor(.white)
                             .font(.headline)
                             .padding(10)
-                            .background(Color.green)
+                            .background(AppThemeColor)
                             .clipShape(Capsule())
                         // }
                     }.padding(10)

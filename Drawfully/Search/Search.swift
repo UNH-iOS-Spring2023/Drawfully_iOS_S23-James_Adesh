@@ -117,15 +117,27 @@ struct Search: View {
             
             Button(action: getTime){
                 Text("Get a time limit!")
-            }.padding().buttonStyle(.bordered)
+            }.padding().buttonStyle(.bordered).foregroundColor(.white)
+                .font(.headline)
+                .padding(20)
+                .background(AppThemeColor)
+                .clipShape(Capsule())
             
             Button(action: getTheme){
                 Text("Get a theme!")
-            }.padding().buttonStyle(.bordered)
+            }.padding().buttonStyle(.bordered).foregroundColor(.white)
+                .font(.headline)
+                .padding(20)
+                .background(AppThemeColor)
+                .clipShape(Capsule())
             
             Button(action: getObject){
                 Text("Get a object!")
-            }.padding().buttonStyle(.bordered)
+            }.padding().buttonStyle(.bordered).foregroundColor(.white)
+                .font(.headline)
+                .padding(20)
+                .background(AppThemeColor)
+                .clipShape(Capsule())
         }
             
         
