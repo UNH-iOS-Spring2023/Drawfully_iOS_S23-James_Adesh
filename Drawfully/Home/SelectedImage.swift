@@ -37,7 +37,6 @@ struct SelectedImage: View {
                 //If edit button has been clicked
                 if fieldsEditable{
                     VStack{
-                        
                         //Button to delete the post
                         Button(action: {
                             //Function call to delete post
@@ -81,11 +80,19 @@ struct SelectedImage: View {
                                 .background(Color.white)
                                 .padding(.horizontal, 50)
                         }
+                        
                         HStack{
                             //Toggle to modify visibility
-                            Toggle(isOn: $postVisibility, label: {Text("Make Post Visible").foregroundColor(.white).background(AppThemeColor)
-                                    .cornerRadius(20).padding(.horizontal, 20)
-                                .padding(.vertical, 10)})
+                            Toggle(isOn: $postVisibility, label:
+                                    {
+                                    Text(" Make Post Visible ")
+                                    .foregroundColor(.white)
+                                    .font(.body)
+                                    .frame(width: 175, height: 50)
+                                        .background(Capsule().fill(AppThemeColor))
+                                    
+                                }).padding(20)
+                            
                         }.padding(.horizontal, 20)
                         HStack{
                             Spacer()

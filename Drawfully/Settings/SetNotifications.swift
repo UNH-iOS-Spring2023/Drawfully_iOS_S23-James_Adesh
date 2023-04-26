@@ -30,8 +30,8 @@ struct SetNotifications: View {
         let menu = VStack{
             HStack{
                 Toggle(isOn: $notifs){
-                    Text("Notifications")
-                    Text("Toggle daily reminder").font(.system(size: 20)) // turn reminders on and off
+                    Text("Notifications").font(.title)
+                    Text("Toggle daily reminder").font(.caption) // turn reminders on and off
                 }.onChange(of: notifs){ notifs in
                     if notifs {
                         let components = Calendar.current.dateComponents([.hour, .minute], from: date)
@@ -42,7 +42,7 @@ struct SetNotifications: View {
             HStack{
                 // scrollable picker to change the time a notification is sent
                 if notifs{
-                    DatePicker("Notification Time", selection: $date, displayedComponents: [.hourAndMinute]).onChange(of: date) { date in
+                    DatePicker("Notification Time", selection: $date, displayedComponents: [.hourAndMinute]).font(.title).onChange(of: date) { date in
                         let components = Calendar.current.dateComponents([.hour, .minute], from: date)
                         UserDefaults.standard.set(date, forKey: "setTime")
                         createNotification(date: components) // when the time is changed, reset the notification. doNotification() has the ability to handle time changes

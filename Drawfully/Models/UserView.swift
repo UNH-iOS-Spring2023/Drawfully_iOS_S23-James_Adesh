@@ -35,21 +35,24 @@ struct UserView: View {
             Divider()
             
             // display images, same as the implementation in Home.swift
-            ScrollView{
-                //Displaying 3 photos in a row
-                LazyVGrid(columns: threeColumns) {
-                    ForEach(self.profileService.posts, id:\.postId){
-                        (post) in
-                        
-                        WebImage(url: URL(string : post.mediaUrl)!)
-                            .resizable()
-                            .frame(width: ((UIScreen.main.bounds.width/3)-5),
-                                   height: UIScreen.main.bounds.height/3)
-                            .aspectRatio(contentMode: .fill)
-                            .padding(5)
+            NavigationStack{
+                ScrollView{
+                    //Displaying 3 photos in a row
+                    LazyVGrid(columns: threeColumns) {
+                        ForEach(profileService.posts, id:\.postId){
+                            (post) in
+                            NavigationLink(destination: ViewPublicImage(post: post)){
+                                WebImage(url: URL(string : post.mediaUrl)!)
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: ((UIScreen.main.bounds.width/3)-5))
+                                    .aspectRatio(contentMode: .fit)
+                                    .padding(5)
+                            }
+                        }
                     }
                 }
-            }
+            }.accentColor(.white)
         }
         .onAppear{ self.profileService.loadUserPosts(userId: user.uid) }
     }
