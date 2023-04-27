@@ -16,6 +16,7 @@ class PostCardService: ObservableObject {
     //Used to store post as PostModel
     @Published var post: PostModel!
     @Published var isLiked = false
+    @Published var isSaved = false
     
     
     //To check if logged in user has liked a particular post or not
@@ -23,6 +24,12 @@ class PostCardService: ObservableObject {
     {
             
             isLiked = (post.likes["\(Auth.auth().currentUser?.uid ?? "")"]==true) ? true : false
+    }
+    
+    func hasSavedPost()
+    
+    {
+        isSaved = (post.saves["\(Auth.auth().currentUser?.uid ?? "")"]==true) ? true : false
     }
     
     
@@ -52,6 +59,25 @@ class PostCardService: ObservableObject {
         PostService.AllPosts.document(post.postId).updateData([ "likeCount" : post.likeCount, "likes.\(Auth.auth().currentUser!.uid)": false])
         
         PostService.TimelineUserId(userId: post.ownerId).collection("timeline").document(post.postId).updateData([ "likeCount" : post.likeCount, "likes.\(Auth.auth().currentUser!.uid)": false])
+    }
+    
+    
+    func save(){
+        isSaved = true
+        
+      PostService.PostsUserId(userId: post.ownerId).collection("posts").document(post.postId).updateData(["saves.\(Auth.auth().currentUser!.uid)": true])
+        
+        PostService.AllPosts.document(post.postId).updateData([ "saves.\(Auth.auth().currentUser!.uid)": true])
+        
+        //PostService.TimelineUserId(userId: post.ownerId).collection("timeline").document(post.postId).updateData([ "likeCount" : post.likeCount, "likes.\(Auth.auth().currentUser!.uid)": true])
+    }
+    
+    func unsave(){
+        isSaved = false
+        
+      PostService.PostsUserId(userId: post.ownerId).collection("posts").document(post.postId).updateData(["saves.\(Auth.auth().currentUser!.uid)": false])
+        
+        PostService.AllPosts.document(post.postId).updateData([ "saves.\(Auth.auth().currentUser!.uid)": false])
     }
     
 }

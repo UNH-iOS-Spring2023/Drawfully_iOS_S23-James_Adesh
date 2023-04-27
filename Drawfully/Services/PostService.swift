@@ -69,7 +69,14 @@ class PostService{
                 return
             }
             
-            let dict = snap.data()
+            //let dict = snap.data()
+            var dict = snap.data()
+            if ((dict?.keys.contains("saves")) != nil) {
+              
+            } else {
+                dict!["saves"]=[String:Bool]()
+              // does not contain key
+            }
             
             guard let decoded = try?PostModel.init(fromDictionary: dict!)
             else{return}
@@ -97,7 +104,15 @@ class PostService{
             var posts = [PostModel]()
             
             for doc in snap.documents{
-                let dict = doc.data()
+                var dict = doc.data()
+                if dict.keys.contains("saves") {
+                  
+                } else {
+                    dict["saves"]=[String:Bool]()
+                  // does not contain key
+                }
+                
+                //dict["saves"]?.append()
                 //Decoding received snapshot to a readable dictionary
                 guard let decoder = try? PostModel.init(fromDictionary: dict)
                         
@@ -125,7 +140,15 @@ class PostService{
             var posts = [PostModel]()
             
             for doc in snap.documents{
-                let dict = doc.data()
+                //let dict = doc.data()
+                
+                var dict = doc.data()
+                if dict.keys.contains("saves") {
+                  
+                } else {
+                    dict["saves"]=[String:Bool]()
+                  // does not contain key
+                }
                 //Decoding received snapshot to a readable dictionary
                 guard let decoder = try? PostModel.init(fromDictionary: dict)
                         
