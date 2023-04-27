@@ -92,12 +92,10 @@ struct CameraView: View {
                             
                             Button(action: camera.reTake, label:{
                                 //Click to retake button
-                                Image(systemName: "arrow.triangle.2.circlepath.camera")
-                                    .foregroundColor(.black)
-                                    .padding()
-                                    .background(Color.white)
-                                    .clipShape(Circle())
-                                
+                                Image(systemName: "x.circle.fill").resizable()
+                                    .aspectRatio(contentMode: .fill)
+                                    .frame(width: 50, height: 50)
+                                   .foregroundColor(.white)
                             })
                             .padding(.trailing,10)
                         }
