@@ -119,7 +119,7 @@ class StorageService{
                         let firestorePostRef = PostService.PostsUserId(userId: userId).collection("posts").document(postId)
 
                         //Creating post
-                        let post = PostModel.init(caption: caption, likes: [:], ownerId: userId, postId: postId, username: Auth.auth().currentUser!.displayName!, profileImageUrl: Auth.auth().currentUser!.photoURL!.absoluteString, mediaUrl: metaImageUrl,title: title, date: Date().timeIntervalSince1970,  likeCount: 0, isPublic: isPublic)
+                        let post = PostModel.init(caption: caption, likes: [:], saves: [:],ownerId: userId, postId: postId, username: Auth.auth().currentUser!.displayName!, profileImageUrl: Auth.auth().currentUser!.photoURL!.absoluteString, mediaUrl: metaImageUrl,title: title, date: Date().timeIntervalSince1970,  likeCount: 0, isPublic: isPublic)
 
 
                         //Encoding post to dictionary for firebase
