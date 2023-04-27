@@ -18,6 +18,8 @@ class AppVariables: ObservableObject{
     
 }
 
+var AppThemeColor :Color=Color(red: 0.0, green: 0.6078431372549019, blue: 0.5098039215686274)
+
 struct ContentView: View {
     @StateObject var app = AppVariables()
     
