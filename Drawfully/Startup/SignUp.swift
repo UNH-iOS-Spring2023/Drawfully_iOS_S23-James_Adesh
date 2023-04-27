@@ -229,7 +229,7 @@ struct SignUp: View {
                     }
                     .overlay(
                         RoundedRectangle(cornerRadius: 5)
-                            .stroke(.blue, lineWidth: 4)
+                            .stroke(.white, lineWidth: 4)
                     ).background(.white)
                         .padding(40)
                         .multilineTextAlignment(.center)
