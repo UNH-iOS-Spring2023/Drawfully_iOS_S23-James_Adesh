@@ -24,6 +24,7 @@ struct PostCardImage: View {
                 //Profile image of owner of post
                 WebImage(url: URL(string: post.profileImageUrl)!)
                     .resizable()
+                    .placeholder(Image(systemName: "person.circle.fill"))
                     .aspectRatio(contentMode: .fill)
                     .scaledToFit()
                     .clipShape(Circle())

@@ -20,6 +20,7 @@ struct CommentCard: View {
             //Profile image of comment owner
             WebImage(url: URL(string: comment.profileImageUrl)!)
                 .resizable()
+                .placeholder(Image(systemName: "person.circle.fill"))
                 .aspectRatio(contentMode: .fill)
                 .scaledToFit()
                 .clipShape(Circle())

@@ -52,6 +52,7 @@ struct CommentInput: View {
         HStack(){
             WebImage(url: URL(string: session.session?.profileImageUrl ?? ""))
                 .resizable()
+                .placeholder(Image(systemName: "person.circle.fill"))
                 .aspectRatio(contentMode: .fill)
                 .scaledToFit()
                 .clipShape(Circle())
@@ -69,7 +70,7 @@ struct CommentInput: View {
                     Image(systemName: "paperplane").imageScale(.large).padding(.trailing)
                 }
                 
-            }
+            }.padding()
         }
             
     }
