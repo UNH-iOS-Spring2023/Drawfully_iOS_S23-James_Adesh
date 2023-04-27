@@ -31,7 +31,7 @@ struct UserView: View {
                 Text(user.username).font(.title).fontWeight(.bold).padding(.trailing, 42.0).multilineTextAlignment(.center)
                 Spacer()
             }.padding()
-            Text(user.uid).font(.caption).fontWeight(.light).padding(.trailing).multilineTextAlignment(.center)
+            //Text(user.uid).font(.caption).fontWeight(.light).padding(.trailing).multilineTextAlignment(.center)
             Divider()
             
             ScrollView{
@@ -39,16 +39,20 @@ struct UserView: View {
                 LazyVGrid(columns: threeColumns) {
                     ForEach(self.profileService.posts, id:\.postId){
                         (post) in
-                        
-                        WebImage(url: URL(string : post.mediaUrl)!)
-                            .resizable()
-                            .frame(width: ((UIScreen.main.bounds.width/3)-5),
-                                   height: UIScreen.main.bounds.height/3)
-                            .aspectRatio(contentMode: .fill)
-                            .padding(5)
+                        if(post.isPublic)
+                        {
+                            WebImage(url: URL(string : post.mediaUrl)!)
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: ((UIScreen.main.bounds.width/3)-5))
+                                .aspectRatio(contentMode: .fit)
+                                .padding(5)
+                        }
                     }
                 }
             }
+            
+            Spacer()
         }
         .onAppear{ self.profileService.loadUserPosts(userId: user.uid) }
     }
