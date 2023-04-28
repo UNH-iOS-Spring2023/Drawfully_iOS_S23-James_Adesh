@@ -55,6 +55,7 @@ struct CameraView: View {
     @State var caption : String=""
     @State var title : String=""
     @State var postVisibility: Bool = false
+    @State var imageLink: String = ""
     
     //Tracking posting status
     @State var drawingPosted: Bool = false
@@ -104,7 +105,7 @@ struct CameraView: View {
                         
                         if camera.isTaken{
                             //Save photo Button
-                            Button(action:{if !camera.isSaved{camera.savePic()}}, label: {
+                            Button(action:{if !camera.isSaved{camera.isSaved=true}}, label: {
                                 Text(camera.isSaved ? "Saved" : "Save")
                                     .foregroundColor(.white)
                                     .fontWeight(.semibold)
@@ -164,29 +165,20 @@ struct CameraView: View {
                             .padding(10)
                             .background(AppThemeColor)
                             .clipShape(Capsule())
-                        // }
                     }.padding(10)
                     
                     Spacer()
+
                     
-                    
-                    //Async call to image that has just been uploaded to cloud storage
-                    // Citation : https://developer.apple.com/documentation/swiftui/asyncimage
-                    // Citation : https://serialcoder.dev/text-tutorials/swiftui/asyncimage-in-swiftui/
-                    AsyncImage(url : camera.imageLink)
-                    { image in
-                        image
-                            .resizable()
-                            .frame(width: 360, height: 360)
-                            .scaledToFit()
-                            .aspectRatio(contentMode: .fit)
-                            .clipShape(RoundedRectangle(cornerRadius: 15))
-                            .padding(10)
-                    } placeholder: {
-                        Image("sample_drawing")
-                            .resizable()
-                            .frame(width: 360, height: 360)
-                        .padding(10)                    }
+                    Image(uiImage: UIImage(data: camera.picData)!)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        //.placeholder(Image("sample_drawing"))
+                        .frame(height: 360)
+                        //.scaledToFit()
+                       
+                        .clipShape(RoundedRectangle(cornerRadius: 15))
+                        .padding(10)
                     
                     // Text Field to take Title input
                     TextField("Add Title Here!",text: $title)
@@ -234,33 +226,19 @@ struct CameraView: View {
         //Currently we are posting a single post, multiple times(old way and new way). This has to be optimized. TODO
         
         //Add Post to firebase with all attributes - caption, title, isPublic
-        PostService.uploadPost(caption: caption, title: title, isPublic: postVisibility, imageData: camera.picData, onSuccess: {}) { errorMessage in
+        PostService.uploadPost(caption: caption, title: title, isPublic: postVisibility, imageData: camera.picData,
+                               onSuccess:
+                                {})
+        { errorMessage in
             print ("SavePostPhoto error : \(errorMessage)" )
         }
-        print("Document (PostImage) added with ID: \(String(describing: ref?.documentID))")
         drawingPosted=true
-        
-        let newDocRef = FirebaseManager.shared.firestore.collection("drawings").document(camera.imageName)
-        
-        //Adding to array of drawings for each user
-        // Citation : ChatGPT
-        FirebaseManager.shared.firestore.collection("users").document(uid).updateData(["drawings": FieldValue.arrayUnion([newDocRef])]){ err in
-            if let err = err{
-                print ("Error adding document reference (PostImage) : \(err)")
-            }
-            else{
-                //Switching to home tab again
 
-                Home()
-                app.selectedTab=0
-            }
-            
-        }
-        //Resetting photo and camera view
+        
+        
+//  Resetting photo and camera view
         camera.isTaken=false
         camera.isSaved=false
-        camera.imageLink=URL(string: "")
-        camera.imageName=""
         camera.picData=Data(count: 0)
         title=""
         caption=""
@@ -318,13 +296,6 @@ class CameraModel: NSObject ,ObservableObject, AVCapturePhotoCaptureDelegate{
     @Published var isSaved = false
     
     @Published var picData = Data(count: 0)
-    
-    // Citation : https://matteomanferdini.com/swift-url-components/
-    // To store image url
-    @Published var imageLink = URL(string: "")
-    
-    // To store image name
-    @Published var imageName = ""
     
     
     
@@ -448,65 +419,6 @@ class CameraModel: NSObject ,ObservableObject, AVCapturePhotoCaptureDelegate{
         self.picData = imageData
     }
     
-    func savePic(){
-        
-        let image = UIImage(data: self.picData)!
-        
-        //UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
-        
-        
-        
-        WriteToCloudStorage()
-        
-        self.isSaved.toggle()
-        
-        
-    }
-    
-    func WriteToCloudStorage()
-    {
-        //Generate random universally unique value
-        // Citation : https://developer.apple.com/documentation/foundation/nsuuid
-        // Citation : https://stackoverflow.com/questions/24428250/generate-a-uuid-on-ios-from-swift
-        let uuid = UUID().uuidString
-        
-        // Fetching current user uid
-        guard let uid = FirebaseManager.shared.auth.currentUser?.uid else{
-            return}
-        
-        //Creating storage reference
-        // Citation : https://firebase.google.com/docs/storage/ios/upload-files
-        // Citation : https://www.youtube.com/watch?v=5inXE5d2MUM&t=939s
-        
-        let ref=FirebaseManager.shared.storage.reference(withPath: "extras/\(uid)/\(uuid)")
-        
-        
-        guard let imageData=UIImage(data: self.picData)!.jpegData(compressionQuality: 1.0) else
-        {
-            print("Could not convert file")
-            return }
-        
-        ref.putData(imageData, metadata: nil){
-            metadata, err in
-            if let err=err{
-                print("Data store failed \(err)")
-                return
-            }
-            
-            ref.downloadURL{
-                url, err in
-                if let err=err{
-                    print("Failed to retrieve download url \(err)")
-                    return
-                }
-                
-                //Storing image url and name to write to firebase
-                self.imageLink=url
-                self.imageName=uuid
-                print("Retrieved download url \(String(describing: url))")
-            }
-        }
-    }
     
 }
 
