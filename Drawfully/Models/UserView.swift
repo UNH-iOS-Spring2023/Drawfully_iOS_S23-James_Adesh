@@ -60,6 +60,6 @@ struct UserView: View {
     
 struct UserView_Previews: PreviewProvider {
     static var previews: some View {
-        UserView(user: User(uid: "Test", email: "", profileImageUrl: "", username: "", searchName: [], streak: 0, firstName: "", lastName: ""))
+        UserView(user: User(uid: "Test", email: "", profileImageUrl: "", username: "", /*searchName: [],*/ streak: 0, firstName: "", lastName: ""))
     }
 }

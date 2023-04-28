@@ -67,7 +67,7 @@ class StorageService{
                     }
                     let firestoreUserId = AuthService.getUserId(userId: userId)
                     //Initialising a user with input and default values
-                    let user = User.init(uid: userId, email: email, profileImageUrl: metaImageUrl, username: username, searchName: username.splitString(), streak: 0, firstName: firstName, lastName: lastName)
+                    let user = User.init(uid: userId, email: email, profileImageUrl: metaImageUrl, username: username, /*searchName: username.splitString(),*/ streak: 0, firstName: firstName, lastName: lastName)
                     
                     guard let dict = try?user.asDictionary() else {return}
                     
