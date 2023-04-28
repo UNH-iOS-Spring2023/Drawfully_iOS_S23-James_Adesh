@@ -23,8 +23,6 @@ struct Search: View {
     private var scopeFields: [String] = ["Users", "Saved", "Suggestions"]
     
     
-    
-    
     // Images
     @EnvironmentObject var session: SessionStore
     @StateObject var profileService = ProfileService()
@@ -50,7 +48,7 @@ struct Search: View {
             }
         }
         
-       // After searching, show related Users with the option to navigate to their homepage
+        // After searching, show related Users with the option to navigate to their homepage
         let userSearch = NavigationStack{
             List {
                 ForEach(usersList, id: \.self.username) { user in
@@ -82,15 +80,16 @@ struct Search: View {
             ScrollView{
                 //Displaying 3 photos in a row
                 LazyVGrid(columns: threeColumns) {
-                    ForEach(profileService.posts, id:\.postId){
+                    ForEach(profileService.savedPosts, id:\.postId){
                         (post) in
-                        NavigationLink(destination: ViewPublicImage(post: post)){
-                            WebImage(url: URL(string : post.mediaUrl)!)
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: ((UIScreen.main.bounds.width/3)-5))
-                                .aspectRatio(contentMode: .fit)
-                                .padding(5)
+
+                                NavigationLink(destination: ViewPublicImage(post: post)){
+                                    WebImage(url: URL(string : post.mediaUrl)!)
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: ((UIScreen.main.bounds.width/3)-5))
+                                        .aspectRatio(contentMode: .fit)
+                                        .padding(5)
                         }
                     }
                 }
@@ -98,16 +97,16 @@ struct Search: View {
         }.accentColor(.white)
             .navigationTitle("Saved")
             .onAppear{
-            //To check if user is still logged in
-            if (self.session.loggedIn == true)
-            {
-                
-                //If user is logged in, load user posts again to make the page dynamic and realtime. Example - if a user posts, we want that picture to be visible in that session itself
-                self.profileService.loadUserPosts(userId: Auth.auth().currentUser?.uid ?? "")
-                
+                //To check if user is still logged in
+                if (self.session.loggedIn == true)
+                {
+                    
+                    //If user is logged in, load user posts again to make the page dynamic and realtime. Example - if a user posts, we want that picture to be visible in that session itself
+                    self.profileService.loadSavedPosts(userId: Auth.auth().currentUser?.uid ?? "")
+                    
+                }
             }
-        }
-    
+        
         
         // Give random ideas from the database to the user
         // TODO create database implementation
@@ -139,19 +138,19 @@ struct Search: View {
                 .background(AppThemeColor)
                 .clipShape(Capsule())
         }
-            
         
         
-    
+        
+        
         
         // Make the body of the UI
         let body = VStack {
             // Pick which item you want to use
-                Picker("Scope", selection: $scope) {
-                    ForEach(scopeFields, id:\.self){
-                        Text($0)
-                    }
-                }.pickerStyle(.segmented).padding()
+            Picker("Scope", selection: $scope) {
+                ForEach(scopeFields, id:\.self){
+                    Text($0)
+                }
+            }.pickerStyle(.segmented).padding()
             if (scope == "Users"){ userSearch }
             else if (scope == "Saved"){ savedDrawings }
             else if (scope == "Suggestions"){ suggestions }
@@ -166,8 +165,8 @@ struct Search: View {
             
             body
             Spacer()
-            }
         }
+    }
     
     // return a random predefined time
     // TODO connect this to the database
@@ -190,7 +189,7 @@ struct Search: View {
         suggestionDisplay = "Object:\n" + objects.randomElement()!
     }
     
-    }
+}
 
 
 struct Search_Previews: PreviewProvider {
