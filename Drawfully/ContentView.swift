@@ -21,6 +21,9 @@ class AppVariables: ObservableObject{
 var AppThemeColor :Color=Color(red: 0.0, green: 0.6078431372549019, blue: 0.5098039215686274)
 
 struct ContentView: View {
+    @EnvironmentObject private var launchScreenState: LaunchScreenStateManager
+
+    
     @StateObject var app = AppVariables()
     
     @StateObject var searchFirebase = SearchQueries()
@@ -56,7 +59,12 @@ struct ContentView: View {
             //Text("Our authentication screen goes here...")
               Login().environmentObject(session)
           }
-        }.onAppear(perform: getUser)
+        }//.onAppear(perform: getUser)
+            .task {
+                try? await getUser()
+                try? await Task.sleep(for: Duration.seconds(1))
+                self.launchScreenState.dismiss()
+            }
         
         
         

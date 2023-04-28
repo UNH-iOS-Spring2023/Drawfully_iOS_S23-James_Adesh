@@ -17,13 +17,23 @@ struct DrawfullyApp: App {
 
     // Citation : https://www.youtube.com/watch?v=6b2WAePdiqA
 
+    @StateObject var launchScreenState = LaunchScreenStateManager()
+
+
 
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     
     var body: some Scene {
         WindowGroup {
+            ZStack {
+                            ContentView().environmentObject(SessionStore())
+                            
+                            if launchScreenState.state != .finished {
+                                LaunchScreenView()
+                            }
+                        }.environmentObject(launchScreenState)
             // Passing SessionStore to track auth states
-            ContentView().environmentObject(SessionStore())
+            //ContentView().environmentObject(SessionStore())
         }
     }
 }
