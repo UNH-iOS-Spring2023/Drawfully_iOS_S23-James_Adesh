@@ -55,7 +55,7 @@ struct Community: View {
                 // Citation : ChatGPT
                 .refreshable {
                     // This closure will be called when the ScrollView is pulled down
-                    profileService.loadUserPosts(userId: Auth.auth().currentUser!.uid)
+                    communityService.loadAllPosts()
                 }
                 .onAppear{
                     //                if (self.session.session != nil)
