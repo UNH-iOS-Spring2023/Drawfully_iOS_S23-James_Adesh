@@ -37,7 +37,6 @@ struct SelectedImage: View {
                 //If edit button has been clicked
                 if fieldsEditable{
                     VStack{
-                        
                         //Button to delete the post
                         Button(action: {
                             //Function call to delete post
@@ -62,7 +61,7 @@ struct SelectedImage: View {
                         })
                         
                         Spacer()
-                        
+
                         HStack{
                             //Field to edit title
                             TextField(post.title, text: $title)
@@ -70,7 +69,6 @@ struct SelectedImage: View {
                                 .padding(.horizontal, 20)
                                 .padding(.vertical, 10)
                                 .background(Color.white)
-                                .cornerRadius(20)
                                 .padding(.horizontal, 50)
                         }
                         HStack{
@@ -80,12 +78,21 @@ struct SelectedImage: View {
                                 .padding(.horizontal, 20)
                                 .padding(.vertical, 10)
                                 .background(Color.white)
-                                .cornerRadius(20)
                                 .padding(.horizontal, 50)
                         }
+                        
                         HStack{
                             //Toggle to modify visibility
-                            Toggle(isOn: $postVisibility, label: {Text("Make Post Visible").foregroundColor(.white)})
+                            Toggle(isOn: $postVisibility, label:
+                                    {
+                                    Text(" Make Post Visible ")
+                                    .foregroundColor(.white)
+                                    .font(.body)
+                                    .frame(width: 175, height: 50)
+                                        .background(Capsule().fill(AppThemeColor))
+                                    
+                                }).padding(20)
+                            
                         }.padding(.horizontal, 20)
                         HStack{
                             Spacer()
@@ -103,11 +110,11 @@ struct SelectedImage: View {
                                     
                                 }, label: {
                                     Text("Save")
-                                        .foregroundColor(.black)
+                                        .foregroundColor(.white)
                                         .fontWeight(.semibold)
                                         .padding(.vertical,10)
                                         .padding(.horizontal,20)
-                                        .background(Color.white)
+                                        .background(AppThemeColor)
                                         .clipShape(Capsule())
                                 })
                             }
@@ -129,11 +136,11 @@ struct SelectedImage: View {
                             HStack{
                                 Spacer()
                                 Text("Edit ✎")
-                                    .foregroundColor(.black)
+                                    .foregroundColor(.white)
                                     .fontWeight(.semibold)
                                     .padding(.vertical,10)
                                     .padding(.horizontal,20)
-                                    .background(Color.white)
+                                    .background(AppThemeColor)
                                     .clipShape(Capsule())
                                 
                                 
@@ -161,7 +168,7 @@ struct SelectedImage: View {
                                 .padding(.vertical, 10)
                                 .background(Color.white)
                                 .cornerRadius(20)
-                                .padding(.horizontal, 50)
+                                .padding(.horizontal, 30)
                             
                             Spacer()
                         }.padding()

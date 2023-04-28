@@ -51,9 +51,10 @@ struct Login: View {
         if(email.isEmpty || password.isEmpty ){
             //Triggering toast display
             error.toggle()
-            
         }
         else{
+            
+            // Use the Auth Service Class to handle sign in
             // Citation : https://www.youtube.com/watch?v=aOM_MmZm9Q4&list=PLdBY1aYxSpPVI3wTlK1cKHNOoq4JA3X5-&index=8&t=1290s
             AuthService.signIn(email: email, password: password, onSuccess: {
                 (user) in
@@ -67,7 +68,6 @@ struct Login: View {
                 self.errorMsg=errorMessage
                 return
             }
-
         }
     }
     
@@ -76,8 +76,7 @@ struct Login: View {
         NavigationView{
             ZStack{
                 Color.mint.ignoresSafeArea()
-                
-                
+
                 VStack{
                     //Added logo display
                     Image("logo")
@@ -101,24 +100,18 @@ struct Login: View {
                         Button(action: {
                             // Setting state to logged in
                             session.loggedIn=true
-
                             login()
-                            
                         }){
                             Text("Submit")
                                 .padding(1)
                         }
                         .padding()
-                        //Text("Firebase Authentication").padding().underline()
                         
                         //Added navigation to signup page
                         NavigationLink(destination: SignUp().navigationBarBackButtonHidden(false)) {
                             Text("New here? Register").underline().foregroundColor(.black)
                         }
                         .padding()
-                        
-                        
-                        
                     }
                     .overlay(
                         RoundedRectangle(cornerRadius: 5)
@@ -127,24 +120,16 @@ struct Login: View {
                         .padding(40)
                         .multilineTextAlignment(.center)
                         .disableAutocorrection(true)
-                    
                     Text(statusMessage).padding()
-                    
                 }
                 .padding(.bottom)
-                
-                
             }
             // Citation : https://www.youtube.com/watch?v=pC6qGSSh9bI
             .simpleToast(isPresented: $error, options: toastOptions, content: {
                 Text("All fields not completed!")
             })
         }
-
     }
-    
-    
-
 }
 
 

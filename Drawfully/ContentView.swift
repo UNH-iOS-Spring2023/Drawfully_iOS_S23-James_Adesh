@@ -18,34 +18,26 @@ class AppVariables: ObservableObject{
     
 }
 
-var AppThemeColor :Color=Color(red: 0.0, green: 0.6078431372549019, blue: 0.5098039215686274)
+// Global App Theme Color to be accessed anywhere needed
+var AppThemeColor: Color = Color(red: 0.0, green: 0.6078431372549019, blue: 0.5098039215686274)
+var AppTextColor: Color = Color.white
 
 struct ContentView: View {
     @EnvironmentObject private var launchScreenState: LaunchScreenStateManager
 
     
     @StateObject var app = AppVariables()
-    
-    @StateObject var searchFirebase = SearchQueries()
-
-    @StateObject var session: SessionStore = SessionStore()
+    @StateObject var searchFirebase = SearchQueries() // SearchQueries.swift
+    @StateObject var session: SessionStore = SessionStore() // SessionStore.swift
     
     func getUser() {
         session.listen()
     }
     
     var body: some View {
-        
-        
-        
         //Implementing Bottom Bar View with required parameters (Tabs)
-        
-        //Loading app into signup page
-            //Login()
-            
         Group {
             if (session.session != nil && session.loggedIn == true ) {
-
               BottomBar(AnyView(Home().environmentObject(session)),
                         AnyView(Community().environmentObject(session)),
                         AnyView(Add().environmentObject(session)),
@@ -53,10 +45,7 @@ struct ContentView: View {
                         AnyView(Settings().environmentObject(session))
               )
               .environmentObject(AppVariables())
-
-             // HomeView()
           } else {
-            //Text("Our authentication screen goes here...")
               Login().environmentObject(session)
           }
         }//.onAppear(perform: getUser)
@@ -69,7 +58,6 @@ struct ContentView: View {
         
         
     }
-    
 }
 
 struct ContentView_Previews: PreviewProvider {

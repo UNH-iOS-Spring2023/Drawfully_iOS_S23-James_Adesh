@@ -13,10 +13,11 @@ import SDWebImageSwiftUI
 
 struct Search: View {
     
+    // A place to store async arrays without using await
     @EnvironmentObject var informationArr: SearchQueries
     
     @State private var search: String = ""
-    @State private var scope: String = "Users"
+    @State private var scope: String = "Users" // Default page for Inspiration Tab
     @State private var suggestionDisplay = ""
     
     private var scopeFields: [String] = ["Users", "Saved", "Suggestions"]
@@ -39,31 +40,32 @@ struct Search: View {
                 }.padding()
             }
         
-        // create the list referenced by the search bar, with filters applied
+        // create the list of all users referenced by the search bar, with filters applied
         var usersList: [User] {
             if search.isEmpty{
                 return informationArr.users
-
             } else {
                 return informationArr.users.filter{item in
                     item.username.localizedCaseInsensitiveContains(search) } //if any part matches the current text in search, display it
             }
         }
-       // After searching, show related Users or Drawings
+        
+       // After searching, show related Users with the option to navigate to their homepage
         let userSearch = NavigationStack{
             List {
                 ForEach(usersList, id: \.self.username) { user in
                     NavigationLink{
-                        UserView(user: user) //TODO make visible user page
+                        UserView(user: user) // Navigates to selected User's homepage
                     } label: {
                         Text(user.username)
                     }
                 }
             }.navigationTitle("Users")
-        }.searchable(text: $search).disableAutocorrection(true).textInputAutocapitalization(.never)
+        }.searchable(text: $search).disableAutocorrection(true).textInputAutocapitalization(.never) // make this area searchable
         
             
             // create the array of all the saved drawings, adhering to search filters
+        /* Currently Unused in this context
             var savedDrawingsList: [String] {
                 if search.isEmpty{
                     return informationArr.savedPosts
@@ -71,43 +73,29 @@ struct Search: View {
                     return informationArr.savedPosts.filter{item in
                         item.localizedCaseInsensitiveContains(search) } //if any part matches the current text in search, display it
                 }
-            }
-        
-        
-        
-        // Display the drawings
+            } */
+    
+        // Display the drawings the user has saved
+        // Currently set to display the user's posted images, but will be adapted later
+        // Same implementation as in the Home.swift file
         let savedDrawings = NavigationStack{
             ScrollView{
                 //Displaying 3 photos in a row
                 LazyVGrid(columns: threeColumns) {
-                    ForEach(self.profileService.posts, id:\.postId){
+                    ForEach(profileService.posts, id:\.postId){
                         (post) in
-                        
-                        WebImage(url: URL(string : post.mediaUrl)!)
-                            .resizable()
-                            .frame(width: ((UIScreen.main.bounds.width/3)-5),
-                                   height: UIScreen.main.bounds.height/3)
-                            .aspectRatio(contentMode: .fill)
-                            .padding(5)
-                        
+                        NavigationLink(destination: ViewPublicImage(post: post)){
+                            WebImage(url: URL(string : post.mediaUrl)!)
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: ((UIScreen.main.bounds.width/3)-5))
+                                .aspectRatio(contentMode: .fit)
+                                .padding(5)
+                        }
                     }
                 }
             }
-//            List {
-////                ForEach(savedDrawingsList, id: \.self) { name in
-////                    NavigationLink{
-////                        Text(name) //TODO make visible drawing page
-////                    } label: {
-////                        Text(name)
-////                    }
-////                }\
-//
-//
-//            }
-        }
-            //.searchable(text: $search)
-            //.disableAutocorrection(true)
-            //.textInputAutocapitalization(.never)
+        }.accentColor(.white)
             .navigationTitle("Saved")
             .onAppear{
             //To check if user is still logged in
@@ -115,28 +103,41 @@ struct Search: View {
             {
                 
                 //If user is logged in, load user posts again to make the page dynamic and realtime. Example - if a user posts, we want that picture to be visible in that session itself
-                self.profileService.loadUserPosts(userId: Auth.auth().currentUser!.uid)
+                self.profileService.loadUserPosts(userId: Auth.auth().currentUser?.uid ?? "")
                 
             }
         }
     
         
         // Give random ideas from the database to the user
+        // TODO create database implementation
         let suggestions = VStack{
             Text(suggestionDisplay).padding().font(.system(size: 30)).multilineTextAlignment(.center)
             
             
             Button(action: getTime){
                 Text("Get a time limit!")
-            }.padding().buttonStyle(.bordered)
+            }.padding().buttonStyle(.bordered).foregroundColor(.white)
+                .font(.headline)
+                .padding(20)
+                .background(AppThemeColor)
+                .clipShape(Capsule())
             
             Button(action: getTheme){
                 Text("Get a theme!")
-            }.padding().buttonStyle(.bordered)
+            }.padding().buttonStyle(.bordered).foregroundColor(.white)
+                .font(.headline)
+                .padding(20)
+                .background(AppThemeColor)
+                .clipShape(Capsule())
             
             Button(action: getObject){
                 Text("Get a object!")
-            }.padding().buttonStyle(.bordered)
+            }.padding().buttonStyle(.bordered).foregroundColor(.white)
+                .font(.headline)
+                .padding(20)
+                .background(AppThemeColor)
+                .clipShape(Capsule())
         }
             
         
@@ -165,10 +166,11 @@ struct Search: View {
             
             body
             Spacer()
-        }
+            }
         }
     
     // return a random predefined time
+    // TODO connect this to the database
     func getTime() {
         let times = ["1 Minute", "5 Minutes", "10 Miuntes", "30 Minutes", "1 Hour", "1 Day"]
         suggestionDisplay = "Time:\n" + times.randomElement()!
