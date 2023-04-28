@@ -36,7 +36,7 @@ class AuthService  {
                                                                                         "LastName": lname,
                                                                                         "username": username,
                                                                                         "email":email,
-                                                                                           "streak":"1"]){ err in
+                                                                                           "streak":"0"]){ err in
                 if let err = err{
                     print ("Error adding document: \(err)")
                 }
