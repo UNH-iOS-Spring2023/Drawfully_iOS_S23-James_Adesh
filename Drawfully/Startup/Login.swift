@@ -80,7 +80,7 @@ struct Login: View {
                 
                 VStack{
                     //Added logo display
-                    Image("drawing-draw-svgrepo-com")
+                    Image("logo")
                         .resizable()
                         .frame(width: 75, height: 75, alignment: .top)
                     

@@ -153,7 +153,7 @@ struct SignUp: View {
                 
                 VStack(alignment: .center, spacing: 0){
                     //Added logo display
-                    Image("drawing-draw-svgrepo-com")
+                    Image("logo")
                         .resizable()
                     //.imageScale(.large)
                     //.foregroundColor(.accentColor)
