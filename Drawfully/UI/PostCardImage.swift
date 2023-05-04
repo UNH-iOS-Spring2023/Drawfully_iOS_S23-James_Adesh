@@ -49,12 +49,14 @@ struct PostCardImage: View {
                 .padding(.trailing, 32)
             
             //Image posted as drawing is displayed
-            WebImage(url: URL(string: post.mediaUrl)!)
-                .resizable()
-                .aspectRatio(contentMode: .fill)
-                .scaledToFit()
-                .frame(width: UIScreen.main.bounds.size.width, height: 400, alignment: .center)
-                .clipped()
+            NavigationLink(destination: ViewPublicImage(post: post)){
+                WebImage(url: URL(string : post.mediaUrl)!)
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .scaledToFit()
+                    .frame(width: UIScreen.main.bounds.size.width, height: 400, alignment: .center)
+                    .clipped()
+            }
         }
     }
 }
