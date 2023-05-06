@@ -30,16 +30,31 @@ struct Community: View {
 
     
     var body: some View {
-        NavigationView{
+        
+        let header = HStack{
+            Spacer()
             
-            //Will write code for Community Tab View here
+            Text("Community")
+                .font(.title)
+                .fontWeight(.bold)
+                .padding(.leading)
+                .multilineTextAlignment(.center)
+                .foregroundColor(AppTextColor)
+            
+            Spacer()
+
+            Image(systemName: "magnifyingglass")
+                .foregroundColor(AppTextColor)
+                .frame(alignment: .trailing)
+        }
+            .padding()
+            .background(AppThemeColor)
+        
+        NavigationView{
             VStack {
+                header
                 
-                HStack{
-                    Text("Community").font(.title).fontWeight(.bold).padding(.trailing, 42.0).multilineTextAlignment(.center)
-                    Spacer()
-                    Image(systemName: "magnifyingglass")
-                }.padding()
+                
                 ScrollView{
                     VStack{
                         ForEach(communityService.posts, id:\.postId){

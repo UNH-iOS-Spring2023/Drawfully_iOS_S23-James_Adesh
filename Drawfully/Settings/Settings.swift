@@ -14,13 +14,20 @@ struct Settings: View {
     var body: some View {
         
         //Add title bar to Settings Tab
-        let header = VStack{
-            HStack{
-                Spacer()
-                Text("Settings").font(.title).fontWeight(.bold).padding(.trailing, 0.0).multilineTextAlignment(.center)
-                Spacer()
-            }.padding()
+        let header = HStack{
+            Spacer()
+            
+            Text("Settings")
+                .font(.title)
+                .fontWeight(.bold)
+                .padding(.trailing, 0.0)
+                .multilineTextAlignment(.center)
+                .foregroundColor(AppTextColor)
+            
+            Spacer()
         }
+            .padding()
+            .background(AppThemeColor)
         
         // Debugging settings to help with development
         let debugging = VStack {
