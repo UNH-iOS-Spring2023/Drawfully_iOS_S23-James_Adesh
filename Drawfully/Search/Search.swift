@@ -32,13 +32,21 @@ struct Search: View {
     
     var body: some View {
         // Nice looking header
-        let header = VStack{
-                HStack{
-                    Spacer()
-                    Text("Inspiration ").font(.title).fontWeight(.bold).padding(.trailing, 0.0).multilineTextAlignment(.center)
-                    Spacer()
-                }.padding()
-            }
+        let header = HStack{
+            Spacer()
+            
+            Text("Inspiration ")
+                .font(.title)
+                .fontWeight(.bold)
+                .padding(.trailing, 0.0)
+                .multilineTextAlignment(.center)
+                .foregroundColor(AppTextColor)
+                    
+            Spacer()
+        }
+            .padding()
+            .background(AppThemeColor)
+            
         
         // create the list of all users referenced by the search bar, with filters applied
         var usersList: [User] {

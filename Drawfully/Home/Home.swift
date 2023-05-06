@@ -24,20 +24,35 @@ struct Home: View {
     
     var body: some View {
         
+        let header = HStack{
+            Image("streak").resizable().frame(width:30, height: 30)
+            
+            //Getting streak count from user's data
+            
+            Text(String(session.session?.streak ?? 0))
+                .font(.title2)
+                .fontWeight(.bold)
+                .foregroundColor(AppTextColor)
+            
+            Spacer()
+            
+            Text(session.session?.username ?? "Unknown User")
+                .font(.title)
+                .fontWeight(.bold)
+                .padding(.trailing, 42.0)
+                .multilineTextAlignment(.center)
+                .foregroundColor(AppTextColor)
+            
+            Spacer()
+            
+        }.padding()
+            .background(AppThemeColor)
+
+        
         NavigationView{
             //Added scroll view for user's images
             VStack{
-                HStack{
-                    Image("streak").resizable().frame(width:30, height: 30)
-                    
-                    //Getting streak count from user's data
-                    Text(String(session.session?.streak ?? 0))
-                        .font(.title2)
-                        .fontWeight(.bold)
-                    Spacer()
-                    Text(session.session?.username ?? "User").font(.title).fontWeight(.bold).padding(.trailing, 42.0).multilineTextAlignment(.center)
-                    Spacer()
-                }.padding()
+                header
                 
                 // If user doesnt have any posts, display appropriate message
                 if (self.profileService.posts.isEmpty){
