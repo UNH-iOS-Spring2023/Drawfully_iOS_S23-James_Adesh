@@ -17,13 +17,10 @@ struct Search: View {
     @EnvironmentObject var informationArr: SearchQueries
     
     @State private var search: String = ""
-    @State private var scope: String = "Users" // Default page for Inspiration Tab
+    @State private var scope: String = "Suggestions" // Default page for Inspiration Tab
     @State private var suggestionDisplay = ""
     
-    private var scopeFields: [String] = ["Users", "Saved", "Suggestions"]
-    
-    
-    
+//    private var scopeFields: [String] = ["Saved", "Suggestions"]
     
     // Images
     @EnvironmentObject var session: SessionStore
@@ -48,78 +45,8 @@ struct Search: View {
             .background(AppThemeColor)
             
         
-        // create the list of all users referenced by the search bar, with filters applied
-        var usersList: [User] {
-            if search.isEmpty{
-                return informationArr.users
-            } else {
-                return informationArr.users.filter{item in
-                    item.username.localizedCaseInsensitiveContains(search) } //if any part matches the current text in search, display it
-            }
-        }
-        
-       // After searching, show related Users with the option to navigate to their homepage
-        let userSearch = NavigationStack{
-            List {
-                ForEach(usersList, id: \.self.username) { user in
-                    NavigationLink{
-                        UserView(user: user) // Navigates to selected User's homepage
-                    } label: {
-                        Text(user.username)
-                    }
-                }
-            }
-            
-        }//.navigationTitle("Users")
-            .searchable(text: $search)
-            .disableAutocorrection(true)
-            .textInputAutocapitalization(.never) // make this area searchable
-        
-            
-            // create the array of all the saved drawings, adhering to search filters
-        /* Currently Unused in this context
-            var savedDrawingsList: [String] {
-                if search.isEmpty{
-                    return informationArr.savedPosts
-                } else {
-                    return informationArr.savedPosts.filter{item in
-                        item.localizedCaseInsensitiveContains(search) } //if any part matches the current text in search, display it
-                }
-            } */
     
-        // Display the drawings the user has saved
-        // Currently set to display the user's posted images, but will be adapted later
-        // Same implementation as in the Home.swift file
-        let savedDrawings = NavigationStack{
-            ScrollView{
-                //Displaying 3 photos in a row
-                LazyVGrid(columns: threeColumns, spacing: 0) {
-                    ForEach(profileService.posts, id:\.postId){
-                        (post) in
-                        NavigationLink(destination: ViewPublicImage(post: post)){
-                            WebImage(url: URL(string : post.mediaUrl)!)
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: ((UIScreen.main.bounds.width/3)))
-                                .aspectRatio(contentMode: .fit)
-                                .border(Color.black, width: 3)
-                        }
-                    }
-                }
-            }
-        }
-            .accentColor(.white)
-            //.navigationTitle("Saved")
-            .onAppear{
-            //To check if user is still logged in
-            if (self.session.loggedIn == true)
-            {
-                
-                //If user is logged in, load user posts again to make the page dynamic and realtime. Example - if a user posts, we want that picture to be visible in that session itself
-                self.profileService.loadUserPosts(userId: Auth.auth().currentUser?.uid ?? "")
-                
-            }
-        }
+      
     
         
         // Give random ideas from the database to the user
@@ -159,16 +86,17 @@ struct Search: View {
         
         // Make the body of the UI
         let body = VStack {
-            // Pick which item you want to use
-                Picker("Scope", selection: $scope) {
-                    ForEach(scopeFields, id:\.self){
-                        Text($0)
-                    }
-                }.pickerStyle(.segmented).padding()
-            if (scope == "Users"){ userSearch }
-            else if (scope == "Saved"){ savedDrawings }
-            else if (scope == "Suggestions"){ suggestions }
-            else { userSearch }
+//            // Pick which item you want to use
+//                Picker("Scope", selection: $scope) {
+//                    ForEach(scopeFields, id:\.self){
+//                        Text($0)
+//                    }
+//                }.pickerStyle(.segmented).padding()
+//
+//            if (scope == "Saved"){ savedDrawings }
+//            else if (scope == "Suggestions"){ suggestions }
+//            else { suggestions }
+            suggestions
         }
         
         
