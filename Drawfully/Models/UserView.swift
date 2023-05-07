@@ -17,22 +17,34 @@ struct UserView: View {
     let threeColumns = [GridItem(), GridItem(), GridItem()] // helps load posts onto screen
     
     var body: some View {
+        
+        let header = HStack{
+            Image("streak").resizable().frame(width:30, height: 30)
+            
+            //Getting streak count from user's data
+            
+            Text(String(user.streak))
+                .font(.title2)
+                .fontWeight(.bold)
+                .foregroundColor(AppTextColor)
+            
+            Spacer()
+            
+            Text(user.username )
+                .font(.title)
+                .fontWeight(.bold)
+                .padding(.trailing, 42.0)
+                .multilineTextAlignment(.center)
+                .foregroundColor(AppTextColor)
+            
+            Spacer()
+            
+        }
+            .padding()
+            .background(AppThemeColor)
+        
         VStack{
-            HStack{
-                Image("streak").resizable().frame(width:30, height: 30)
-
-                //Getting streak count from user's data
-                Text(String(user.streak))
-                    .font(.title2)
-                    .fontWeight(.bold)
-                Spacer()
-                // The title becomes the inputted username
-                Text(user.username).font(.title).fontWeight(.bold).padding(.trailing, 42.0).multilineTextAlignment(.center)
-                Spacer()
-            }.padding()
-            // get the unique ID for the user
-            Text(user.uid).font(.caption).fontWeight(.light).padding(.trailing).multilineTextAlignment(.center)
-            Divider()
+            header
             
             // display images, same as the implementation in Home.swift
             NavigationStack{
