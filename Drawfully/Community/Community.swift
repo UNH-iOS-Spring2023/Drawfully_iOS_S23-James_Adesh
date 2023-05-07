@@ -54,16 +54,16 @@ struct Community: View {
             VStack {
                 header
                 
-                
                 ScrollView{
                     VStack{
                         ForEach(communityService.posts, id:\.postId){
                             (post) in
                             
-                                PostCardImage(post: post)
-                                PostCard(post: post)
-                                Divider()
-                            
+                            PostCardImage(post: post)
+                            PostCard(post: post)
+                            Rectangle()
+                                .fill(Color(UIColor.lightGray))
+                                .frame(height:2)
                         }
                     }
                 }
