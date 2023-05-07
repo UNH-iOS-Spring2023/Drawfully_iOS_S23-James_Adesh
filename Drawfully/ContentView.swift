@@ -19,8 +19,8 @@ class AppVariables: ObservableObject{
 }
 
 // Global App Theme Color to be accessed anywhere needed
-var AppThemeColor: Color = Color(red: 0.0, green: 0.6078431372549019, blue: 0.5098039215686274)
-var AppTextColor: Color = Color.white
+let AppThemeColor: Color = Color(red: 0.0, green: 0.6078431372549019, blue: 0.5098039215686274)
+let AppTextColor: Color = Color.white
 
 struct ContentView: View {
     @EnvironmentObject private var launchScreenState: LaunchScreenStateManager
@@ -39,7 +39,7 @@ struct ContentView: View {
         Group {
             if (session.session != nil && session.loggedIn == true ) {
               BottomBar(AnyView(Home().environmentObject(session)),
-                        AnyView(Community().environmentObject(session)),
+                        AnyView(Community().environmentObject(session).environmentObject(searchFirebase)),
                         AnyView(Add().environmentObject(session)),
                         AnyView(Search().environmentObject(searchFirebase)),
                         AnyView(Settings().environmentObject(session))

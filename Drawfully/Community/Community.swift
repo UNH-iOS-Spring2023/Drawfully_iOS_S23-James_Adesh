@@ -22,6 +22,7 @@ struct Community: View {
     @State private var text = ""
     
     @EnvironmentObject var session: SessionStore
+    @EnvironmentObject var firebaseSearches: SearchQueries
     
     @StateObject var profileService = ProfileService()
 
@@ -30,6 +31,8 @@ struct Community: View {
 
     
     var body: some View {
+        
+        
         
         let header = HStack{
             Spacer()
@@ -42,10 +45,12 @@ struct Community: View {
                 .foregroundColor(AppTextColor)
             
             Spacer()
-
-            Image(systemName: "magnifyingglass")
-                .foregroundColor(AppTextColor)
-                .frame(alignment: .trailing)
+            
+            NavigationLink(destination: UserSearch().environmentObject(firebaseSearches)){
+                Image(systemName: "magnifyingglass")
+                    .foregroundColor(AppTextColor)
+                    .frame(alignment: .trailing)
+            }
         }
             .padding()
             .background(AppThemeColor)
