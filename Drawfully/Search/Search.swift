@@ -68,8 +68,12 @@ struct Search: View {
                         Text(user.username)
                     }
                 }
-            }.navigationTitle("Users")
-        }.searchable(text: $search).disableAutocorrection(true).textInputAutocapitalization(.never) // make this area searchable
+            }
+            
+        }//.navigationTitle("Users")
+            .searchable(text: $search)
+            .disableAutocorrection(true)
+            .textInputAutocapitalization(.never) // make this area searchable
         
             
             // create the array of all the saved drawings, adhering to search filters
@@ -89,22 +93,23 @@ struct Search: View {
         let savedDrawings = NavigationStack{
             ScrollView{
                 //Displaying 3 photos in a row
-                LazyVGrid(columns: threeColumns) {
+                LazyVGrid(columns: threeColumns, spacing: 0) {
                     ForEach(profileService.posts, id:\.postId){
                         (post) in
                         NavigationLink(destination: ViewPublicImage(post: post)){
                             WebImage(url: URL(string : post.mediaUrl)!)
                                 .resizable()
                                 .scaledToFit()
-                                .frame(width: ((UIScreen.main.bounds.width/3)-5))
+                                .frame(width: ((UIScreen.main.bounds.width/3)))
                                 .aspectRatio(contentMode: .fit)
-                                .padding(5)
+                                .border(Color.black, width: 3)
                         }
                     }
                 }
             }
-        }.accentColor(.white)
-            .navigationTitle("Saved")
+        }
+            .accentColor(.white)
+            //.navigationTitle("Saved")
             .onAppear{
             //To check if user is still logged in
             if (self.session.loggedIn == true)
@@ -168,13 +173,15 @@ struct Search: View {
         
         
         // Display content
-        VStack {
-            header
-            Divider()
-            
-            body
-            Spacer()
+        NavigationStack {
+            VStack{
+                header
+                
+                body
+                Spacer()
+                }
             }
+        .accentColor(Color.white)
         }
     
     // return a random predefined time

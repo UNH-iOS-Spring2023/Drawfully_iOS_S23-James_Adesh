@@ -37,9 +37,10 @@ struct PostCardImage: View {
                     Text(post.username).font(.headline)
                     Text((Date(timeIntervalSince1970: post.date)).timeAgo()+" ago").font(.subheadline)
                         .foregroundColor(.gray)
-                    
-                }.padding(.leading, 10)
-            }.padding(.leading)
+                }
+                .padding(.leading, 10)
+            }
+            .padding(.leading)
                 .padding(.top, 16)
             
             //Title to be displayed. TODO
@@ -56,6 +57,7 @@ struct PostCardImage: View {
                     .scaledToFit()
                     .frame(width: UIScreen.main.bounds.size.width, height: 400, alignment: .center)
                     .clipped()
+                    .background(Color.black)
             }
         }
     }

@@ -45,9 +45,9 @@ struct Home: View {
             
             Spacer()
             
-        }.padding()
+        }
+            .padding()
             .background(AppThemeColor)
-
         
         NavigationView{
             //Added scroll view for user's images
@@ -65,9 +65,8 @@ struct Home: View {
                 }
                 
                 ScrollView{
-                    
                     //Displaying 3 photos in a row
-                    LazyVGrid(columns: threeColumns) {
+                    LazyVGrid(columns: threeColumns, spacing: 0) {
                         ForEach(self.profileService.posts, id:\.postId){
                             (post) in
                             
@@ -76,10 +75,9 @@ struct Home: View {
                                 WebImage(url: URL(string : post.mediaUrl)!)
                                     .resizable()
                                     .scaledToFit()
-                                    .frame(width: ((UIScreen.main.bounds.width/3)-5))
+                                    .frame(width: ((UIScreen.main.bounds.width/3)))
                                     .aspectRatio(contentMode: .fit)
-                                    .padding(5)
-                                
+                                    .border(Color.black, width: 3)
                             }
                         }
                     }
@@ -87,11 +85,9 @@ struct Home: View {
                 }
                 // Citation : ChatGPT
                 .refreshable {
-                    // This closure will be called when the ScrollView is pulled down                    
+                    // This closure will be called when the ScrollView is pulled down
                     profileService.loadUserPosts(userId: Auth.auth().currentUser!.uid)
                 }
-
-                
             }
             .onAppear{
                 //To check if user is still logged in

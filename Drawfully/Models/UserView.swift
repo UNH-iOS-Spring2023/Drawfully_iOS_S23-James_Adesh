@@ -38,16 +38,16 @@ struct UserView: View {
             NavigationStack{
                 ScrollView{
                     //Displaying 3 photos in a row
-                    LazyVGrid(columns: threeColumns) {
+                    LazyVGrid(columns: threeColumns, spacing: 0) {
                         ForEach(profileService.posts, id:\.postId){
                             (post) in
                             NavigationLink(destination: ViewPublicImage(post: post)){
                                 WebImage(url: URL(string : post.mediaUrl)!)
                                     .resizable()
                                     .scaledToFit()
-                                    .frame(width: ((UIScreen.main.bounds.width/3)-5))
+                                    .frame(width: ((UIScreen.main.bounds.width/3)))
                                     .aspectRatio(contentMode: .fit)
-                                    .padding(5)
+                                    .border(Color.black, width: 3)
                             }
                         }
                     }
