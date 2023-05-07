@@ -45,6 +45,12 @@ struct Home: View {
             
             Spacer()
             
+            NavigationLink(destination: UserSavedImages().environmentObject(session)){
+                Image(systemName: "bookmark.fill")
+                    .foregroundColor(AppTextColor)
+                    .frame(alignment: .trailing)
+            }
+            
         }
             .padding()
             .background(AppThemeColor)
