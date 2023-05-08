@@ -19,7 +19,7 @@ struct Home: View {
     
     @StateObject var profileService = ProfileService()
     
-    let threeColumns = [GridItem(), GridItem(), GridItem()]
+    let threeColumns = [GridItem(.flexible(), spacing: 0), GridItem(.flexible(), spacing: 0), GridItem(.flexible(), spacing: 0)]
     @State private var tabBar: UITabBar?
     
     var body: some View {
@@ -49,6 +49,7 @@ struct Home: View {
                 Image(systemName: "bookmark.fill")
                     .foregroundColor(AppTextColor)
                     .frame(alignment: .trailing)
+                    .shadow(radius: 3)
             }
             
         }

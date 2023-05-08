@@ -14,7 +14,7 @@ struct UserView: View {
     var user: User // information of the inputted user
     
     @StateObject var profileService = ProfileService() // helps load user posts
-    let threeColumns = [GridItem(), GridItem(), GridItem()] // helps load posts onto screen
+    let threeColumns = [GridItem(.flexible(), spacing: 0), GridItem(.flexible(), spacing: 0), GridItem(.flexible(), spacing: 0)] // helps load posts onto screen
     
     var body: some View {
         

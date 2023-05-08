@@ -16,7 +16,7 @@ struct UserSavedImages: View {
     @EnvironmentObject var session: SessionStore
     
     @StateObject var profileService = ProfileService()
-    let threeColumns = [GridItem(), GridItem(), GridItem()]
+    let threeColumns = [GridItem(.flexible(), spacing: 0 ), GridItem(.flexible(), spacing: 0), GridItem(.flexible(), spacing: 0)]
     
     var body: some View {
         
@@ -41,7 +41,7 @@ struct UserSavedImages: View {
         let savedDrawings = ScrollView{
                 //Displaying 3 photos in a row
                 LazyVGrid(columns: threeColumns, spacing: 0) {
-                    ForEach(profileService.posts, id:\.postId){
+                    ForEach(profileService.savedPosts, id:\.postId){
                         (post) in
                         NavigationLink(destination: ViewPublicImage(post: post)){
                             WebImage(url: URL(string : post.mediaUrl)!)
@@ -52,6 +52,19 @@ struct UserSavedImages: View {
                                 .border(Color.black, width: 3)
                         }
                     }
+                }
+            }.refreshable {
+                // This closure will be called when the ScrollView is pulled down
+                profileService.loadSavedPosts(userId: Auth.auth().currentUser!.uid)
+            }
+            .onAppear{
+                //To check if user is still logged in
+                if (session.loggedIn == true)
+                {
+                    
+                    //If user is logged in, load user posts again to make the page dynamic and realtime. Example - if a user posts, we want that picture to be visible in that session itself
+                    profileService.loadSavedPosts(userId: Auth.auth().currentUser!.uid)
+                    
                 }
             }
         

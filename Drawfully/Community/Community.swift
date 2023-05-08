@@ -50,6 +50,7 @@ struct Community: View {
                 Image(systemName: "magnifyingglass")
                     .foregroundColor(AppTextColor)
                     .frame(alignment: .trailing)
+                    .shadow(radius: 3)
             }
         }
             .padding()
