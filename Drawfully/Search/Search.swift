@@ -17,8 +17,11 @@ struct Search: View {
     @EnvironmentObject var informationArr: SearchQueries
     
     @State private var search: String = ""
-    @State private var scope: String = "Suggestions" // Default page for Inspiration Tab
-    @State private var suggestionDisplay = "Time Limit"
+//    @State private var scope: String = "Suggestions" // Default page for Inspiration Tab
+    @State private var timeDisplay = "Time"
+    @State private var themeDisplay = "Theme"
+    @State private var subjectDisplay = "Subject"
+    @State private var styleDisplay = "Style"
     
     //    private var scopeFields: [String] = ["Saved", "Suggestions"]
     
@@ -44,33 +47,75 @@ struct Search: View {
             .padding()
             .background(AppThemeColor)
         
-        let card = ZStack{
-            RoundedRectangle(cornerRadius: 16)
-                .fill(AppThemeColor)
-                .shadow(radius: 3)
-                
+        let timeCard = VStack {
+            Image(systemName: "bookmark.fill")
+                .resizable()
+                .frame(alignment: .center)
+                .padding()
+                .foregroundColor(AppTextColor)
             
-            VStack{
-                VStack {
-                    Image(systemName: "bookmark.fill")
-                        .resizable()
-                        .frame(alignment: .center)
-                        .padding()
-                        .foregroundColor(AppTextColor)
-                    
-                    Spacer()
-                    
-                    Text("\(suggestionDisplay)")
-                        .font(.title)
-                        .foregroundColor(AppTextColor)
-                    
-                    Spacer()
-                    
-                }
-            }
+            Spacer()
+            
+            Text("\(timeDisplay)")
+                .font(.title)
+                .foregroundColor(AppTextColor)
+            
+            Spacer()
+            
         }
-            .frame(width:150, height: 200)
-            .padding()
+        
+        let themeCard = VStack {
+            Image(systemName: "bookmark.fill")
+                .resizable()
+                .frame(alignment: .center)
+                .padding()
+                .foregroundColor(AppTextColor)
+            
+            Spacer()
+            
+            Text("\(themeDisplay)")
+                .font(.title)
+                .foregroundColor(AppTextColor)
+            
+            Spacer()
+            
+        }
+        
+        let subjectCard = VStack {
+            Image(systemName: "bookmark.fill")
+                .resizable()
+                .frame(alignment: .center)
+                .padding()
+                .foregroundColor(AppTextColor)
+            
+            Spacer()
+            
+            Text("\(subjectDisplay)")
+                .font(.title)
+                .foregroundColor(AppTextColor)
+            
+            Spacer()
+            
+        }
+        
+        let styleCard = VStack {
+            Image(systemName: "bookmark.fill")
+                .resizable()
+                .frame(alignment: .center)
+                .padding()
+                .foregroundColor(AppTextColor)
+            
+            Spacer()
+            
+            Text("\(styleDisplay)")
+                .font(.title)
+                .foregroundColor(AppTextColor)
+            
+            Spacer()
+            
+        }
+            
+        
         
         
         
@@ -84,39 +129,56 @@ struct Search: View {
 //                .multilineTextAlignment(.center)
 //                .underline(true)
             
-            ScrollView{
+            VStack{
                 HStack{
                     Button(action: getTime){
-                        card
-                            .padding(10)
+                        Card(width: 150, height: 200, cornerRadius: 16, views: { AnyView(timeCard)
+                        })
+                        .padding(10)
                             .frame(alignment: .leading)
                     }
-                    Button(action: getTime) {
-                        card
+                    Button(action: getSubject) {
+                            Card(width: 150, height: 200, cornerRadius: 16, views: {
+                                AnyView(subjectCard)
+                            })
                             .padding(10)
                             .frame(alignment: .trailing)
                     }
                 }
                 
                 HStack{
-                    Button(action: getTime){
-                        card
-                            .padding(10)
+                    Button(action: getTheme){
+                        Card(width: 150, height: 200, cornerRadius: 16, views:{ AnyView(themeCard)
+                        })
+                        .padding(10)
                             .frame(alignment: .leading)
                     }
-                    Button(action: getTime){
-                        card
+                    Button(action: getStyle){
+                            Card(width: 150, height: 200, cornerRadius: 16, views: { AnyView(styleCard)
+                            })
                             .padding(10)
                             .frame(alignment: .trailing)
                     }
                 }
                 
-                Text("~Be Inspired~")
-                    .padding(.top)
+                NavigationLink(destination: Clock(
+                    time: timeDisplay,
+                    theme: themeDisplay,
+                    subject: subjectDisplay,
+                    style: styleDisplay) ){
+                    Card(views: {
+                        AnyView(
+                            Text("Start Drawing!")
+                                .font(.system(size: 32))
+                                .foregroundColor(AppTextColor)
+                        )
+                    })
+                    .padding()
                     .font(.title)
-                    .bold(true)
                     .multilineTextAlignment(.center)
                     .shadow(radius: 2)
+                }
+                    
             }
             
 //            Button(action: getTime){
@@ -174,29 +236,36 @@ struct Search: View {
                 Spacer()
             }
         }
-        .accentColor(Color.white)
+        .accentColor(AppThemeColor)
     }
     
     
     // return a random predefined time
     // TODO connect this to the database
     func getTime() {
-        let times = ["1 Minute", "5 Minutes", "10 Miuntes", "30 Minutes", "1 Hour", "1 Day"]
-        suggestionDisplay = times.randomElement()!
+        let times = ["1 Minute", "5 Minutes", "10 Minutes", "15 Minutes", "20 Minutes", "30 Minutes", "45 Minutes", "1 Hour", "2 Hours", "3 Hours", "1 Day"]
+        timeDisplay = times.randomElement()!
     }
     
     // return a random predefined theme
     // TODO connect this to database
     func getTheme() {
-        let themes = ["Cartoon", "Realist", "Impressionist"]
-        suggestionDisplay = "Theme:\n" + themes.randomElement()!
+        let themes = ["Cartoon", "Realist", "Impressionist", "Abstract", "Baroque", "Gothic", "Graffiti", "Renaissance"]
+        themeDisplay = themes.randomElement()!
     }
     
     // return a random predefined object
     // TODO connect this to the database
-    func getObject() {
-        let objects = ["Human", "Fruit", "Building", "What's in front of you", "Landscape", "Nature", "Animal"]
-        suggestionDisplay = "Object:\n" + objects.randomElement()!
+    func getSubject() {
+        let subjects = ["Human", "Fruit", "Building", "What's in front of you", "Landscape", "Nature", "Animal"]
+        subjectDisplay = subjects.randomElement()!
+    }
+    
+    // return a random predefined art style
+    // TODO connect this to the database
+    func getStyle() {
+        let styles = ["Painting", "Sketch", "Greyscale", "Digital", "Ink", "Colored Pencil"]
+        styleDisplay = styles.randomElement()!
     }
 }
     
