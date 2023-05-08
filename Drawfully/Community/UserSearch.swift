@@ -52,15 +52,15 @@ struct UserSearch: View {
                 }
         }
             
-            
-        NavigationStack{
+        // TODO fix navigation UI bug (when you go into a user's search page it has two back buttons)
+        // TOOD fix the search bar not appearing until scrolling up
+        VStack{
             userSearch
                 .navigationTitle("Search Users")
                 .searchable(text: $search)
                 .disableAutocorrection(true)
                 .textInputAutocapitalization(.never) // make this area searchable
         }
-        .background(AppThemeColor)
         .refreshable {
             informationArr.firebaseUserQuery()
         }
