@@ -28,7 +28,7 @@ struct Card: View {
     
     var body: some View {
         ZStack{
-           RoundedRectangle(cornerRadius: cornerRadius) //16
+           RoundedRectangle(cornerRadius: cornerRadius)
                .fill(AppThemeColor)
                .shadow(radius: 3)
                
@@ -36,7 +36,7 @@ struct Card: View {
                views()
            }
        }
-        .frame(width: width, height: height) //150 200
+        .frame(width: width, height: height)
             .padding()
     }
 }
