@@ -17,14 +17,20 @@ struct SetNotifications: View {
     
     var body: some View {
         // nice looking header
-        let header = VStack{
-                HStack{
-                    Spacer()
-                    Text("Notification Settings").font(.title).fontWeight(.bold).padding(.trailing, 0.0).multilineTextAlignment(.center)
-                    Spacer()
-                }.padding()
-                
+        let header = HStack{
+            Spacer()
+            
+            Text("Notification Settings")
+                .font(.title)
+                .fontWeight(.bold)
+                .foregroundColor(AppTextColor)
+                .padding(.trailing, 0.0)
+                .multilineTextAlignment(.center)
+            
+            Spacer()
         }
+            .padding()
+            .background(AppThemeColor)
         
         // main menu
         let menu = VStack{
