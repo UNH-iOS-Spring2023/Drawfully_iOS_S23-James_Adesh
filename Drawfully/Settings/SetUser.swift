@@ -21,6 +21,13 @@ struct SetUser: View {
     @State private var email: String = ""
     @State private var password: String = ""
     
+    @State private var setUsername: String = ""
+    @State private var setFirstName: String = ""
+    @State private var setLastName: String = ""
+    @State private var setEmail: String = ""
+    @State private var setPassword: String = ""
+    
+    
     @EnvironmentObject var session: SessionStore
 
     
@@ -36,9 +43,9 @@ struct SetUser: View {
         
         // update the username in firebase auth and firestore
         // TODO make sure user changes are saved to related SessionStore
-        if !username.isEmpty{
+        if !setUsername.isEmpty{
             let changeRequest = Auth.auth().currentUser?.createProfileChangeRequest()
-            changeRequest?.displayName = username
+            changeRequest?.displayName = setUsername
             changeRequest?.commitChanges{ error in
                 if error == nil {
                     print("Saved Username")
@@ -49,7 +56,7 @@ struct SetUser: View {
                 }
             }
             
-            FirebaseManager.shared.firestore.collection("users").document(uid).updateData(["username": username]){ error in
+            FirebaseManager.shared.firestore.collection("users").document(uid).updateData(["username": setUsername]){ error in
                     if error != nil {
                         print("Error saving username: \(error)")
                         myAlert = Alert(title: Text("Error With Username"), message: Text("Username could not change! Try again!"), dismissButton: .cancel(Text("Close")))
@@ -61,8 +68,8 @@ struct SetUser: View {
         
         // update the first name in firebase firestore
         // TODO make sure user changes are saved to related SessionStore
-        if !firstName.isEmpty {
-            FirebaseManager.shared.firestore.collection("users").document(uid).updateData(["FirstName": firstName]){ error in
+        if !setFirstName.isEmpty {
+            FirebaseManager.shared.firestore.collection("users").document(uid).updateData(["FirstName": setFirstName]){ error in
                     if error == nil{
                         print("Saved First Name")
                     } else {
@@ -75,8 +82,8 @@ struct SetUser: View {
         
         // update the last name in firebase firestore
         // TODO make sure user changes are saved to related SessionStore
-        if !lastName.isEmpty {
-            FirebaseManager.shared.firestore.collection("users").document(uid).updateData(["LastName": lastName]){ error in
+        if !setLastName.isEmpty {
+            FirebaseManager.shared.firestore.collection("users").document(uid).updateData(["LastName": setLastName]){ error in
                     if error != nil{
                         print("Error saving last name: \(error)")
                             myAlert = Alert(title: Text("Error With First Name"), message: Text("First name could not change! Try again!"), dismissButton: .cancel(Text("Close")))
@@ -89,13 +96,13 @@ struct SetUser: View {
         // update the email in firebase auth
         // TODO make sure user changes are saved to related SessionStore
         // TODO input validation
-        if !email.isEmpty {
-            if !email.contains("@"){
+        if !setEmail.isEmpty {
+            if !setEmail.contains("@"){
                 myAlert = Alert(title: Text("Error With New Email"), message: Text("Email could not change! Invalid email address! Try again!"), dismissButton: .cancel(Text("Close")))
                 showAlert.toggle()
                 return
             }
-            Auth.auth().currentUser?.updateEmail(to: email) { error in
+            Auth.auth().currentUser?.updateEmail(to: setEmail) { error in
                 if error == nil{
                     print("Saved New Email")
                 } else {
@@ -109,13 +116,13 @@ struct SetUser: View {
         // update the password
         // TODO make sure user changes are saved to related SessionStore
         // TODO input validation
-        if !password.isEmpty{
-            if password.count < 8 { //passwords must be 8 characters or more
+        if !setPassword.isEmpty{
+            if setPassword.count < 8 { //passwords must be 8 characters or more
                 myAlert = Alert(title: Text("Error With New Password"), message: Text("Password is too short! Must be 8 characters or more! Try again!"), dismissButton: .cancel(Text("Close"), action: {}))
                 showAlert.toggle()
                 return
             }
-            Auth.auth().currentUser?.updatePassword(to: password) { error in //update in firebase
+            Auth.auth().currentUser?.updatePassword(to: setPassword) { error in //update in firebase
                 if error == nil{
                     print("Saved New Password")
                 } else {
@@ -147,35 +154,49 @@ struct SetUser: View {
             VStack{
                 Spacer()
                 Text("New Username:").multilineTextAlignment(.leading)
-                TextField("username", text: $username).disableAutocorrection(true).multilineTextAlignment(.center)
+                TextField("\(username)", text: $setUsername)
+                    .disableAutocorrection(true)
+                    .multilineTextAlignment(.center)
+                    
                 Spacer()
             }
             Divider()
             VStack{
                 Spacer()
                 Text("New First Name:").multilineTextAlignment(.leading)
-                TextField("first name", text: $firstName).disableAutocorrection(true).multilineTextAlignment(.center)
+                TextField("\(firstName)", text: $setFirstName)
+                    .disableAutocorrection(true)
+                    .multilineTextAlignment(.center)
+                    
                 Spacer()
             }
             Divider()
             VStack{
                 Spacer()
                 Text("New Last Name:").multilineTextAlignment(.leading)
-                TextField("last name", text: $lastName).disableAutocorrection(true).multilineTextAlignment(.center)
+                TextField("\(lastName)", text: $setLastName)
+                    .disableAutocorrection(true)
+                    .multilineTextAlignment(.center)
                 Spacer()
             }
             Divider()
             VStack{
                 Spacer()
                 Text("New Email:").multilineTextAlignment(.leading)
-                TextField("bob@example.com", text: $email).disableAutocorrection(true).multilineTextAlignment(.center)
+                TextField("\(email)", text: $setEmail)
+                    .disableAutocorrection(true)
+                    .multilineTextAlignment(.center)
+                
                 Spacer()
             }
             Divider()
             VStack{
                 Spacer()
                 Text("New Password:").multilineTextAlignment(.leading)
-                SecureField("password", text: $password).disableAutocorrection(true).multilineTextAlignment(.center)
+                SecureField("password", text: $setPassword)
+                    .disableAutocorrection(true)
+                    .multilineTextAlignment(.center)
+                
                 Spacer()
             }
 
