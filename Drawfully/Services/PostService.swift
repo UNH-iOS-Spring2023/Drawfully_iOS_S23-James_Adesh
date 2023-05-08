@@ -220,5 +220,46 @@ class PostService{
 
         
     }
+    
+    // Function to load up all users' saved posts
+    static func loadSavedPosts(userId: String,onSuccess: @escaping(_ posts: [PostModel]) -> Void )
+    {
+        PostService.AllPosts.order(by: "date", descending: true).getDocuments { (snapshot,error) in
+            guard let snap = snapshot else {
+                print("Error loading all posts")
+                return
+            }
+            
+            //Creating array of type - PostModel to store all posts
+            var posts = [PostModel]()
+            
+            for doc in snap.documents{
+                //let dict = doc.data()
+                
+                var dict = doc.data()
+                if dict.keys.contains("saves") {
+                  
+                } else {
+                    dict["saves"]=[String:Bool]()
+                  // does not contain key
+                }
+                //Decoding received snapshot to a readable dictionary
+                guard let decoder = try? PostModel.init(fromDictionary: dict)
+                        
+                else{
+                    return
+                }
+                //Adding each user to array of posts if post is public
+                if (decoder.isPublic==true){
+                    let isSaved = (decoder.saves["\(Auth.auth().currentUser?.uid ?? "")"]==true) ? true : false
+                    if isSaved{
+                        posts.append(decoder)
+                    }
+                }
+            }
+            onSuccess(posts)
+        }
+    }
+    
 }
 

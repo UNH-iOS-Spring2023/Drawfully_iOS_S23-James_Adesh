@@ -79,10 +79,10 @@ struct Search: View {
                 .background(AppThemeColor)
                 .clipShape(Capsule())
         }
-            
         
         
-    
+        
+        
         
         // Make the body of the UI
         let body = VStack {
@@ -111,6 +111,7 @@ struct Search: View {
             }
         .accentColor(Color.white)
         }
+    }
     
     // return a random predefined time
     // TODO connect this to the database
@@ -133,7 +134,7 @@ struct Search: View {
         suggestionDisplay = "Object:\n" + objects.randomElement()!
     }
     
-    }
+}
 
 
 struct Search_Previews: PreviewProvider {
