@@ -136,18 +136,30 @@ struct SetUser: View {
     
     var body: some View {
         // nice looking header
-        let header = VStack{
-                HStack{
-                    Spacer()
-                    Text("User Profile").font(.title).fontWeight(.bold).padding(.trailing, 0.0).multilineTextAlignment(.center)
-                    Spacer()
-                    let isEmpty = username.isEmpty && firstName.isEmpty && lastName.isEmpty && email.isEmpty && password.isEmpty
-                    Button("Save", action: SaveVariables).disabled(isEmpty).alert(isPresented: $showAlert){
-                        myAlert!
-                    }
-                }.padding()
-                
+        let header = HStack{
+            Spacer()
+            
+            Text("User Profile")
+                .font(.title)
+                .fontWeight(.bold)
+                .foregroundColor(AppTextColor)
+                .padding(.trailing, 0.0)
+                .multilineTextAlignment(.center)
+            
+            Spacer()
+            
+            let isEmpty = username.isEmpty && firstName.isEmpty && lastName.isEmpty && email.isEmpty && password.isEmpty
+            Button("Save", action: SaveVariables)
+                .foregroundColor(AppTextColor)
+                .disabled(isEmpty)
+                .alert(isPresented: $showAlert){
+                    myAlert!
+                }
         }
+            .padding()
+            .background(AppThemeColor)
+                
+        
         
         // main menu, separates all fields to look nices
         let menu = VStack{

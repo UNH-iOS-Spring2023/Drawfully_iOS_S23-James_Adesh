@@ -38,7 +38,7 @@ struct Search: View {
             Text("Inspiration")
                 .font(.title)
                 .fontWeight(.bold)
-                .padding(.trailing, 0.0)
+                .padding(.leading)
                 .multilineTextAlignment(.center)
                 .foregroundColor(AppTextColor)
             
@@ -46,6 +46,8 @@ struct Search: View {
         }
             .padding()
             .background(AppThemeColor)
+        
+        
         
         let timeCard = VStack {
             Image(systemName: "bookmark.fill")
@@ -173,11 +175,12 @@ struct Search: View {
                                 .foregroundColor(AppTextColor)
                         )
                     })
-                    .padding()
+                    .padding(.bottom)
                     .font(.title)
                     .multilineTextAlignment(.center)
                     .shadow(radius: 2)
-                }
+                    }
+                    .padding()
                     
             }
             
@@ -222,18 +225,17 @@ struct Search: View {
             //            if (scope == "Saved"){ savedDrawings }
             //            else if (scope == "Suggestions"){ suggestions }
             //            else { suggestions }
-            Spacer()
+            
             suggestions
         }
         
         
         // Display content
-        NavigationStack {
+        NavigationView {
             VStack{
                 header
-                Spacer()
-                body
-                Spacer()
+                
+                suggestions
             }
         }
         .accentColor(AppThemeColor)
