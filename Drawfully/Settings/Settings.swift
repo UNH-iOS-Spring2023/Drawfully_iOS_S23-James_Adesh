@@ -66,6 +66,7 @@ struct Settings: View {
                     .padding(20)
                     .background(AppThemeColor)
                     .clipShape(Capsule())
+                    .shadow(radius: 3)
                 
                 // Edit User's Profile Information
                 NavigationLink(destination: SetUser()){
@@ -75,6 +76,7 @@ struct Settings: View {
                     .padding(20)
                     .background(AppThemeColor)
                     .clipShape(Capsule())
+                    .shadow(radius: 3)
                 
                 // Logout the User
                 Button(action: {
@@ -87,6 +89,7 @@ struct Settings: View {
                     .padding(20)
                     .background(AppThemeColor)
                     .clipShape(Capsule())
+                    .shadow(radius: 3)
             }
         }.font(.system(size: 30))
         
