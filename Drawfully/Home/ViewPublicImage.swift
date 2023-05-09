@@ -9,6 +9,7 @@ import SwiftUI
 import SDWebImageSwiftUI
 import Introspect
 
+// Similar to the SelectedImage code, but it does not let the viewer edit the post
 struct ViewPublicImage: View {
     var post: PostModel
     @State private var tabBar: UITabBar?
@@ -26,8 +27,8 @@ struct ViewPublicImage: View {
                 .scaledToFit()
             
             VStack{
-                
                 Spacer()
+                
                 HStack{
                     //Title display
                     Text(post.title)
@@ -40,6 +41,7 @@ struct ViewPublicImage: View {
                     
                     Spacer()
                 }
+                
                 HStack{
                     //Caption display
                     Text(post.caption)
@@ -51,7 +53,8 @@ struct ViewPublicImage: View {
                         .padding(.horizontal, 30)
                     
                     Spacer()
-                }.padding()
+                }
+                .padding()
             }
         }
     }

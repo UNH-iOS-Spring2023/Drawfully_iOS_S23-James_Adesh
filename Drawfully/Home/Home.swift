@@ -45,6 +45,7 @@ struct Home: View {
             
             Spacer()
             
+            // Navigate to the saved images of the user
             NavigationLink(destination: UserSavedImages().environmentObject(session)){
                 Image(systemName: "bookmark.fill")
                     .foregroundColor(AppTextColor)
@@ -88,8 +89,8 @@ struct Home: View {
                                     //.padding(.leading,5)
                             }
                         }
-                    }.padding(2)
-                    
+                    }
+                    .padding(2)
                 }
                 // Citation : ChatGPT
                 .refreshable {
@@ -107,15 +108,13 @@ struct Home: View {
                     
                 }
             }
-            
         }.accentColor(.white)
         // Citation : https://stackoverflow.com/questions/58444689/swiftui-hide-tabbar-in-subview#comment128904398_72905241
         // To disable bottom bar when viewing an image fullscreen and enable once full screen view is closed
         .introspectTabBarController { UITabBarController in
             tabBar = UITabBarController.tabBar
             self.tabBar?.isHidden = false }
-            
-    }//.onAppear(perform: <#T##(() -> Void)?#>)
+    }
     
 }
 

@@ -9,10 +9,10 @@ import SwiftUI
 import Firebase
 import SDWebImageSwiftUI
 
-
+// Display all the images the user has saved in a grid format
 // This view needs to be wrapped in a NavigationStack to function properly
 struct UserSavedImages: View {
-    
+    // user session
     @EnvironmentObject var session: SessionStore
     
     @StateObject var profileService = ProfileService()
@@ -52,8 +52,10 @@ struct UserSavedImages: View {
                                 .border(Color.black, width: 3)
                         }
                     }
-                }.padding(2)
-            }.refreshable {
+                }
+                .padding(2)
+            }
+            .refreshable {
                 // This closure will be called when the ScrollView is pulled down
                 profileService.loadSavedPosts(userId: Auth.auth().currentUser!.uid)
             }
@@ -71,7 +73,7 @@ struct UserSavedImages: View {
         VStack{
             header
             savedDrawings
-            }
+        }
         .onAppear{
         //To check if user is still logged in
         if (self.session.loggedIn == true){
