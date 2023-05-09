@@ -19,6 +19,7 @@ import FirebaseCore
 
 struct Login: View {
     
+    // inputs and messages
     @State var email: String = ""
     @State var password: String = ""
     @State var userIsLoggedIn: Bool=false
@@ -92,11 +93,16 @@ struct Login: View {
                             .shadow(color: .gray, radius: 1)
                             .padding()
                         
-                        TextField("Email", text: $email).textInputAutocapitalization(.never)
+                        // Input your email
+                        TextField("Email", text: $email)
+                            .textInputAutocapitalization(.never)
                             .padding(5)
-                        //Added password field
-                        SecureField("Password",text:$password).padding(5)
                         
+                        //Added password field
+                        SecureField("Password",text:$password)
+                            .padding(5)
+                        
+                        // Submission
                         Button(action: {
                             // Setting state to logged in
                             session.loggedIn=true

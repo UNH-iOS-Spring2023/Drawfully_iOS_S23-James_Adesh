@@ -23,6 +23,7 @@ struct CommentView: View {
                         CommentCard(comment: comment)
                             .padding()
                         
+                        // comment separator
                         Rectangle()
                             .fill(Color(UIColor.lightGray))
                             .frame(height:2)

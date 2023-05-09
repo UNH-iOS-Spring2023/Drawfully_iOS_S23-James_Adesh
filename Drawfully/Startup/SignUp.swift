@@ -17,6 +17,7 @@ import SimpleToast
 
 struct SignUp: View {
     
+    // inputs
     @State var username: String = ""
     @State var firstName: String = ""
     @State var lastName: String = ""
@@ -29,6 +30,7 @@ struct SignUp: View {
     @State var error:Bool=false
     @State var errorMsg:String=""
     
+    // prfile image inputs
     @State var profileImage : Image?
     @State var pickedImage : Image?
     
@@ -40,6 +42,7 @@ struct SignUp: View {
     @State var imageData: Data = Data()
     @State var sourceType: UIImagePickerController.SourceType = .photoLibrary
     
+    // user session
     @EnvironmentObject var session: SessionStore
     
     // Citation : https://www.youtube.com/watch?v=pC6qGSSh9bI
@@ -71,6 +74,7 @@ struct SignUp: View {
     
     // Citation : https://www.youtube.com/watch?v=6b2WAePdiqA
     // Citation : https://firebase.google.com/docs/auth/ios/start
+    // Sign up in firebase
     func register(){
         if (username.isEmpty || password.isEmpty || firstName.isEmpty || email.isEmpty){
             //Triggering toast display
@@ -130,15 +134,13 @@ struct SignUp: View {
             ZStack{
                 Color.mint.ignoresSafeArea()
                 
-                
                 VStack(alignment: .center, spacing: 0){
                     //Added logo display
                     Image("logo")
                         .resizable()
-                    //.imageScale(.large)
-                    //.foregroundColor(.accentColor)
                         .frame(width: 75, height: 75, alignment: .top)
                     
+                    // header
                     VStack{
                         Text("Sign Up")
                             .font(
@@ -148,7 +150,7 @@ struct SignUp: View {
                             .shadow(color: .gray, radius: 1)
                             .padding()
                         
-                        // VStack{
+                        // User inputs for account creation
                         Group{
                             if profileImage != nil {
                                 profileImage!.resizable()
@@ -191,6 +193,7 @@ struct SignUp: View {
                         .padding()
                     }
                     .overlay(
+                        // Background
                         RoundedRectangle(cornerRadius: 5)
                             .stroke(.white, lineWidth: 4)
                     ).background(.white)
@@ -200,9 +203,11 @@ struct SignUp: View {
                     Text(statusMessage).padding()
                 }
                 .padding(.bottom)
-            }.sheet(isPresented: $showingImagePicker, onDismiss: loadImage){
+            }
+            .sheet(isPresented: $showingImagePicker, onDismiss: loadImage){
                 ImagePicker(pickedImage: self.$pickedImage, showImagePicker: $showingImagePicker, imageData: $imageData)
             }
+            // Picking a photo from images
             .actionSheet(isPresented: $showingActionSheet){
                 ActionSheet(title: Text(""), buttons: [.default(Text("Choose a Photo")){
                     self.sourceType = .photoLibrary
