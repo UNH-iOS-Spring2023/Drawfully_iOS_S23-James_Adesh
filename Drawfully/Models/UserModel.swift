@@ -9,6 +9,7 @@ import Foundation
 import Firebase
 import FirebaseFirestore
 
+// stored in the user session, stores all relevant data for the user
 struct User: Encodable, Decodable{
     var uid:String //FirebaseAuth generated uid
     var email: String //Email of that user
