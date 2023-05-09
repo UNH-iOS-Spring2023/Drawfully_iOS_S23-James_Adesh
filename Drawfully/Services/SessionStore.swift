@@ -11,7 +11,7 @@ import Combine
 import Firebase
 import FirebaseAuth
 
-
+// stores and updates the user data through program execution
 class SessionStore: ObservableObject {
     
     var didChange = PassthroughSubject<SessionStore, Never>()

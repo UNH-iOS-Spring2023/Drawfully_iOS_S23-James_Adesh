@@ -27,6 +27,7 @@ class ProfileService: ObservableObject{
         }
     }
     
+    //Function to fetch all posts saved by the logged in user
     func loadSavedPosts(userId:String)
     {
         PostService.loadSavedPosts(userId: userId){
