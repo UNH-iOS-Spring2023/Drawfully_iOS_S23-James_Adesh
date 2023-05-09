@@ -69,7 +69,7 @@ struct SetUser: View {
         // update the first name in firebase firestore
         // TODO make sure user changes are saved to related SessionStore
         if !setFirstName.isEmpty {
-            FirebaseManager.shared.firestore.collection("users").document(uid).updateData(["FirstName": setFirstName]){ error in
+            FirebaseManager.shared.firestore.collection("users").document(uid).updateData(["firstName": setFirstName]){ error in
                     if error == nil{
                         print("Saved First Name")
                     } else {
@@ -83,7 +83,7 @@ struct SetUser: View {
         // update the last name in firebase firestore
         // TODO make sure user changes are saved to related SessionStore
         if !setLastName.isEmpty {
-            FirebaseManager.shared.firestore.collection("users").document(uid).updateData(["LastName": setLastName]){ error in
+            FirebaseManager.shared.firestore.collection("users").document(uid).updateData(["lastName": setLastName]){ error in
                     if error != nil{
                         print("Error saving last name: \(error)")
                             myAlert = Alert(title: Text("Error With First Name"), message: Text("First name could not change! Try again!"), dismissButton: .cancel(Text("Close")))
