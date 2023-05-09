@@ -30,7 +30,7 @@ struct Add: View {
         
         //Text("Camera View here. Currently commented for testing in simulator")
         
-        CameraView().environmentObject(app)
+        CameraView().environmentObject(app).environmentObject(session)
         
     }
 }
@@ -45,6 +45,7 @@ struct Add_Previews: PreviewProvider {
 // Referred to https://www.youtube.com/watch?v=8hvaniprctk
 struct CameraView: View {
     
+    @EnvironmentObject var session: SessionStore
     //Environment Object created to access global variables
     @EnvironmentObject private var app: AppVariables
     
@@ -221,14 +222,49 @@ struct CameraView: View {
         // Citation : https://www.youtube.com/watch?v=yHngqpFpVZU&list=PL0dzCUj1L5JEN2aWYFCpqfTBeVHcGZjGw&index=7
         
         guard let uid=Auth.auth().currentUser?.uid else {return}
-        let ref: DocumentReference? = nil
-        
-        //Currently we are posting a single post, multiple times(old way and new way). This has to be optimized. TODO
+
         
         //Add Post to firebase with all attributes - caption, title, isPublic
-        PostService.uploadPost(caption: caption, title: title, isPublic: postVisibility, imageData: camera.picData,
-                               onSuccess:
-                                {})
+        PostService.uploadPost(caption: caption, title: title, isPublic: postVisibility, imageData: camera.picData,onSuccess:
+            {
+            // Citation : https://mammothinteractive.com/get-current-time-with-swiftui-hacking-swift-5-5-xcode-13-and-ios-15/
+            let formatter = DateFormatter()
+            formatter.dateFormat = "YY/MM/dd"
+            let currentDateTime = Date()
+            // Citation : https://developer.apple.com/documentation/foundation/date/formatstyle/timestyle
+            // Citation : https://www.hackingwithswift.com/example-code/language/how-to-compare-dates
+            let dateToday = formatter.string(from: currentDateTime)
+            // get the last date the user posted
+            let lastUploaded = self.session.session?.lastUpdated ?? formatter.string(from: currentDateTime.addingTimeInterval(-86400*2))
+
+            
+            //If user has not posted on the same day
+            if (lastUploaded != dateToday){
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateFormat = "YY/MM/dd"
+                let dateTodayDate = dateFormatter.date(from: dateToday)
+                let lastUploadedDate = dateFormatter.date(from: lastUploaded) ?? Date.now
+                let boolean = Calendar.current.isDateInToday(lastUploadedDate.addingTimeInterval(86400))
+                let newDate = lastUploadedDate.addingTimeInterval(86400)
+                
+                print("Streak Debugging",dateTodayDate, lastUploadedDate, boolean, newDate)
+                
+                //If user has posted the previous day
+                if (Calendar.current.isDateInToday(lastUploadedDate.addingTimeInterval(86400))){
+                    FirebaseManager.shared.firestore.collection("users").document(uid).updateData(["streak" : FieldValue.increment(1.0)])
+                    
+                    self.session.session?.streak+=1
+                    
+                }
+                //If user has not posted the previous day or the same day, reset streak to 1
+                else{
+                    FirebaseManager.shared.firestore.collection("users").document(uid).updateData(["streak" : 1])
+                    self.session.session?.streak=1
+                }
+            }
+            
+            FirebaseManager.shared.firestore.collection("users").document(uid).updateData(["lastUpdated" : dateToday])
+        })
         { errorMessage in
             print ("SavePostPhoto error : \(errorMessage)" )
         }
@@ -243,39 +279,7 @@ struct CameraView: View {
         title=""
         caption=""
         
-        // TODO check if this updates streak using phone
-        
-        // get the last date the user posted
-        let storedDate = UserDefaults.standard.object(forKey: "lastDate") as? Date ?? Date.now
-
-        
-        //If user has posted the previous day
-        //if Calendar.current.isDateInToday(stored.addingTimeInterval(86400)) //Increment
-        
-        //If user has posted on the same day
-        if Calendar.current.isDateInToday(storedDate){
-            FirebaseManager.shared.firestore.collection("users").document(uid).updateData(["streak" : FieldValue.increment(1.0)])
-            let date = Date.now
-            UserDefaults.standard.set(date, forKey: "lastDate")
-            
-            print("updated streak")
-            //Remain the same
-        }
-        
-        //If user has not posted on the day or the previous day
-        else if ((!Calendar.current.isDateInToday(storedDate))&&(!Calendar.current.isDateInToday(storedDate.addingTimeInterval(86400)))){
-            FirebaseManager.shared.firestore.collection("users").document(uid).updateData(["streak" : 0])
-            let date = Date.now
-            UserDefaults.standard.set(date, forKey: "lastDate")
-            
-            
-            print("updated streak")
-            
-            // Reset to 1
-            }
-        
     }
-    
 }
 
 // Camera Model...
