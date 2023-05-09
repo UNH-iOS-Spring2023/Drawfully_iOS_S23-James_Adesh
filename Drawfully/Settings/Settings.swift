@@ -14,88 +14,83 @@ struct Settings: View {
     var body: some View {
         
         //Add title bar to Settings Tab
-        let header = VStack{
-            HStack{
-                Spacer()
-                Text("Settings").font(.title).fontWeight(.bold).padding(.trailing, 0.0).multilineTextAlignment(.center)
-                Spacer()
-            }.padding()
-        }
-        
-        // Debugging settings to help with development
-        let debugging = VStack {
-            Text("Debugging Buttons").padding().font(.system(size: 30))
-            Divider()
+        let header = HStack{
+            Spacer()
             
-            // When testing the streak, set the date to either now or two days ago
-            ScrollView {
-                Text("Testing Streak")
-                HStack{
-                    // Set the streak date to now
-                    Button("Set Date"){
-                        UserDefaults.standard.set(Date.now, forKey: "lastDate")
-                        print("Date set")
-                    }.padding()
-                    
-                    //Set streak date to two days ago
-                    Button("Set Old Date"){
-                        UserDefaults.standard.set(Calendar.current.date(byAdding: .day, value: -2, to: Date.now), forKey: "lastDate")
-                        print("Old Date set")
-                    }.padding()
-                }
-            }.padding().font(.system(size: 30))
+            Text("Settings")
+                .font(.title)
+                .fontWeight(.bold)
+                .padding(.trailing, 0.0)
+                .multilineTextAlignment(.center)
+                .foregroundColor(AppTextColor)
+            
+            Spacer()
+        }
+            .padding()
+            .background(AppThemeColor)
+        
+        
+        // the following card views are inputs for the Card() class
+        let setNotificationCard = VStack {
+            Text("Edit Notifications")
+                .font(.headline)
+                .foregroundColor(AppTextColor)
         }
         
-        // Menu to manage navigation
+        let setUserCard = VStack {
+            Text("Edit Profile")
+                .font(.headline)
+                .foregroundColor(AppTextColor)
+        }
+        
+        let logoutCard = VStack {
+            Text("Logout")
+                .font(.headline)
+                .foregroundColor(AppTextColor)
+        }
+        
+        // Menu view to manage navigation
         let menu = ScrollView {
             VStack(alignment: .center){
                 // toggle if you want to receive daily notification: see NotificationManager.swift
                 
                 // Edit Notifications Settings
                 NavigationLink(destination: SetNotifications()){
-                    Text("Edit Notifications")
-                }.foregroundColor(.black)
-                    .font(.headline)
-                    .padding(20)
-                    .background(Color.green)
-                    .clipShape(Capsule())
+                    Card(width: 150, height: 75, cornerRadius: 20, views:{ AnyView(setNotificationCard) })
+                        .padding(1)
+                }
+                .padding()
                 
                 // Edit User's Profile Information
                 NavigationLink(destination: SetUser()){
-                    Text("Edit Profile")
-                }.foregroundColor(.black)
-                    .font(.headline)
-                    .padding(20)
-                    .background(Color.green)
-                    .clipShape(Capsule())
+                    Card(width: 150, height: 75, cornerRadius: 20, views:{ AnyView(setUserCard) })
+                        .padding(1)
+                }
+                    .padding()
                 
                 // Logout the User
                 Button(action: {
                     session.loggedIn=false
 
                     session.logout()} ,label:  {
-                    Text("Logout")
-                }).foregroundColor(.black)
-                    .font(.headline)
-                    .padding(20)
-                    .background(Color.green)
-                    .clipShape(Capsule())
+                        Card(width: 150, height: 75, cornerRadius: 20, views:{ AnyView(logoutCard) })
+                            .padding(1)
+                    })
+                .padding()
             }
-        }.font(.system(size: 30))
+        }
+            .font(.system(size: 30))
         
         
         // Display the content
         NavigationView{
             VStack{
                 header
-                Divider()
+
                 menu
-                
-                // TODO Remove for production
-                Divider()
-                debugging
             }
         }
+        .accentColor(AppTextColor)
     }
     
 }

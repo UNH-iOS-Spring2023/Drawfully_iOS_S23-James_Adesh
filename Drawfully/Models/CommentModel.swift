@@ -9,6 +9,7 @@
 
 import Foundation
 
+// a class for comments for modular use
 struct CommentModel: Encodable, Decodable, Identifiable {
     
     //Creating a unique identifier

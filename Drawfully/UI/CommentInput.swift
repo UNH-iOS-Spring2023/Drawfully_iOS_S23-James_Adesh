@@ -15,7 +15,11 @@ struct CommentInput: View {
     @ObservedObject var commentService = CommentService()
     @State private var text: String = ""
     
+    
+    //Initialising with a post
     init(post: PostModel?, postId: String?) {
+        
+        //If not post has been fetched, first fetch a post
         if post != nil{
             commentService.post = post
             
@@ -30,7 +34,7 @@ struct CommentInput: View {
     func handleInput(postId: String){
         PostService.loadPost(postId: postId){
             post in
-            
+            //Fetching post related to the comment
             self.commentService.post = post
         }
     }
@@ -46,8 +50,9 @@ struct CommentInput: View {
     
     var body: some View {
         HStack(){
-            WebImage(url: URL(string: session.session!.profileImageUrl))
+            WebImage(url: URL(string: session.session?.profileImageUrl ?? ""))
                 .resizable()
+                .placeholder(Image(systemName: "person.circle.fill"))
                 .aspectRatio(contentMode: .fill)
                 .scaledToFit()
                 .clipShape(Circle())
@@ -65,7 +70,7 @@ struct CommentInput: View {
                     Image(systemName: "paperplane").imageScale(.large).padding(.trailing)
                 }
                 
-            }
+            }.padding()
         }
             
     }

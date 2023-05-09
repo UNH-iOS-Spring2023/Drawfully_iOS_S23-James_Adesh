@@ -67,7 +67,7 @@ class StorageService{
                     }
                     let firestoreUserId = AuthService.getUserId(userId: userId)
                     //Initialising a user with input and default values
-                    let user = User.init(uid: userId, email: email, profileImageUrl: metaImageUrl, username: username, searchName: username.splitString(), streak: 0, firstName: firstName, lastName: lastName)
+                    let user = User.init(uid: userId, email: email, profileImageUrl: metaImageUrl, username: username, lastUpdated: "", /*searchName: username.splitString(),*/ streak: 0, firstName: firstName, lastName: lastName)
                     
                     guard let dict = try?user.asDictionary() else {return}
                     
@@ -119,7 +119,7 @@ class StorageService{
                         let firestorePostRef = PostService.PostsUserId(userId: userId).collection("posts").document(postId)
 
                         //Creating post
-                        let post = PostModel.init(caption: caption, likes: [:], ownerId: userId, postId: postId, username: Auth.auth().currentUser!.displayName!, profileImageUrl: Auth.auth().currentUser!.photoURL!.absoluteString, mediaUrl: metaImageUrl,title: title, date: Date().timeIntervalSince1970,  likeCount: 0, isPublic: isPublic)
+                        let post = PostModel.init(caption: caption, likes: [:], saves: [:],ownerId: userId, postId: postId, username: Auth.auth().currentUser!.displayName!, profileImageUrl: Auth.auth().currentUser!.photoURL!.absoluteString, mediaUrl: metaImageUrl,title: title, date: Date().timeIntervalSince1970,  likeCount: 0, isPublic: isPublic)
 
 
                         //Encoding post to dictionary for firebase

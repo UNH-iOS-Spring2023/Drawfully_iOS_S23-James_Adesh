@@ -18,7 +18,14 @@ class AppVariables: ObservableObject{
     
 }
 
+// Global Color variable to be accessed anywhere needed
+let AppThemeColor: Color = Color(red: 0.0, green: 0.6078431372549019, blue: 0.5098039215686274)
+let AppTextColor: Color = Color.white
+
 struct ContentView: View {
+    @EnvironmentObject private var launchScreenState: LaunchScreenStateManager
+
+    
     @StateObject var app = AppVariables()
     @StateObject var searchFirebase = SearchQueries() // SearchQueries.swift
     @StateObject var session: SessionStore = SessionStore() // SessionStore.swift
@@ -32,7 +39,7 @@ struct ContentView: View {
         Group {
             if (session.session != nil && session.loggedIn == true ) {
               BottomBar(AnyView(Home().environmentObject(session)),
-                        AnyView(Community().environmentObject(session)),
+                        AnyView(Community().environmentObject(session).environmentObject(searchFirebase)),
                         AnyView(Add().environmentObject(session)),
                         AnyView(Search().environmentObject(searchFirebase)),
                         AnyView(Settings().environmentObject(session))
@@ -41,7 +48,15 @@ struct ContentView: View {
           } else {
               Login().environmentObject(session)
           }
-        }.onAppear(perform: getUser)
+        }//.onAppear(perform: getUser)
+            .task {
+                try? await getUser()
+                try? await Task.sleep(for: Duration.seconds(1))
+                self.launchScreenState.dismiss()
+            }
+        
+        
+        
     }
 }
 

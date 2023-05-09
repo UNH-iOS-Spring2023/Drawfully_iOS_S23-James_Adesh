@@ -7,9 +7,11 @@
 
 import SwiftUI
 
+// a modular implementation of user posts, used where any user generated image is shown
 struct PostModel: Encodable, Decodable {
     var caption: String //The caption for the post
     var likes: [String:Bool] //Dictionary [(uid - String: true/false - boolean)] to keep track of who has liked a particular post. If a user unlikes a post after liking it, we set the boolean value to false
+    var saves: [String:Bool]
     var ownerId: String //The user who has created that post
     var postId: String //The randomly generated UUID String used to store the post image
     var username: String //username of the user who has created the post

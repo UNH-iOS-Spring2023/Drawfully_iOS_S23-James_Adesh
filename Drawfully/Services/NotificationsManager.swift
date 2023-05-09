@@ -52,6 +52,7 @@ func createNotification(date: DateComponents){ //takes DateComponents since UNCa
 // Postconditions: "Drawing Reminder" notitication will not trigger
 func removeNotification(){
     UserDefaults.standard.set(false, forKey: "notification")
+    
     //remove the notifiation with the identifier "notification"
     UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: ["Drawing Reminder"])
     print("removed notification")

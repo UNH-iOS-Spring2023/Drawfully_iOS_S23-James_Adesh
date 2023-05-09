@@ -69,7 +69,14 @@ class PostService{
                 return
             }
             
-            let dict = snap.data()
+            //let dict = snap.data()
+            var dict = snap.data()
+            if ((dict?.keys.contains("saves")) != nil) {
+              
+            } else {
+                dict!["saves"]=[String:Bool]()
+              // does not contain key
+            }
             
             guard let decoded = try?PostModel.init(fromDictionary: dict!)
             else{return}
@@ -97,7 +104,15 @@ class PostService{
             var posts = [PostModel]()
             
             for doc in snap.documents{
-                let dict = doc.data()
+                var dict = doc.data()
+                if dict.keys.contains("saves") {
+                  
+                } else {
+                    dict["saves"]=[String:Bool]()
+                  // does not contain key
+                }
+                
+                //dict["saves"]?.append()
                 //Decoding received snapshot to a readable dictionary
                 guard let decoder = try? PostModel.init(fromDictionary: dict)
                         
@@ -125,18 +140,126 @@ class PostService{
             var posts = [PostModel]()
             
             for doc in snap.documents{
-                let dict = doc.data()
+                //let dict = doc.data()
+                
+                var dict = doc.data()
+                if dict.keys.contains("saves") {
+                  
+                } else {
+                    dict["saves"]=[String:Bool]()
+                  // does not contain key
+                }
                 //Decoding received snapshot to a readable dictionary
                 guard let decoder = try? PostModel.init(fromDictionary: dict)
                         
                 else{
                     return
                 }
-                //Adding each user to array of posts
-                posts.append(decoder)
+                //Adding each user to array of posts if post is public
+                if (decoder.isPublic==true){
+                    posts.append(decoder)
+                }
             }
             onSuccess(posts)
         }
     }
+    
+    
+    // Function to delete post from firestore and cloud storage
+    static func deletePost(postId: String,userId: String, onSuccess: @escaping(_ post: PostModel)->Void)
+    {
+
+        // Citation : https://stackoverflow.com/questions/48516763/firestore-swift-4-how-to-get-total-count-of-all-the-documents-inside-a-collect
+        PostService.AllPosts.document(postId).delete(){
+            (err) in
+            if let err = err {
+                  print("Error removing document from All Posts: \(err)")
+                }
+            else {
+                print("Document successfully removed from All Posts!")
+            }
+            
+        }
+        
+        // Citation : https://stackoverflow.com/questions/48516763/firestore-swift-4-how-to-get-total-count-of-all-the-documents-inside-a-collect
+
+        PostService.PostsUserId(userId: userId).collection("posts").document(postId).delete(){
+            (err) in
+            if let err = err {
+                  print("Error removing document from User's collection : \(err)")
+                }
+            else {
+                print("Document successfully removed from User's collection!")
+            }
+            
+        }
+        
+        
+        let storageRef = StorageService.storagePostId(postId: postId)
+        //Delete from Cloud Storage
+        // Citation : https://firebase.google.com/docs/storage/ios/delete-files
+        // Delete the file
+        storageRef.delete { error in
+          if let error = error {
+            print("Error in deleting file from cloud storage")
+          } else {
+              print("File deleted successfully")
+          }
+        }
+        
+
+    }
+    
+    // Function to update post in firestore. Updateable fields - Title, Caption, Visibility.
+    static func updatePost(userId: String, postId: String, title: String, caption: String, isPublic: Bool,onSuccess: @escaping(_ posts: [PostModel]) -> Void){
+        
+        // Citation : https://designcode.io/swiftui-advanced-handbook-write-to-firestore
+        PostService.AllPosts.document(postId).updateData(["title":title, "caption":caption, "isPublic": isPublic])
+        
+        PostService.PostsUserId(userId: userId).collection("posts").document(postId).updateData(["title":title, "caption":caption, "isPublic": isPublic])
+
+        
+    }
+    
+    // Function to load up all users' saved posts
+    static func loadSavedPosts(userId: String,onSuccess: @escaping(_ posts: [PostModel]) -> Void )
+    {
+        PostService.AllPosts.order(by: "date", descending: true).getDocuments { (snapshot,error) in
+            guard let snap = snapshot else {
+                print("Error loading all posts")
+                return
+            }
+            
+            //Creating array of type - PostModel to store all posts
+            var posts = [PostModel]()
+            
+            for doc in snap.documents{
+                //let dict = doc.data()
+                
+                var dict = doc.data()
+                if dict.keys.contains("saves") {
+                  
+                } else {
+                    dict["saves"]=[String:Bool]()
+                  // does not contain key
+                }
+                //Decoding received snapshot to a readable dictionary
+                guard let decoder = try? PostModel.init(fromDictionary: dict)
+                        
+                else{
+                    return
+                }
+                //Adding each user to array of posts if post is public
+                if (decoder.isPublic==true){
+                    let isSaved = (decoder.saves["\(Auth.auth().currentUser?.uid ?? "")"]==true) ? true : false
+                    if isSaved{
+                        posts.append(decoder)
+                    }
+                }
+            }
+            onSuccess(posts)
+        }
+    }
+    
 }
 

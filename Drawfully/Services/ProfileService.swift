@@ -15,6 +15,8 @@ class ProfileService: ObservableObject{
     //Array of PostModel objects to store all user posts
     @Published var posts: [PostModel]=[]
     
+    @Published var savedPosts: [PostModel]=[]
+    
     //Function to fetch all posts made by the logged in user
     func loadUserPosts(userId:String)
     {
@@ -22,6 +24,16 @@ class ProfileService: ObservableObject{
             posts in
             
             self.posts=posts
+        }
+    }
+    
+    //Function to fetch all posts saved by the logged in user
+    func loadSavedPosts(userId:String)
+    {
+        PostService.loadSavedPosts(userId: userId){
+            posts in
+            
+            self.savedPosts=posts
         }
     }
 }
