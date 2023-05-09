@@ -29,31 +29,6 @@ struct Settings: View {
             .padding()
             .background(AppThemeColor)
         
-        // Debugging settings to help with development
-        let debugging = VStack {
-            Text("Debugging Buttons").padding().font(.system(size: 30))
-            Divider()
-            
-            // When testing the streak, set the date to either now or two days ago
-            ScrollView {
-                Text("Testing Streak")
-                HStack{
-                    // Set the streak date to now
-                    Button("Set Date"){
-                        UserDefaults.standard.set(Date.now, forKey: "lastDate")
-                        print("Date set")
-                    }.padding()
-                    
-                    //Set streak date to two days ago
-                    Button("Set Old Date"){
-                        UserDefaults.standard.set(Calendar.current.date(byAdding: .day, value: -2, to: Date.now), forKey: "lastDate")
-                        print("Old Date set")
-                    }.padding()
-                }
-            }.padding().font(.system(size: 30))
-        }
-        
-        
         let setNotificationCard = VStack {
             Text("Edit Notifications")
                 .font(.headline)
