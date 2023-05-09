@@ -13,6 +13,8 @@ struct BottomBar: View {
     @EnvironmentObject private var app: AppVariables
     
     
+    @EnvironmentObject var session: SessionStore
+    
     //using and referring to in-class instructions
     let Home:AnyView
     let Community:AnyView
@@ -54,6 +56,10 @@ struct BottomBar: View {
                     Image(systemName: "house.fill")
                     
                     Text("Home") }.tag(0)
+                    // Citation : https://developer.apple.com/forums/thread/657000
+                    .onAppear{
+                        self.session.listen()
+                    }
                 
                 Community.tabItem
                 {
