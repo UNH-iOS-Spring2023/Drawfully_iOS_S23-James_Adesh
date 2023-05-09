@@ -89,6 +89,7 @@ struct SignUp: View {
                                            email: email,
                                        profileImageUrl:user.profileImageUrl,
                                             username:username,
+                                            lastUpdated: user.lastUpdated,
                                        //searchName:user.searchName,
                                        streak:user.streak,
                                             firstName: firstName,

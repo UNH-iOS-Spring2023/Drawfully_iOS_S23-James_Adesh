@@ -31,7 +31,7 @@ class SearchQueries : ObservableObject {
                 for document in querySnapshot!.documents {
                     let value: String = document.get("username") as? String ?? "Unknown"
                     let data = document.data()
-                    let queriedUser = User(uid: document.documentID,  email: data["email"] as? String ?? "", profileImageUrl: data["profileImageUrl"] as? String ?? "", username: data["username"] as? String ?? "", /*searchName: data["searchName"] as? [String] ?? [""],*/ streak: data["streak"] as? Int ?? 0, firstName: data["firstName"] as? String ?? "", lastName: data["lastName"] as? String ?? "")
+                    let queriedUser = User(uid: document.documentID,  email: data["email"] as? String ?? "", profileImageUrl: data["profileImageUrl"] as? String ?? "", username: data["username"] as? String ?? "", lastUpdated: data["lastUpdated"] as? String ?? "" , /*searchName: data["searchName"] as? [String] ?? [""],*/ streak: data["streak"] as? Int ?? 0, firstName: data["firstName"] as? String ?? "", lastName: data["lastName"] as? String ?? "")
                     
                     self.users.append(queriedUser)
                 }
