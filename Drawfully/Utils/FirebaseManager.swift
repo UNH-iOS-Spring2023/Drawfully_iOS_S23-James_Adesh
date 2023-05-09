@@ -14,7 +14,7 @@ import FirebaseFirestore
 import FirebaseAuth
 import FirebaseStorage
 
-
+// Access to common variables of firebase
 class FirebaseManager: NSObject {
     
     let auth: Auth;
