@@ -18,7 +18,7 @@ class AppVariables: ObservableObject{
     
 }
 
-// Global App Theme Color to be accessed anywhere needed
+// Global Color variable to be accessed anywhere needed
 let AppThemeColor: Color = Color(red: 0.0, green: 0.6078431372549019, blue: 0.5098039215686274)
 let AppTextColor: Color = Color.white
 
