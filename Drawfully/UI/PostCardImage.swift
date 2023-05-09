@@ -37,9 +37,10 @@ struct PostCardImage: View {
                     Text(post.username).font(.headline)
                     Text((Date(timeIntervalSince1970: post.date)).timeAgo()+" ago").font(.subheadline)
                         .foregroundColor(.gray)
-                    
-                }.padding(.leading, 10)
-            }.padding(.leading)
+                }
+                .padding(.leading, 10)
+            }
+            .padding(.leading)
                 .padding(.top, 16)
             
             //Title to be displayed. TODO
@@ -49,12 +50,15 @@ struct PostCardImage: View {
                 .padding(.trailing, 32)
             
             //Image posted as drawing is displayed
-            WebImage(url: URL(string: post.mediaUrl)!)
-                .resizable()
-                .aspectRatio(contentMode: .fill)
-                .scaledToFit()
-                .frame(width: UIScreen.main.bounds.size.width, height: 400, alignment: .center)
-                .clipped()
+            NavigationLink(destination: ViewPublicImage(post: post)){
+                WebImage(url: URL(string : post.mediaUrl)!)
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .scaledToFit()
+                    .frame(width: UIScreen.main.bounds.size.width, height: 400, alignment: .center)
+                    .clipped()
+                    .background(Color.black)
+            }
         }
     }
 }

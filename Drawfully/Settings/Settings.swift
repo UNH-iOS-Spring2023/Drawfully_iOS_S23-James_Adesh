@@ -14,13 +14,20 @@ struct Settings: View {
     var body: some View {
         
         //Add title bar to Settings Tab
-        let header = VStack{
-            HStack{
-                Spacer()
-                Text("Settings").font(.title).fontWeight(.bold).padding(.trailing, 0.0).multilineTextAlignment(.center)
-                Spacer()
-            }.padding()
+        let header = HStack{
+            Spacer()
+            
+            Text("Settings")
+                .font(.title)
+                .fontWeight(.bold)
+                .padding(.trailing, 0.0)
+                .multilineTextAlignment(.center)
+                .foregroundColor(AppTextColor)
+            
+            Spacer()
         }
+            .padding()
+            .background(AppThemeColor)
         
         // Debugging settings to help with development
         let debugging = VStack {
@@ -46,6 +53,25 @@ struct Settings: View {
             }.padding().font(.system(size: 30))
         }
         
+        
+        let setNotificationCard = VStack {
+            Text("Edit Notifications")
+                .font(.headline)
+                .foregroundColor(AppTextColor)
+        }
+        
+        let setUserCard = VStack {
+            Text("Edit Profile")
+                .font(.headline)
+                .foregroundColor(AppTextColor)
+        }
+        
+        let logoutCard = VStack {
+            Text("Logout")
+                .font(.headline)
+                .foregroundColor(AppTextColor)
+        }
+        
         // Menu to manage navigation
         let menu = ScrollView {
             VStack(alignment: .center){
@@ -53,49 +79,47 @@ struct Settings: View {
                 
                 // Edit Notifications Settings
                 NavigationLink(destination: SetNotifications()){
-                    Text("Edit Notifications")
-                }.foregroundColor(.white)
-                    .font(.headline)
-                    .padding(20)
-                    .background(AppThemeColor)
-                    .clipShape(Capsule())
+                    Card(width: 150, height: 75, cornerRadius: 20, views:{ AnyView(setNotificationCard) })
+                        .padding(1)
+                }
+                .padding()
                 
                 // Edit User's Profile Information
                 NavigationLink(destination: SetUser()){
-                    Text("Edit Profile")
-                }.foregroundColor(.white)
-                    .font(.headline)
-                    .padding(20)
-                    .background(AppThemeColor)
-                    .clipShape(Capsule())
+                    
+                    Card(width: 150, height: 75, cornerRadius: 20, views:{ AnyView(setUserCard) })
+                        .padding(1)
+                    
+                }
+                    .padding()
                 
                 // Logout the User
                 Button(action: {
                     session.loggedIn=false
 
                     session.logout()} ,label:  {
-                    Text("Logout")
-                }).foregroundColor(.white)
-                    .font(.headline)
-                    .padding(20)
-                    .background(AppThemeColor)
-                    .clipShape(Capsule())
+                        Card(width: 150, height: 75, cornerRadius: 20, views:{ AnyView(logoutCard) })
+                            .padding(1)
+                    }).padding()
             }
-        }.font(.system(size: 30))
+        }
+            .font(.system(size: 30))
         
         
         // Display the content
         NavigationView{
             VStack{
                 header
-                Divider()
+
                 menu
+                Spacer()
                 
                 // TODO Remove for production
-                Divider()
-                debugging
+//                Divider()
+//                debugging
             }
         }
+        .accentColor(AppTextColor)
     }
     
 }

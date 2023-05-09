@@ -22,6 +22,7 @@ struct Community: View {
     @State private var text = ""
     
     @EnvironmentObject var session: SessionStore
+    @EnvironmentObject var firebaseSearches: SearchQueries
     
     @StateObject var profileService = ProfileService()
 
@@ -30,25 +31,45 @@ struct Community: View {
 
     
     var body: some View {
-        NavigationView{
+        
+        
+        
+        let header = HStack{
+            Spacer()
             
-            //Will write code for Community Tab View here
+            Text("Community")
+                .font(.title)
+                .fontWeight(.bold)
+                .padding(.leading)
+                .multilineTextAlignment(.center)
+                .foregroundColor(AppTextColor)
+            
+            Spacer()
+            
+            NavigationLink(destination: UserSearch().environmentObject(firebaseSearches)){
+                Image(systemName: "magnifyingglass")
+                    .foregroundColor(AppTextColor)
+                    .frame(alignment: .trailing)
+                    .shadow(radius: 3)
+            }
+        }
+            .padding()
+            .background(AppThemeColor)
+        
+        NavigationView{
             VStack {
+                header
                 
-                HStack{
-                    Text("Community").font(.title).fontWeight(.bold).padding(.trailing, 42.0).multilineTextAlignment(.center)
-                    Spacer()
-                    Image(systemName: "magnifyingglass")
-                }.padding()
                 ScrollView{
                     VStack{
                         ForEach(communityService.posts, id:\.postId){
                             (post) in
                             
-                                PostCardImage(post: post)
-                                PostCard(post: post)
-                                Divider()
-                            
+                            PostCardImage(post: post)
+                            PostCard(post: post)
+                            Rectangle()
+                                .fill(Color(UIColor.lightGray))
+                                .frame(height:2)
                         }
                     }
                 }

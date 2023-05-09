@@ -17,11 +17,13 @@ struct Search: View {
     @EnvironmentObject var informationArr: SearchQueries
     
     @State private var search: String = ""
-    @State private var scope: String = "Users" // Default page for Inspiration Tab
-    @State private var suggestionDisplay = ""
+//    @State private var scope: String = "Suggestions" // Default page for Inspiration Tab
+    @State private var timeDisplay = "Time"
+    @State private var themeDisplay = "Theme"
+    @State private var subjectDisplay = "Subject"
+    @State private var styleDisplay = "Style"
     
-    private var scopeFields: [String] = ["Users", "Saved", "Suggestions"]
-    
+    //    private var scopeFields: [String] = ["Saved", "Suggestions"]
     
     // Images
     @EnvironmentObject var session: SessionStore
@@ -30,113 +32,181 @@ struct Search: View {
     
     var body: some View {
         // Nice looking header
-        let header = VStack{
-                HStack{
-                    Spacer()
-                    Text("Inspiration ").font(.title).fontWeight(.bold).padding(.trailing, 0.0).multilineTextAlignment(.center)
-                    Spacer()
-                }.padding()
-            }
+        let header = HStack{
+            Spacer()
+            
+            Text("Inspiration")
+                .font(.title)
+                .fontWeight(.bold)
+                .padding(.leading)
+                .multilineTextAlignment(.center)
+                .foregroundColor(AppTextColor)
+            
+            Spacer()
+        }
+            .padding()
+            .background(AppThemeColor)
         
-        // create the list of all users referenced by the search bar, with filters applied
-        var usersList: [User] {
-            if search.isEmpty{
-                return informationArr.users
-            } else {
-                return informationArr.users.filter{item in
-                    item.username.localizedCaseInsensitiveContains(search) } //if any part matches the current text in search, display it
-            }
+        
+        
+        let timeCard = VStack {
+            Image(systemName: "bookmark.fill")
+                .resizable()
+                .frame(alignment: .center)
+                .padding()
+                .foregroundColor(AppTextColor)
+            
+            Spacer()
+            
+            Text("\(timeDisplay)")
+                .font(.title)
+                .foregroundColor(AppTextColor)
+            
+            Spacer()
+            
         }
         
-        // After searching, show related Users with the option to navigate to their homepage
-        let userSearch = NavigationStack{
-            List {
-                ForEach(usersList, id: \.self.username) { user in
-                    NavigationLink{
-                        UserView(user: user) // Navigates to selected User's homepage
-                    } label: {
-                        Text(user.username)
-                    }
-                }
-            }.navigationTitle("Users")
-        }.searchable(text: $search).disableAutocorrection(true).textInputAutocapitalization(.never) // make this area searchable
-        
+        let themeCard = VStack {
+            Image(systemName: "bookmark.fill")
+                .resizable()
+                .frame(alignment: .center)
+                .padding()
+                .foregroundColor(AppTextColor)
             
-            // create the array of all the saved drawings, adhering to search filters
-        /* Currently Unused in this context
-            var savedDrawingsList: [String] {
-                if search.isEmpty{
-                    return informationArr.savedPosts
-                } else {
-                    return informationArr.savedPosts.filter{item in
-                        item.localizedCaseInsensitiveContains(search) } //if any part matches the current text in search, display it
-                }
-            } */
-    
-        // Display the drawings the user has saved
-        // Currently set to display the user's posted images, but will be adapted later
-        // Same implementation as in the Home.swift file
-        let savedDrawings = NavigationStack{
-            ScrollView{
-                //Displaying 3 photos in a row
-                LazyVGrid(columns: threeColumns) {
-                    ForEach(profileService.savedPosts, id:\.postId){
-                        (post) in
-
-                                NavigationLink(destination: ViewPublicImage(post: post)){
-                                    WebImage(url: URL(string : post.mediaUrl)!)
-                                        .resizable()
-                                        .scaledToFit()
-                                        .frame(width: ((UIScreen.main.bounds.width/3)-5))
-                                        .aspectRatio(contentMode: .fit)
-                                        .padding(5)
-                        }
-                    }
-                }
-            }
-        }.accentColor(.white)
-            .navigationTitle("Saved")
-            .onAppear{
-                //To check if user is still logged in
-                if (self.session.loggedIn == true)
-                {
-                    
-                    //If user is logged in, load user posts again to make the page dynamic and realtime. Example - if a user posts, we want that picture to be visible in that session itself
-                    self.profileService.loadSavedPosts(userId: Auth.auth().currentUser?.uid ?? "")
-                    
-                }
-            }
+            Spacer()
+            
+            Text("\(themeDisplay)")
+                .font(.title)
+                .foregroundColor(AppTextColor)
+            
+            Spacer()
+            
+        }
+        
+        let subjectCard = VStack {
+            Image(systemName: "bookmark.fill")
+                .resizable()
+                .frame(alignment: .center)
+                .padding()
+                .foregroundColor(AppTextColor)
+            
+            Spacer()
+            
+            Text("\(subjectDisplay)")
+                .font(.title)
+                .foregroundColor(AppTextColor)
+            
+            Spacer()
+            
+        }
+        
+        let styleCard = VStack {
+            Image(systemName: "bookmark.fill")
+                .resizable()
+                .frame(alignment: .center)
+                .padding()
+                .foregroundColor(AppTextColor)
+            
+            Spacer()
+            
+            Text("\(styleDisplay)")
+                .font(.title)
+                .foregroundColor(AppTextColor)
+            
+            Spacer()
+            
+        }
+            
+        
+        
+        
         
         
         // Give random ideas from the database to the user
         // TODO create database implementation
         let suggestions = VStack{
-            Text(suggestionDisplay).padding().font(.system(size: 30)).multilineTextAlignment(.center)
+//            Text(suggestionDisplay)
+//                .padding()
+//                .font(.system(size: 30))
+//                .multilineTextAlignment(.center)
+//                .underline(true)
             
+            VStack{
+                HStack{
+                    Button(action: getTime){
+                        Card(width: 150, height: 200, cornerRadius: 16, views: { AnyView(timeCard)
+                        })
+                        .padding(10)
+                            .frame(alignment: .leading)
+                    }
+                    Button(action: getSubject) {
+                            Card(width: 150, height: 200, cornerRadius: 16, views: {
+                                AnyView(subjectCard)
+                            })
+                            .padding(10)
+                            .frame(alignment: .trailing)
+                    }
+                }
+                
+                HStack{
+                    Button(action: getTheme){
+                        Card(width: 150, height: 200, cornerRadius: 16, views:{ AnyView(themeCard)
+                        })
+                        .padding(10)
+                            .frame(alignment: .leading)
+                    }
+                    Button(action: getStyle){
+                            Card(width: 150, height: 200, cornerRadius: 16, views: { AnyView(styleCard)
+                            })
+                            .padding(10)
+                            .frame(alignment: .trailing)
+                    }
+                }
+                
+                NavigationLink(destination: Clock(
+                    time: timeDisplay,
+                    theme: themeDisplay,
+                    subject: subjectDisplay,
+                    style: styleDisplay) ){
+                    Card(views: {
+                        AnyView(
+                            Text("Start Drawing!")
+                                .font(.system(size: 32))
+                                .foregroundColor(AppTextColor)
+                        )
+                    })
+                    .padding(.bottom)
+                    .font(.title)
+                    .multilineTextAlignment(.center)
+                    .shadow(radius: 2)
+                    }
+                    .padding()
+                    
+            }
             
-            Button(action: getTime){
-                Text("Get a time limit!")
-            }.padding().buttonStyle(.bordered).foregroundColor(.white)
-                .font(.headline)
-                .padding(20)
-                .background(AppThemeColor)
-                .clipShape(Capsule())
-            
-            Button(action: getTheme){
-                Text("Get a theme!")
-            }.padding().buttonStyle(.bordered).foregroundColor(.white)
-                .font(.headline)
-                .padding(20)
-                .background(AppThemeColor)
-                .clipShape(Capsule())
-            
-            Button(action: getObject){
-                Text("Get a object!")
-            }.padding().buttonStyle(.bordered).foregroundColor(.white)
-                .font(.headline)
-                .padding(20)
-                .background(AppThemeColor)
-                .clipShape(Capsule())
+//            Button(action: getTime){
+//                Text("Get a time limit!")
+//            }.padding().buttonStyle(.bordered).foregroundColor(.white)
+//                .font(.headline)
+//                .padding(20)
+//                .background(AppThemeColor)
+//                .clipShape(Capsule())
+//
+//            Button(action: getTheme){
+//                Text("Get a theme!")
+//            }.padding().buttonStyle(.bordered).foregroundColor(.white)
+//                .font(.headline)
+//                .padding(20)
+//                .background(AppThemeColor)
+//                .clipShape(Capsule())
+//
+//            Button(action: getObject){
+//                Text("Get a object!")
+//            }.padding().buttonStyle(.bordered).foregroundColor(.white)
+//                .font(.headline)
+//                .padding(20)
+//                .background(AppThemeColor)
+//                .clipShape(Capsule())
         }
         
         
@@ -145,51 +215,62 @@ struct Search: View {
         
         // Make the body of the UI
         let body = VStack {
-            // Pick which item you want to use
-            Picker("Scope", selection: $scope) {
-                ForEach(scopeFields, id:\.self){
-                    Text($0)
-                }
-            }.pickerStyle(.segmented).padding()
-            if (scope == "Users"){ userSearch }
-            else if (scope == "Saved"){ savedDrawings }
-            else if (scope == "Suggestions"){ suggestions }
-            else { userSearch }
+            //            // Pick which item you want to use
+            //                Picker("Scope", selection: $scope) {
+            //                    ForEach(scopeFields, id:\.self){
+            //                        Text($0)
+            //                    }
+            //                }.pickerStyle(.segmented).padding()
+            //
+            //            if (scope == "Saved"){ savedDrawings }
+            //            else if (scope == "Suggestions"){ suggestions }
+            //            else { suggestions }
+            
+            suggestions
         }
         
         
         // Display content
-        VStack {
-            header
-            Divider()
-            
-            body
-            Spacer()
+        NavigationView {
+            VStack{
+                header
+                
+                suggestions
+            }
         }
+        .accentColor(AppThemeColor)
     }
+    
     
     // return a random predefined time
     // TODO connect this to the database
     func getTime() {
-        let times = ["1 Minute", "5 Minutes", "10 Miuntes", "30 Minutes", "1 Hour", "1 Day"]
-        suggestionDisplay = "Time:\n" + times.randomElement()!
+        let times = ["1 Minute", "5 Minutes", "10 Minutes", "15 Minutes", "20 Minutes", "30 Minutes", "45 Minutes", "1 Hour", "2 Hours", "3 Hours", "1 Day"]
+        timeDisplay = times.randomElement()!
     }
     
     // return a random predefined theme
     // TODO connect this to database
     func getTheme() {
-        let themes = ["Cartoon", "Realist", "Impressionist"]
-        suggestionDisplay = "Theme:\n" + themes.randomElement()!
+        let themes = ["Cartoon", "Realist", "Impressionist", "Abstract", "Baroque", "Gothic", "Graffiti", "Renaissance"]
+        themeDisplay = themes.randomElement()!
     }
     
     // return a random predefined object
     // TODO connect this to the database
-    func getObject() {
-        let objects = ["Human", "Fruit", "Building", "What's in front of you", "Landscape", "Nature", "Animal"]
-        suggestionDisplay = "Object:\n" + objects.randomElement()!
+    func getSubject() {
+        let subjects = ["Human", "Fruit", "Building", "What's in front of you", "Landscape", "Nature", "Animal"]
+        subjectDisplay = subjects.randomElement()!
     }
     
+    // return a random predefined art style
+    // TODO connect this to the database
+    func getStyle() {
+        let styles = ["Painting", "Sketch", "Greyscale", "Digital", "Ink", "Colored Pencil"]
+        styleDisplay = styles.randomElement()!
+    }
 }
+    
 
 
 struct Search_Previews: PreviewProvider {

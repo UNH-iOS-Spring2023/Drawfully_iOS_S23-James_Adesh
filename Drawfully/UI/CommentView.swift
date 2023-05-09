@@ -20,7 +20,12 @@ struct CommentView: View {
                 if !commentService.comments.isEmpty{
                     ForEach(commentService.comments){
                         (comment) in
-                        CommentCard(comment: comment).padding()
+                        CommentCard(comment: comment)
+                            .padding()
+                        
+                        Rectangle()
+                            .fill(Color(UIColor.lightGray))
+                            .frame(height:2)
                     }
                 }
             }

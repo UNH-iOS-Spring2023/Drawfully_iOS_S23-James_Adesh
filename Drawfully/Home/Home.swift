@@ -19,25 +19,47 @@ struct Home: View {
     
     @StateObject var profileService = ProfileService()
     
-    let threeColumns = [GridItem(), GridItem(), GridItem()]
+    let threeColumns = [GridItem(.flexible(), spacing: 0), GridItem(.flexible(), spacing: 0), GridItem(.flexible(), spacing: 0)]
     @State private var tabBar: UITabBar?
     
     var body: some View {
         
+        let header = HStack{
+            Image("streak").resizable().frame(width:30, height: 30)
+            
+            //Getting streak count from user's data
+            
+            Text(String(session.session?.streak ?? 0))
+                .font(.title2)
+                .fontWeight(.bold)
+                .foregroundColor(AppTextColor)
+            
+            Spacer()
+            
+            Text(session.session?.username ?? "Unknown User")
+                .font(.title)
+                .fontWeight(.bold)
+                .padding(.trailing, 42.0)
+                .multilineTextAlignment(.center)
+                .foregroundColor(AppTextColor)
+            
+            Spacer()
+            
+            NavigationLink(destination: UserSavedImages().environmentObject(session)){
+                Image(systemName: "bookmark.fill")
+                    .foregroundColor(AppTextColor)
+                    .frame(alignment: .trailing)
+                    .shadow(radius: 3)
+            }
+            
+        }
+            .padding()
+            .background(AppThemeColor)
+        
         NavigationView{
             //Added scroll view for user's images
             VStack{
-                HStack{
-                    Image("streak").resizable().frame(width:30, height: 30)
-                    
-                    //Getting streak count from user's data
-                    Text(String(session.session?.streak ?? 0))
-                        .font(.title2)
-                        .fontWeight(.bold)
-                    Spacer()
-                    Text(session.session?.username ?? "User").font(.title).fontWeight(.bold).padding(.trailing, 42.0).multilineTextAlignment(.center)
-                    Spacer()
-                }.padding()
+                header
                 
                 // If user doesnt have any posts, display appropriate message
                 if (self.profileService.posts.isEmpty){
@@ -50,9 +72,8 @@ struct Home: View {
                 }
                 
                 ScrollView{
-                    
                     //Displaying 3 photos in a row
-                    LazyVGrid(columns: threeColumns) {
+                    LazyVGrid(columns: threeColumns, spacing: 0) {
                         ForEach(self.profileService.posts, id:\.postId){
                             (post) in
                             
@@ -61,10 +82,9 @@ struct Home: View {
                                 WebImage(url: URL(string : post.mediaUrl)!)
                                     .resizable()
                                     .scaledToFit()
-                                    .frame(width: ((UIScreen.main.bounds.width/3)-5))
+                                    .frame(width: ((UIScreen.main.bounds.width/3)))
                                     .aspectRatio(contentMode: .fit)
-                                    .padding(5)
-                                
+                                    .border(Color.black, width: 3)
                             }
                         }
                     }
@@ -72,11 +92,9 @@ struct Home: View {
                 }
                 // Citation : ChatGPT
                 .refreshable {
-                    // This closure will be called when the ScrollView is pulled down                    
+                    // This closure will be called when the ScrollView is pulled down
                     profileService.loadUserPosts(userId: Auth.auth().currentUser!.uid)
                 }
-
-                
             }
             .onAppear{
                 //To check if user is still logged in
