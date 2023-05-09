@@ -32,6 +32,11 @@
 		DE291D7E29FBCA5000FCEE7E /* ViewPublicImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE291D7D29FBCA5000FCEE7E /* ViewPublicImage.swift */; };
 		DE39278129B31CF90083D866 /* SignUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE39277F29B31CF90083D866 /* SignUp.swift */; };
 		DE39278229B31CF90083D866 /* Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE39278029B31CF90083D866 /* Login.swift */; };
+		DE54CE552A09E2F8008AB84D /* UserSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE54CE542A09E2F8008AB84D /* UserSearch.swift */; };
+		DE54CE582A09E336008AB84D /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE54CE562A09E336008AB84D /* Card.swift */; };
+		DE54CE592A09E336008AB84D /* Clock.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE54CE572A09E336008AB84D /* Clock.swift */; };
+		DE54CE5C2A09E397008AB84D /* SwiftClockUI in Frameworks */ = {isa = PBXBuildFile; productRef = DE54CE5B2A09E397008AB84D /* SwiftClockUI */; };
+		DE54CE5E2A09E424008AB84D /* UserSavedImages.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE54CE5D2A09E424008AB84D /* UserSavedImages.swift */; };
 		DE5A0FA9299F6420006182C4 /* BottomBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE5A0FA8299F6420006182C4 /* BottomBar.swift */; };
 		DE5A0FAD299F66A6006182C4 /* DrawingList.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE5A0FAC299F66A6006182C4 /* DrawingList.swift */; };
 		DE5A0FB6299F6CC7006182C4 /* Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE5A0FB5299F6CC7006182C4 /* Home.swift */; };
@@ -85,6 +90,10 @@
 		DE291D7D29FBCA5000FCEE7E /* ViewPublicImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewPublicImage.swift; sourceTree = "<group>"; };
 		DE39277F29B31CF90083D866 /* SignUp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUp.swift; sourceTree = "<group>"; };
 		DE39278029B31CF90083D866 /* Login.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Login.swift; sourceTree = "<group>"; };
+		DE54CE542A09E2F8008AB84D /* UserSearch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserSearch.swift; sourceTree = "<group>"; };
+		DE54CE562A09E336008AB84D /* Card.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
+		DE54CE572A09E336008AB84D /* Clock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Clock.swift; sourceTree = "<group>"; };
+		DE54CE5D2A09E424008AB84D /* UserSavedImages.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserSavedImages.swift; sourceTree = "<group>"; };
 		DE5A0FA8299F6420006182C4 /* BottomBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomBar.swift; sourceTree = "<group>"; };
 		DE5A0FAC299F66A6006182C4 /* DrawingList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingList.swift; sourceTree = "<group>"; };
 		DE5A0FB5299F6CC7006182C4 /* Home.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Home.swift; sourceTree = "<group>"; };
@@ -137,6 +146,7 @@
 				DE20769D299C5A470059825D /* FirebaseDatabase in Frameworks */,
 				DE207699299C5A470059825D /* FirebaseAuth in Frameworks */,
 				DE2076A1299C5A470059825D /* FirebaseFirestore in Frameworks */,
+				DE54CE5C2A09E397008AB84D /* SwiftClockUI in Frameworks */,
 				DE2076AB299C5A480059825D /* FirebaseStorage in Frameworks */,
 				DE2076A3299C5A470059825D /* FirebaseFirestoreCombine-Community in Frameworks */,
 				DE28053829C8AC8F00207866 /* DeviceKit in Frameworks */,
@@ -225,6 +235,7 @@
 			children = (
 				DE5A0FB5299F6CC7006182C4 /* Home.swift */,
 				DE291D7D29FBCA5000FCEE7E /* ViewPublicImage.swift */,
+				DE54CE5D2A09E424008AB84D /* UserSavedImages.swift */,
 				DE95887729D69B5400C20BDE /* SelectedImage.swift */,
 			);
 			path = Home;
@@ -234,6 +245,8 @@
 			isa = PBXGroup;
 			children = (
 				DE5A0FB7299F6CD8006182C4 /* Community.swift */,
+				EECE6D8229EE19D200C21D07 /* UserView.swift */,
+				DE54CE542A09E2F8008AB84D /* UserSearch.swift */,
 			);
 			path = Community;
 			sourceTree = "<group>";
@@ -250,6 +263,8 @@
 			isa = PBXGroup;
 			children = (
 				DE5A0FBB299F6D01006182C4 /* Search.swift */,
+				DE54CE562A09E336008AB84D /* Card.swift */,
+				DE54CE572A09E336008AB84D /* Clock.swift */,
 				EECE6D7929E1083900C21D07 /* SearchQueries.swift */,
 			);
 			path = Search;
@@ -270,7 +285,6 @@
 			children = (
 				DE80F8B229DA56D600DDA645 /* UserModel.swift */,
 				DE6542AF29E9437500DC3B47 /* CommentModel.swift */,
-				EECE6D8229EE19D200C21D07 /* UserView.swift */,
 				EECE6D7729E1050B00C21D07 /* PostModel.swift */,
 			);
 			path = Models;
@@ -347,6 +361,7 @@
 				DE28053729C8AC8F00207866 /* DeviceKit */,
 				DEEA8F2F29DFC0F900287C37 /* SDWebImageSwiftUI */,
 				DEA7C43129F60136005C9AB0 /* Introspect */,
+				DE54CE5B2A09E397008AB84D /* SwiftClockUI */,
 			);
 			productName = Drawfully;
 			productReference = DE207681299C58F20059825D /* Drawfully.app */;
@@ -382,6 +397,7 @@
 				DE28053629C8AC8F00207866 /* XCRemoteSwiftPackageReference "DeviceKit" */,
 				DEEA8F2E29DFC0F900287C37 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
 				DEA7C43029F60136005C9AB0 /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */,
+				DE54CE5A2A09E397008AB84D /* XCRemoteSwiftPackageReference "SwiftClockUI" */,
 			);
 			productRefGroup = DE207682299C58F20059825D /* Products */;
 			projectDirPath = "";
@@ -445,14 +461,18 @@
 				DE5A0FBC299F6D01006182C4 /* Search.swift in Sources */,
 				DE80F8B329DA56D600DDA645 /* UserModel.swift in Sources */,
 				DE5A0FBE299F6D13006182C4 /* Settings.swift in Sources */,
+				DE54CE5E2A09E424008AB84D /* UserSavedImages.swift in Sources */,
 				EECE6D7829E1050B00C21D07 /* PostModel.swift in Sources */,
 				EECE6D7A29E1083900C21D07 /* SearchQueries.swift in Sources */,
 				EEA5504E29D00D7D0094B704 /* SetUser.swift in Sources */,
 				DE878F0729DE217C000BA28D /* PostService.swift in Sources */,
 				DE207687299C58F20059825D /* ContentView.swift in Sources */,
+				DE54CE592A09E336008AB84D /* Clock.swift in Sources */,
 				DE207685299C58F20059825D /* DrawfullyApp.swift in Sources */,
 				DEEA8F2D29DFA9BF00287C37 /* PostCardImage.swift in Sources */,
+				DE54CE552A09E2F8008AB84D /* UserSearch.swift in Sources */,
 				DE291D7A29FBC45200FCEE7E /* LaunchScreenStateManager.swift in Sources */,
+				DE54CE582A09E336008AB84D /* Card.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -700,6 +720,14 @@
 				minimumVersion = 5.0.0;
 			};
 		};
+		DE54CE5A2A09E397008AB84D /* XCRemoteSwiftPackageReference "SwiftClockUI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/renaudjenny/SwiftClockUI";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
 		DEA7C43029F60136005C9AB0 /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/siteline/SwiftUI-Introspect";
@@ -791,6 +819,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = DE28053629C8AC8F00207866 /* XCRemoteSwiftPackageReference "DeviceKit" */;
 			productName = DeviceKit;
+		};
+		DE54CE5B2A09E397008AB84D /* SwiftClockUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DE54CE5A2A09E397008AB84D /* XCRemoteSwiftPackageReference "SwiftClockUI" */;
+			productName = SwiftClockUI;
 		};
 		DEA7C43129F60136005C9AB0 /* Introspect */ = {
 			isa = XCSwiftPackageProductDependency;
