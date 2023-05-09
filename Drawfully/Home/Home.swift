@@ -73,7 +73,7 @@ struct Home: View {
                 
                 ScrollView{
                     //Displaying 3 photos in a row
-                    LazyVGrid(columns: threeColumns, spacing: 0) {
+                    LazyVGrid(columns: threeColumns, spacing: 2) {
                         ForEach(self.profileService.posts, id:\.postId){
                             (post) in
                             
@@ -82,12 +82,13 @@ struct Home: View {
                                 WebImage(url: URL(string : post.mediaUrl)!)
                                     .resizable()
                                     .scaledToFit()
-                                    .frame(width: ((UIScreen.main.bounds.width/3)))
+                                    .frame(width: ((UIScreen.main.bounds.width/3)-4))
                                     .aspectRatio(contentMode: .fit)
                                     .border(Color.black, width: 3)
+                                    //.padding(.leading,5)
                             }
                         }
-                    }
+                    }.padding(2)
                     
                 }
                 // Citation : ChatGPT
@@ -114,7 +115,7 @@ struct Home: View {
             tabBar = UITabBarController.tabBar
             self.tabBar?.isHidden = false }
             
-    }
+    }//.onAppear(perform: <#T##(() -> Void)?#>)
     
 }
 

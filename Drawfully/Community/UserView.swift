@@ -50,28 +50,26 @@ struct UserView: View {
             NavigationStack{
                 ScrollView{
                     //Displaying 3 photos in a row
-                    LazyVGrid(columns: threeColumns, spacing: 0) {
+                    LazyVGrid(columns: threeColumns, spacing: 2) {
                         ForEach(profileService.posts, id:\.postId){
                             (post) in
+                            if (post.isPublic){
                             NavigationLink(destination: ViewPublicImage(post: post)){
-                                WebImage(url: URL(string : post.mediaUrl)!)
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: ((UIScreen.main.bounds.width/3)))
-                                    .aspectRatio(contentMode: .fit)
-                                    .border(Color.black, width: 3)
+                                    WebImage(url: URL(string : post.mediaUrl)!)
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: ((UIScreen.main.bounds.width/3) - 4))
+                                        .aspectRatio(contentMode: .fit)
+                                        .border(Color.black, width: 3)
+                                }
                             }
                         }
-                    }
+                    }.padding(2)
                 }
+                Spacer()
             }.accentColor(.white)
         }
+        Spacer()
         .onAppear{ self.profileService.loadUserPosts(userId: user.uid) }
-    }
-}
-    
-struct UserView_Previews: PreviewProvider {
-    static var previews: some View {
-        UserView(user: User(uid: "Test", email: "", profileImageUrl: "", username: "", /*searchName: [],*/ streak: 0, firstName: "", lastName: ""))
     }
 }

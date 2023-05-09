@@ -40,19 +40,19 @@ struct UserSavedImages: View {
         // Same implementation as in the Home.swift file
         let savedDrawings = ScrollView{
                 //Displaying 3 photos in a row
-                LazyVGrid(columns: threeColumns, spacing: 0) {
+                LazyVGrid(columns: threeColumns, spacing: 2) {
                     ForEach(profileService.savedPosts, id:\.postId){
                         (post) in
                         NavigationLink(destination: ViewPublicImage(post: post)){
                             WebImage(url: URL(string : post.mediaUrl)!)
                                 .resizable()
                                 .scaledToFit()
-                                .frame(width: ((UIScreen.main.bounds.width/3)))
+                                .frame(width: ((UIScreen.main.bounds.width/3)-4))
                                 .aspectRatio(contentMode: .fit)
                                 .border(Color.black, width: 3)
                         }
                     }
-                }
+                }.padding(2)
             }.refreshable {
                 // This closure will be called when the ScrollView is pulled down
                 profileService.loadSavedPosts(userId: Auth.auth().currentUser!.uid)

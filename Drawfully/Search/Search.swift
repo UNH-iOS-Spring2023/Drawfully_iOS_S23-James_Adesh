@@ -50,7 +50,7 @@ struct Search: View {
         
         
         let timeCard = VStack {
-            Image(systemName: "bookmark.fill")
+            Image(systemName: "timer")
                 .resizable()
                 .frame(alignment: .center)
                 .padding()
@@ -67,7 +67,7 @@ struct Search: View {
         }
         
         let themeCard = VStack {
-            Image(systemName: "bookmark.fill")
+            Image(systemName: "paintpalette.fill")
                 .resizable()
                 .frame(alignment: .center)
                 .padding()
@@ -84,7 +84,7 @@ struct Search: View {
         }
         
         let subjectCard = VStack {
-            Image(systemName: "bookmark.fill")
+            Image(systemName: "photo.fill")
                 .resizable()
                 .frame(alignment: .center)
                 .padding()
@@ -101,7 +101,7 @@ struct Search: View {
         }
         
         let styleCard = VStack {
-            Image(systemName: "bookmark.fill")
+            Image(systemName: "paintbrush.fill")
                 .resizable()
                 .frame(alignment: .center)
                 .padding()
