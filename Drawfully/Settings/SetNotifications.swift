@@ -44,20 +44,24 @@ struct SetNotifications: View {
                         createNotification(date: components) } // if the toggle changed, either turn on or off the notification
                     else { removeNotification() }
                 }
-            }.padding()
+            }
+            .padding()
             HStack{
                 // scrollable picker to change the time a notification is sent
                 if notifs{
-                    DatePicker("Notification Time", selection: $date, displayedComponents: [.hourAndMinute]).font(.title).onChange(of: date) { date in
+                    DatePicker("Notification Time", selection: $date, displayedComponents: [.hourAndMinute])
+                        .font(.title)
+                        .onChange(of: date) { date in
+                            
                         let components = Calendar.current.dateComponents([.hour, .minute], from: date)
                         UserDefaults.standard.set(date, forKey: "setTime")
-                        createNotification(date: components) // when the time is changed, reset the notification. doNotification() has the ability to handle time changes
-                        
-                    }.padding()
+                        removeNotification()
+                        createNotification(date: components) // when the time is changed, reset the notification
+                    }
+                    .padding()
                 }
-            }.font(.system(size: 20))
-            
-
+            }
+            .font(.system(size: 20))
         }
         
         // display everything
