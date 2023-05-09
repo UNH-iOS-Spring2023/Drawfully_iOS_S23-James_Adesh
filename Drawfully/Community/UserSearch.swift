@@ -11,8 +11,10 @@ import SwiftUI
 
 struct UserSearch: View {
     
+    // string to filter with
     @State private var search: String = ""
     
+    // user queries
     @EnvironmentObject var informationArr: SearchQueries
     
     var body: some View {
@@ -52,7 +54,6 @@ struct UserSearch: View {
                 }
         }
             
-        // TODO fix navigation UI bug (when you go into a user's search page it has two back buttons)
         // TOOD fix the search bar not appearing until scrolling up
         VStack{
             userSearch

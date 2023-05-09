@@ -31,9 +31,6 @@ struct Community: View {
 
     
     var body: some View {
-        
-        
-        
         let header = HStack{
             Spacer()
             
@@ -46,6 +43,7 @@ struct Community: View {
             
             Spacer()
             
+            // Navigate to the UserSearch view
             NavigationLink(destination: UserSearch().environmentObject(firebaseSearches)){
                 Image(systemName: "magnifyingglass")
                     .foregroundColor(AppTextColor)

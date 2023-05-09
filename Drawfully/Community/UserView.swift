@@ -10,6 +10,8 @@ import Firebase
 import FirebaseAuth
 import SDWebImageSwiftUI
 
+// displays the public home view of a given user
+// used by UserSearch
 struct UserView: View {
     var user: User // information of the inputted user
     
@@ -19,10 +21,11 @@ struct UserView: View {
     var body: some View {
         
         let header = HStack{
-            Image("streak").resizable().frame(width:30, height: 30)
+            Image("streak")
+                .resizable()
+                .frame(width: 30, height: 30)
             
             //Getting streak count from user's data
-            
             Text(String(user.streak))
                 .font(.title2)
                 .fontWeight(.bold)
@@ -38,7 +41,6 @@ struct UserView: View {
                 .foregroundColor(AppTextColor)
             
             Spacer()
-            
         }
             .padding()
             .background(AppThemeColor)
@@ -46,7 +48,7 @@ struct UserView: View {
         VStack{
             header
             
-            // display images, same as the implementation in Home.swift
+            // display images, same as the implementation in Home.swift but checks if post is public
             NavigationStack{
                 ScrollView{
                     //Displaying 3 photos in a row
@@ -64,12 +66,13 @@ struct UserView: View {
                                 }
                             }
                         }
-                    }.padding(2)
+                    }
+                    .padding(2)
                 }
                 Spacer()
-            }.accentColor(.white)
+            }
+            .accentColor(.white)
         }
-        Spacer()
         .onAppear{ self.profileService.loadUserPosts(userId: user.uid) }
     }
 }
