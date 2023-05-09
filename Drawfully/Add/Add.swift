@@ -235,7 +235,7 @@ struct CameraView: View {
             // Citation : https://www.hackingwithswift.com/example-code/language/how-to-compare-dates
             let dateToday = formatter.string(from: currentDateTime)
             // get the last date the user posted
-            let lastUploaded = self.session.session?.lastUpdated ?? formatter.string(from: currentDateTime.addingTimeInterval(-86400*2))
+            let lastUploaded = self.session.session?.lastUpdated ?? "" //?? formatter.string(from: currentDateTime.addingTimeInterval(-86400*2))
 
             
             //If user has not posted on the same day

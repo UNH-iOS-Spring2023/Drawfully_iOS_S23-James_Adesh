@@ -72,7 +72,30 @@ class AuthService  {
                 if var dict = document?.data() {
                     dict.updateValue("", forKey: "drawings")
                     print("Before decoding \(dict)")
-                    guard let decodedUser = try? User.init(fromDictionary: dict) else {return}
+                    
+                    guard var decodedUser = try? User.init(fromDictionary: dict) else {return}
+                
+                    
+                    // Citation : https://mammothinteractive.com/get-current-time-with-swiftui-hacking-swift-5-5-xcode-13-and-ios-15/
+                    let formatter = DateFormatter()
+                    formatter.dateFormat = "YY/MM/dd"
+                    let currentDateTime = Date()
+                    // Citation : https://developer.apple.com/documentation/foundation/date/formatstyle/timestyle
+                    // Citation : https://www.hackingwithswift.com/example-code/language/how-to-compare-dates
+                    let dateToday = formatter.string(from: currentDateTime)
+                    // get the last date the user posted
+                    let lastUploaded = decodedUser.lastUpdated
+                    
+                    let lastUploadedDate = formatter.date(from: lastUploaded) ?? Date()
+                    
+                    //If user has posted the previous day or today
+                    if !((Calendar.current.isDateInToday(lastUploadedDate.addingTimeInterval(86400))) && (Calendar.current.isDateInToday(lastUploadedDate)))
+                    {
+                        decodedUser.streak=0
+                        FirebaseManager.shared.firestore.collection("users").document(userId).updateData(["streak" : 0])
+                    }
+                        
+                        
                     print ("User signed in successfully (Decoded User Value: ) \(decodedUser)")
                     onSuccess(decodedUser)
                 }
