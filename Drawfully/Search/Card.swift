@@ -4,9 +4,11 @@
 //
 //  Created by James on 5/8/23.
 //
+// References: Piani-fit App on GitHub
 
 import SwiftUI
 
+// used to make nice looking buttons or headers 
 struct Card: View {
     
     let width: CGFloat

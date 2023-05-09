@@ -16,18 +16,17 @@ struct Search: View {
     // A place to store async arrays without using await
     @EnvironmentObject var informationArr: SearchQueries
     
-    @State private var search: String = ""
-//    @State private var scope: String = "Suggestions" // Default page for Inspiration Tab
+    // The strings to display
     @State private var timeDisplay = "Time"
     @State private var themeDisplay = "Theme"
     @State private var subjectDisplay = "Subject"
     @State private var styleDisplay = "Style"
     
-    //    private var scopeFields: [String] = ["Saved", "Suggestions"]
-    
-    // Images
+    // User session
     @EnvironmentObject var session: SessionStore
     @StateObject var profileService = ProfileService()
+    
+    // display columns
     let threeColumns = [GridItem(), GridItem(), GridItem()]
     
     var body: some View {
@@ -48,7 +47,7 @@ struct Search: View {
             .background(AppThemeColor)
         
         
-        
+        // Views for the Card class
         let timeCard = VStack {
             Image(systemName: "timer")
                 .resizable()
@@ -63,7 +62,6 @@ struct Search: View {
                 .foregroundColor(AppTextColor)
             
             Spacer()
-            
         }
         
         let themeCard = VStack {
@@ -80,7 +78,6 @@ struct Search: View {
                 .foregroundColor(AppTextColor)
             
             Spacer()
-            
         }
         
         let subjectCard = VStack {
@@ -97,7 +94,6 @@ struct Search: View {
                 .foregroundColor(AppTextColor)
             
             Spacer()
-            
         }
         
         let styleCard = VStack {
@@ -114,60 +110,49 @@ struct Search: View {
                 .foregroundColor(AppTextColor)
             
             Spacer()
-            
         }
-            
-        
-        
-        
         
         
         // Give random ideas from the database to the user
         // TODO create database implementation
         let suggestions = VStack{
-//            Text(suggestionDisplay)
-//                .padding()
-//                .font(.system(size: 30))
-//                .multilineTextAlignment(.center)
-//                .underline(true)
+            HStack{
+                Button(action: getTime){
+                    Card(width: 150, height: 200, cornerRadius: 16, views: { AnyView(timeCard)
+                    })
+                    .padding(10)
+                    .frame(alignment: .leading)
+                }
+                Button(action: getSubject) {
+                    Card(width: 150, height: 200, cornerRadius: 16, views: {
+                        AnyView(subjectCard)
+                    })
+                    .padding(10)
+                    .frame(alignment: .trailing)
+                }
+            }
             
-            VStack{
-                HStack{
-                    Button(action: getTime){
-                        Card(width: 150, height: 200, cornerRadius: 16, views: { AnyView(timeCard)
-                        })
-                        .padding(10)
-                            .frame(alignment: .leading)
-                    }
-                    Button(action: getSubject) {
-                            Card(width: 150, height: 200, cornerRadius: 16, views: {
-                                AnyView(subjectCard)
-                            })
-                            .padding(10)
-                            .frame(alignment: .trailing)
-                    }
+            HStack{
+                Button(action: getTheme){
+                    Card(width: 150, height: 200, cornerRadius: 16, views:{ AnyView(themeCard)
+                    })
+                    .padding(10)
+                    .frame(alignment: .leading)
                 }
-                
-                HStack{
-                    Button(action: getTheme){
-                        Card(width: 150, height: 200, cornerRadius: 16, views:{ AnyView(themeCard)
-                        })
-                        .padding(10)
-                            .frame(alignment: .leading)
-                    }
-                    Button(action: getStyle){
-                            Card(width: 150, height: 200, cornerRadius: 16, views: { AnyView(styleCard)
-                            })
-                            .padding(10)
-                            .frame(alignment: .trailing)
-                    }
+                Button(action: getStyle){
+                    Card(width: 150, height: 200, cornerRadius: 16, views: { AnyView(styleCard)
+                    })
+                    .padding(10)
+                    .frame(alignment: .trailing)
                 }
-                
-                NavigationLink(destination: Clock(
-                    time: timeDisplay,
-                    theme: themeDisplay,
-                    subject: subjectDisplay,
-                    style: styleDisplay) ){
+            }
+            
+            // Go to the final display page with a clock on it
+            NavigationLink(destination: Clock(
+                time: timeDisplay,
+                theme: themeDisplay,
+                subject: subjectDisplay,
+                style: styleDisplay) ){
                     Card(views: {
                         AnyView(
                             Text("Start Drawing!")
@@ -179,56 +164,9 @@ struct Search: View {
                     .font(.title)
                     .multilineTextAlignment(.center)
                     .shadow(radius: 2)
-                    }
-                    .padding()
-                    
-            }
-            
-//            Button(action: getTime){
-//                Text("Get a time limit!")
-//            }.padding().buttonStyle(.bordered).foregroundColor(.white)
-//                .font(.headline)
-//                .padding(20)
-//                .background(AppThemeColor)
-//                .clipShape(Capsule())
-//
-//            Button(action: getTheme){
-//                Text("Get a theme!")
-//            }.padding().buttonStyle(.bordered).foregroundColor(.white)
-//                .font(.headline)
-//                .padding(20)
-//                .background(AppThemeColor)
-//                .clipShape(Capsule())
-//
-//            Button(action: getObject){
-//                Text("Get a object!")
-//            }.padding().buttonStyle(.bordered).foregroundColor(.white)
-//                .font(.headline)
-//                .padding(20)
-//                .background(AppThemeColor)
-//                .clipShape(Capsule())
+                }
+                .padding()
         }
-        
-        
-        
-        
-        
-        // Make the body of the UI
-        let body = VStack {
-            //            // Pick which item you want to use
-            //                Picker("Scope", selection: $scope) {
-            //                    ForEach(scopeFields, id:\.self){
-            //                        Text($0)
-            //                    }
-            //                }.pickerStyle(.segmented).padding()
-            //
-            //            if (scope == "Saved"){ savedDrawings }
-            //            else if (scope == "Suggestions"){ suggestions }
-            //            else { suggestions }
-            
-            suggestions
-        }
-        
         
         // Display content
         NavigationView {

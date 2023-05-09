@@ -10,9 +10,10 @@ import SwiftClockUI
 
 struct Clock: View {
     
+    // current time
     @State private var date = Date()
-    @State private var timeLeft = Date(timeIntervalSinceNow: +60) // 1 minute
     
+    // display strings
     let time: String
     let theme: String
     let subject: String
@@ -24,6 +25,8 @@ struct Clock: View {
         subject: String = "Subject",
         style: String = "Style"
     ){
+        
+        // if the displays are the default value, don't display anything
         if theme == "Theme" {
             self.theme = ""
         }
@@ -55,6 +58,7 @@ struct Clock: View {
     
     var body: some View {
         
+        // these views are for the card class
         let themeCard = VStack {
             Spacer()
             
@@ -111,6 +115,7 @@ struct Clock: View {
             Spacer()
         }
         
+        // 2x2 grid of cards
         HStack {
             Card(width: 150, height: 100, cornerRadius: 16, views:{ AnyView(timeCard) })
                 .padding(1)
@@ -132,6 +137,7 @@ struct Clock: View {
             
         }
         
+        // shoow a clock, based on SwiftClockUI
         ClockView().environment(\.clockDate, $date)
             .padding()
     }
