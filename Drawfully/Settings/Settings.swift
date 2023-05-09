@@ -29,6 +29,8 @@ struct Settings: View {
             .padding()
             .background(AppThemeColor)
         
+        
+        // the following card views are inputs for the Card() class
         let setNotificationCard = VStack {
             Text("Edit Notifications")
                 .font(.headline)
@@ -47,7 +49,7 @@ struct Settings: View {
                 .foregroundColor(AppTextColor)
         }
         
-        // Menu to manage navigation
+        // Menu view to manage navigation
         let menu = ScrollView {
             VStack(alignment: .center){
                 // toggle if you want to receive daily notification: see NotificationManager.swift
@@ -61,10 +63,8 @@ struct Settings: View {
                 
                 // Edit User's Profile Information
                 NavigationLink(destination: SetUser()){
-                    
                     Card(width: 150, height: 75, cornerRadius: 20, views:{ AnyView(setUserCard) })
                         .padding(1)
-                    
                 }
                     .padding()
                 
@@ -75,7 +75,8 @@ struct Settings: View {
                     session.logout()} ,label:  {
                         Card(width: 150, height: 75, cornerRadius: 20, views:{ AnyView(logoutCard) })
                             .padding(1)
-                    }).padding()
+                    })
+                .padding()
             }
         }
             .font(.system(size: 30))
@@ -87,11 +88,6 @@ struct Settings: View {
                 header
 
                 menu
-                Spacer()
-                
-                // TODO Remove for production
-//                Divider()
-//                debugging
             }
         }
         .accentColor(AppTextColor)

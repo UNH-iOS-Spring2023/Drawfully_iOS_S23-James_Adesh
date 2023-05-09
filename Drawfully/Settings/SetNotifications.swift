@@ -35,26 +35,35 @@ struct SetNotifications: View {
         // main menu
         let menu = VStack{
             HStack{
+                // toggle to indicate if notifications are wanted
                 Toggle(isOn: $notifs){
-                    Text("Notifications").font(.title)
-                    Text("Toggle daily reminder").font(.caption) // turn reminders on and off
-                }.onChange(of: notifs){ notifs in
+                    Text("Notifications")
+                        .font(.title)
+                    Text("Toggle daily reminder")
+                        .font(.caption) // turn reminders on and off
+                }
+                .onChange(of: notifs){ notifs in
                     if notifs {
                         let components = Calendar.current.dateComponents([.hour, .minute], from: date)
                         createNotification(date: components) } // if the toggle changed, either turn on or off the notification
-                    else { removeNotification() }
+                    else {
+                        removeNotification()
+                    }
                 }
             }
             .padding()
+            
             HStack{
                 // scrollable picker to change the time a notification is sent
                 if notifs{
                     DatePicker("Notification Time", selection: $date, displayedComponents: [.hourAndMinute])
                         .font(.title)
                         .onChange(of: date) { date in
-                            
+                            self.date = date
+                            print("here")
                         let components = Calendar.current.dateComponents([.hour, .minute], from: date)
                         UserDefaults.standard.set(date, forKey: "setTime")
+                            
                         removeNotification()
                         createNotification(date: components) // when the time is changed, reset the notification
                     }
@@ -67,7 +76,7 @@ struct SetNotifications: View {
         // display everything
         VStack{
             header
-            Divider()
+            
             menu
             Spacer()
         }
