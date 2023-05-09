@@ -80,6 +80,9 @@ struct SetNotifications: View {
             menu
             Spacer()
         }
+        .onAppear(){
+            date = UserDefaults.standard.object(forKey: "setTime") as? Date ?? Date.now
+        }
     }
 }
 

@@ -99,6 +99,7 @@ struct Home: View {
                 }
             }
             .onAppear{
+                requestNotification()
                 //To check if user is still logged in
                 if (session.loggedIn == true)
                 {
