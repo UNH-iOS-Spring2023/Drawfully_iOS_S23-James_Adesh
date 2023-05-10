@@ -30,18 +30,6 @@ extension Decodable{
     
 }
 
-extension String{
-    func splitString() -> [String] {
-        var stringArray: [String] = []
-        let trimmed = String(self.filter { !"\n\t\r".contains($0)})
-        for (index, _) in trimmed.enumerated(){
-            let prefixIndex = index+1
-            let substringPrefix = String(trimmed.prefix(prefixIndex)).lowercased()
-            stringArray.append(substringPrefix)
-        }
-        return stringArray
-    }
-}
 //https://youtu.be/M0OrDT7iXJY?list=PLdBY1aYxSpPVI3wTlK1cKHNOoq4JA3X5-
 //Extension to return how much time it has been since the post was made. Example -  "15 mins ago" or "1 day ago"
 extension Date {

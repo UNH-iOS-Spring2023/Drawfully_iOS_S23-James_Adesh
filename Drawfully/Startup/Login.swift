@@ -22,13 +22,11 @@ struct Login: View {
     // inputs and messages
     @State var email: String = ""
     @State var password: String = ""
-    @State var userIsLoggedIn: Bool=false
     @State var statusMessage: String=""
     
     //Boolean to trigger toast
     @State var error:Bool=false
-    @State var errorMsg:String=""
-
+    
     //Fetching Environment Object - session - to track and handle auth states
     @EnvironmentObject var session: SessionStore
 
@@ -66,7 +64,6 @@ struct Login: View {
             }){
                 (errorMessage) in
                 print("Custom Adesh Error \(errorMessage)")
-                self.errorMsg=errorMessage
                 return
             }
         }

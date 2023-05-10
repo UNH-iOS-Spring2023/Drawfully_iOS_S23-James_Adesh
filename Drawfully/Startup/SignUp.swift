@@ -23,7 +23,6 @@ struct SignUp: View {
     @State var lastName: String = ""
     @State var password: String=""
     @State var email: String=""
-    @State var userIsLoggedIn: Bool=false
     @State var statusMessage: String=""
     
     //Boolean to trigger toast

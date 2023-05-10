@@ -54,7 +54,7 @@ struct UserSearch: View {
                 }
         }
             
-        // TOOD fix the search bar not appearing until scrolling up
+        // TODO fix the search bar not appearing until scrolling up
         VStack{
             userSearch
                 .navigationTitle("Search Users")

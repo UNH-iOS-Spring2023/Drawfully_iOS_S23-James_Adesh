@@ -10,17 +10,6 @@ import FirebaseAuth
 
 struct Community: View {
     
-    @State private var postImage: Image?
-    @State private var pickedImage: Image?
-    @State private var showingActionSheet = false
-    @State private var showingImagePicker = false
-    @State private var imageData: Data = Data ()
-    @State private var sourceType: UIImagePickerController.SourceType = .photoLibrary
-    @State private var error:String = ""
-    @State private var showingAlert = false
-    @State private var alertTitle: String = "Oh No!"
-    @State private var text = ""
-    
     @EnvironmentObject var session: SessionStore
     @EnvironmentObject var firebaseSearches: SearchQueries
     
@@ -77,10 +66,6 @@ struct Community: View {
                     communityService.loadAllPosts()
                 }
                 .onAppear{
-                    //                if (self.session.session != nil)
-                    //                {
-                    //                    self.profileService.loadUserPosts(userId: Auth.auth().currentUser!.uid)
-                    //                }
                     if (self.session.loggedIn == true)
                     {
                         
@@ -91,7 +76,7 @@ struct Community: View {
                     
                 }
             }
-        }
+        }.accentColor(.white)
         
     }
 }

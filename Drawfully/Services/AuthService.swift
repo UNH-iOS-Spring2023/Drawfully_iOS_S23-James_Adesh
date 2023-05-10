@@ -19,6 +19,8 @@ class AuthService  {
         return storeRoot.collection("users").document(userId)
     }
     
+    
+    // Function to sign up/ register the user through FirebaseAuth using email and password (all other fields are stored on firestore)
     static func signUp(fname: String,lname: String,username: String, email: String, password: String, imageData: Data, onSuccess: @escaping (_ user: User) -> Void, onError: @escaping(_ errorMessage: String)-> Void){
         
         Auth.auth().createUser(withEmail: email, password: password) {
@@ -32,6 +34,7 @@ class AuthService  {
             let ref: DocumentReference? = nil
             
             //ChatGPT
+            //Setting other fields
             FirebaseManager.shared.firestore.collection("users").document(userId).setData(["FirstName": fname,
                                                                                         "LastName": lname,
                                                                                         "username": username,
@@ -44,15 +47,19 @@ class AuthService  {
                     print("Document added with ID: \(String(describing: ref?.documentID))")
                 }
             }
+            // Storage reference for profile picture of user
             let storageProfileUserId = StorageService.storageProfileId(userId: userId)
             
             let metadata = StorageMetadata()
             metadata.contentType="image/jpg"
+            
+            //Function call to store profile picture
             StorageService.saveProfileImage(userId: userId, username: username, email: email, firstName: fname, lastName: lname, imageData: imageData, metaData: metadata, storageProfileImageRef: storageProfileUserId, onSuccess: onSuccess, onError: onError)
         }
     }
     
     
+    // Function to sign in the user through FirebaseAuth using email and password
     static func signIn(email:String, password: String, onSuccess: @escaping (_ user: User) -> Void, onError: @escaping(_ errorMessage: String)-> Void){
         Auth.auth().signIn(withEmail: email, password: password){
             (authData, error) in
@@ -70,11 +77,12 @@ class AuthService  {
             firestoreUserId.getDocument{
                 (document, error) in
                 if var dict = document?.data() {
-                    dict.updateValue("", forKey: "drawings")
-                    print("Before decoding \(dict)")
                     
                     guard var decodedUser = try? User.init(fromDictionary: dict) else {return}
                 
+                    
+                    // Streak handling at login .
+                    // CHecking if the user has posted recently (today or day before) else streak set to 0
                     
                     // Citation : https://mammothinteractive.com/get-current-time-with-swiftui-hacking-swift-5-5-xcode-13-and-ios-15/
                     let formatter = DateFormatter()

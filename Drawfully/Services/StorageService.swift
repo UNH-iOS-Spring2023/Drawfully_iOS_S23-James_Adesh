@@ -101,7 +101,8 @@ class StorageService{
                 return
 
             }
-
+            
+            //Storing Post Image onto Cloud Storage
             storagePostRef.putData(imageData, metadata: metadata){
                 
                 (StorageMetadata, error) in

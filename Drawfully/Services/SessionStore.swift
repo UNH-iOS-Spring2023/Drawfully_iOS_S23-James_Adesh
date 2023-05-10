@@ -25,8 +25,11 @@ class SessionStore: ObservableObject {
         
     
 
+    // To put a handler on session data
     var handle: AuthStateDidChangeListenerHandle?
     
+    
+    //Listener function for changes in session data
     func listen()
     {
         handle=Auth.auth().addStateDidChangeListener({
@@ -36,8 +39,6 @@ class SessionStore: ObservableObject {
                 firestoreUserId.getDocument{
                     (document, error) in
                     if var dict = document?.data(){
-                        //Removing array of references from fetched snapshot
-                        dict.updateValue("", forKey: "drawings")
                         guard let decodedUser = try? User.init(fromDictionary: dict) else {return}
                         self.session = decodedUser
                     }

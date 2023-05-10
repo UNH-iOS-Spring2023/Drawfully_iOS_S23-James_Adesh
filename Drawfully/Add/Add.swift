@@ -27,9 +27,6 @@ struct Add: View {
     //Environment Object created to access global variables
     @EnvironmentObject private var app: AppVariables
     var body: some View {
-        
-        //Text("Camera View here. Currently commented for testing in simulator")
-        
         CameraView().environmentObject(app).environmentObject(session)
         
     }
@@ -81,7 +78,6 @@ struct CameraView: View {
             
             ZStack{
                 //Camera view
-                //Color(.black).ignoresSafeArea(.all,edges: .all)
                 CameraPreview(camera: camera).ignoresSafeArea(.all,edges: .all)
                 
                 VStack{
@@ -156,8 +152,6 @@ struct CameraView: View {
                         Spacer()
                         
                         //Button to write file with all properties to firebase
-                        
-                        // NavigationLink(destination: Home()){
                         Button(action: WriteToFirebase, label: {
                             Text("Add to Drawings")
                         }).padding(10)
@@ -174,10 +168,7 @@ struct CameraView: View {
                     Image(uiImage: UIImage(data: camera.picData)!)
                         .resizable()
                         .aspectRatio(contentMode: .fit)
-                        //.placeholder(Image("sample_drawing"))
                         .frame(height: 360)
-                        //.scaledToFit()
-                       
                         .clipShape(RoundedRectangle(cornerRadius: 15))
                         .padding(10)
                     
@@ -269,9 +260,6 @@ struct CameraView: View {
             print ("SavePostPhoto error : \(errorMessage)" )
         }
         drawingPosted=true
-
-        
-        
 //  Resetting photo and camera view
         camera.isTaken=false
         camera.isSaved=false
@@ -286,6 +274,7 @@ struct CameraView: View {
 // Referred to https://www.youtube.com/watch?v=8hvaniprctk
 class CameraModel: NSObject ,ObservableObject, AVCapturePhotoCaptureDelegate{
     
+    //Boolean to track is pic has been taken
     @Published var isTaken=false
     
     @Published var session = AVCaptureSession()
