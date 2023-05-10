@@ -38,6 +38,7 @@ struct SignUp: View {
     @State var showingImagePicker = false
     @State var userLoginStatus: User?
 
+    @StateObject var searchFirebase =  SearchQueries()
     
     @State var imageData: Data = Data()
     @State var sourceType: UIImagePickerController.SourceType = .photoLibrary
@@ -115,11 +116,11 @@ struct SignUp: View {
     // Switching views as per log in status
     var body: some View{
         if session.session != nil{
-            BottomBar(AnyView(Home()),
-                      AnyView(Community()),
-                      AnyView(Add()),
-                      AnyView(Search().environmentObject(SearchQueries())),
-                      AnyView(Settings())
+            BottomBar(AnyView(Home().environmentObject(session)),
+                      AnyView(Community().environmentObject(session).environmentObject(searchFirebase)),
+                      AnyView(Add().environmentObject(session)),
+                      AnyView(Search().environmentObject(searchFirebase)),
+                      AnyView(Settings().environmentObject(session))
             )
             .environmentObject(AppVariables())
         }
