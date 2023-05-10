@@ -9,6 +9,7 @@
 import Foundation
 
 enum LaunchScreenStep {
+    //Steps of animation
     case firstStep
     case secondStep
     case finished

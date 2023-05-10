@@ -11,6 +11,7 @@ import Foundation
 
 final class LaunchScreenStateManager: ObservableObject {
 
+//Initializing at first step
 @MainActor @Published private(set) var state: LaunchScreenStep = .firstStep
 
     @MainActor func dismiss() {

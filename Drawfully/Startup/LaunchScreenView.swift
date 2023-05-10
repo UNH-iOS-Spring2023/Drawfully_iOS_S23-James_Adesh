@@ -10,45 +10,46 @@
 import SwiftUI
 
 struct LaunchScreenView: View {
-    @EnvironmentObject private var launchScreenState: LaunchScreenStateManager // Mark 1
+    @EnvironmentObject private var launchScreenState: LaunchScreenStateManager // Environment Object to get the state of animation
 
-    @State private var firstAnimation = false  // Mark 2
-    @State private var secondAnimation = false // Mark 2
-    @State private var startFadeoutAnimation = false // Mark 2
+    @State private var firstAnimation = false  // Boolean to control the animation
+    @State private var secondAnimation = false // Boolean to control the animation
+    @State private var startFadeoutAnimation = false // Boolean to control the animation
     
     @ViewBuilder
-    private var image: some View {  // Mark 3
+    private var image: some View {
         Image("logo")
             .resizable()
             .scaledToFit()
             .frame(width: 100, height: 100)
-            .rotationEffect(firstAnimation ? Angle(degrees: 900) : Angle(degrees: 1800)) // Mark 4
-            .scaleEffect(secondAnimation ? 0 : 1) // Mark 4
-            .offset(y: secondAnimation ? 400 : 0) // Mark 4
+            .rotationEffect(firstAnimation ? Angle(degrees: 900) : Angle(degrees: 1800)) // Adding rotation effect
+            .scaleEffect(secondAnimation ? 0 : 1) // Adding scaling effect to the animation
+            .offset(y: secondAnimation ? 400 : 0)
     }
     
     @ViewBuilder
-    private var backgroundColor: some View {  // Mark 3
+    private var backgroundColor: some View {
         Color.mint.ignoresSafeArea()
     }
     
-    private let animationTimer = Timer // Mark 5
+    private let animationTimer = Timer // Timer to handle the animation
         .publish(every: 0.5, on: .current, in: .common)
         .autoconnect()
     
     var body: some View {
         ZStack {
-            backgroundColor  // Mark 3
+            backgroundColor
             VStack{
-                image  // Mark 3
+                image
                 Text("Drawfully").font(.largeTitle).bold().foregroundColor(.black)
             }
         }.onReceive(animationTimer) { timerValue in
-            updateAnimation()  // Mark 5
+            updateAnimation()  // updating timer to start off animation
         }.opacity(startFadeoutAnimation ? 0 : 1)
     }
     
-    private func updateAnimation() { // Mark 5
+    // function to start off animation
+    private func updateAnimation() {
         switch launchScreenState.state {
         case .firstStep:
             withAnimation(.easeInOut(duration: 0.9)) {
@@ -62,7 +63,6 @@ struct LaunchScreenView: View {
                 }
             }
         case .finished:
-            // use this case to finish any work needed
             break
         }
     }
