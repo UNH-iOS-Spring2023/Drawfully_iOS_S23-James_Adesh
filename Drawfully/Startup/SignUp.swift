@@ -100,6 +100,7 @@ struct SignUp: View {
                                             firstName: firstName,
                                             lastName: lastName)
                 
+                session.listen()
                 //Setting state to logged in
                 self.session.loggedIn=true
             }){
@@ -116,6 +117,7 @@ struct SignUp: View {
     // Switching views as per log in status
     var body: some View{
         if session.session != nil{
+            
             BottomBar(AnyView(Home().environmentObject(session)),
                       AnyView(Community().environmentObject(session).environmentObject(searchFirebase)),
                       AnyView(Add().environmentObject(session)),

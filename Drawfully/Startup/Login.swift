@@ -114,7 +114,7 @@ struct Login: View {
                         .padding()
                         
                         //Added navigation to signup page
-                        NavigationLink(destination: SignUp().navigationBarBackButtonHidden(false)) {
+                        NavigationLink(destination: SignUp().environmentObject(session).navigationBarBackButtonHidden(false)) {
                             Text("New here? Register").underline().foregroundColor(.black)
                         }
                         .padding()
